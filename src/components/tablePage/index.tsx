@@ -27,7 +27,7 @@ export const TablePage: FC<TablePageProps> = ({ title, objectMeta, panel, loadDa
     <div className='tbox-page'>
       <h1>{title}</h1>
       { panel ? <Panel {...panel} /> : undefined }
-      <MetaTable columnMetas={columnMetas} {...tableProps} />
+      <MetaTable rowKey="id" columnMetas={columnMetas} {...tableProps} />
     </div>
   )
 }

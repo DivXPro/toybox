@@ -6,27 +6,20 @@ export interface PanelProps {
   right?: ItemType[];
 }
 
-export type ItemType = ButtonItemType | ComponentItemType;
-
-export interface ButtonItemType {
-  type: 'button';
-  content: string;
-  props?: { [key: string]: any };
-  callback: () => void;
-}
-
-export interface ComponentItemType {
-  type: 'component';
+export type ItemType = {
+  type: string;
   content: ReactNode;
+  props?: { [key: string]: any };
+  callback?: () => void;
 }
 
 export const Panel: FC<PanelProps> = ({ left, right }) => {
   const rightRender = useMemo(() =>
     (right || []).map((item, idx) => {
       if (item.type === 'button') {
-        return <Button key={idx} onClick={item.callback} {...item.props}>{item.content}</Button>
+        return <Button key={idx} {...item.props}>{item.content}</Button>
       } else if (item.type === 'component') {
-        return (item as ComponentItemType).content
+        return item.content
       }
       return null
     }), [right])

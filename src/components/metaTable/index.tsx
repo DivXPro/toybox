@@ -1,16 +1,17 @@
 import React, { FC, useMemo, useCallback } from 'react'
 import { Table } from 'antd'
 import { DateColumn } from './DateColumn'
+import { SingleOptionColumn } from './SingleOptionColumn'
 import { ColumnMeta } from '../../types/interface'
 import { TablePaginationConfig } from 'antd/lib/table'
-import { PaginationConfig } from 'antd/lib/pagination';
 
 export interface MetaTableProps {
+  rowKey: string;
   columnMetas: ColumnMeta[];
   components?: React.FunctionComponent[];
   dataSource: { [key: string]: any }[];
   loading: boolean;
-  onChange: (pagination: PaginationConfig, filters?: any, sorter?: any) => void;
+  onChange: (pagination: TablePaginationConfig, filters?: any, sorter?: any) => void;
   pagination?: TablePaginationConfig | false;
 }
 
@@ -21,13 +22,18 @@ export const columnFactory = (columnMeta: ColumnMeta, fc: FC<{ text: any; record
   }
 }
 
-export const MetaTable: FC<MetaTableProps> = ({ columnMetas, dataSource, components = [], pagination }) => {
+export const MetaTable: FC<MetaTableProps> = ({ rowKey, columnMetas, dataSource, components = [], onChange, pagination }) => {
   const pickComponent = useCallback((columnMeta: ColumnMeta) => {
+    if (columnMeta.objectComponent != null) {
+      return columnFactory(columnMeta, components[columnMeta.objectComponent])
+    }
     switch (columnMeta.type) {
       case 'date':
         return DateColumn
+      case 'singleOption':
+        return SingleOptionColumn
       case 'object':
-        return columnFactory(columnMeta, components[columnMeta.objectComponent || columnMeta.key])
+        return columnFactory(columnMeta, components[columnMeta.key])
       case 'string':
       default:
         return undefined
@@ -45,5 +51,11 @@ export const MetaTable: FC<MetaTableProps> = ({ columnMetas, dataSource, compone
 
   const columns = useMemo(() => makeColumn(columnMetas), [columnMetas, makeColumn])
 
-  return <Table rowKey="id" columns={columns} dataSource={dataSource} pagination={pagination} />
+  return <Table
+          rowKey={rowKey}
+          columns={columns}
+          onChange={onChange}
+          dataSource={dataSource}
+          pagination={pagination}
+        />
 }

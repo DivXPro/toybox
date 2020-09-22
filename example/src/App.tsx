@@ -96,13 +96,35 @@ const list = [
   }
 ]
 
-const loadData = () => {
+const loadData = (...args: any) => {
+  console.log('loadData', args);
   const promise = new Promise<{ list: { [key: string]: any }[], total: number }>(function (resolve) {
     setTimeout(function () {
       resolve({ list, total: 20 });
     }, 300);
   });
   return promise;
+}
+
+const panel = {
+  right: [
+    {
+      type: 'button',
+      content: '新增',
+      props: {
+        type: 'primary',
+        onClick: () => console.log('create')
+      },
+    },
+    {
+      type: 'button',
+      content: '删除',
+      props: {
+        danger: true,
+        onClick: () => console.log('delete')
+      },
+    }
+  ]
 }
 
 // const columnMetas = [
@@ -149,7 +171,12 @@ const loadData = () => {
 //   }] as { type: 'button', content: string, callback: () => void }[];
 
 const App = () => {
-  return <TablePage title="Example Table Page" objectMeta={objectMeta} loadData={loadData} />
+  return <TablePage
+          title="Example Table Page"
+          objectMeta={objectMeta}
+          loadData={loadData}
+          panel={panel}
+        />
 }
 
 export default App

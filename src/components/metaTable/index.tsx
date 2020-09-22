@@ -1,9 +1,9 @@
-import React, { FC, useMemo, useCallback } from 'react'
-import { Table } from 'antd'
-import { DateColumn } from './DateColumn'
-import { SingleOptionColumn } from './SingleOptionColumn'
-import { ColumnMeta } from '../../types/interface'
-import { TablePaginationConfig } from 'antd/lib/table'
+import React, { FC, useMemo, useCallback } from 'react';
+import { Table } from 'antd';
+import { DateColumn } from './DateColumn';
+import { SingleOptionColumn } from './SingleOptionColumn';
+import { ColumnMeta } from '../../types/interface';
+import { TablePaginationConfig } from 'antd/lib/table';
 
 export interface MetaTableProps {
   rowKey: string;
@@ -18,8 +18,8 @@ export interface MetaTableProps {
 
 export const columnFactory = (columnMeta: ColumnMeta, fc: FC<{ text: any; record: { [key: string]: any }; index: number, columnMeta: ColumnMeta }>) => {
   return (text: any, record: { [key: string]: any }, index: number) => {
-    return fc({ text, record, index, columnMeta })
-  }
+    return fc({ text, record, index, columnMeta });
+  };
 }
 
 export const MetaTable: FC<MetaTableProps> = ({ rowKey, columnMetas, dataSource, components = [], onChange, pagination }) => {
@@ -29,16 +29,16 @@ export const MetaTable: FC<MetaTableProps> = ({ rowKey, columnMetas, dataSource,
     }
     switch (columnMeta.type) {
       case 'date':
-        return DateColumn
+        return DateColumn;
       case 'singleOption':
-        return SingleOptionColumn
+        return SingleOptionColumn;
       case 'object':
-        return columnFactory(columnMeta, components[columnMeta.key])
+        return columnFactory(columnMeta, components[columnMeta.key]);
       case 'string':
       default:
-        return undefined
+        return undefined;
     }
-  },[components])
+  },[components]);
 
   const makeColumn = useCallback((columnMetas: ColumnMeta[]) => {
     return columnMetas.map(columnMeta => ({
@@ -47,9 +47,9 @@ export const MetaTable: FC<MetaTableProps> = ({ rowKey, columnMetas, dataSource,
       dataIndex: columnMeta.key,
       render: pickComponent(columnMeta)
     }))
-  }, [pickComponent])
+  }, [pickComponent]);
 
-  const columns = useMemo(() => makeColumn(columnMetas), [columnMetas, makeColumn])
+  const columns = useMemo(() => makeColumn(columnMetas), [columnMetas, makeColumn]);
 
   return <Table
           rowKey={rowKey}

@@ -1,5 +1,5 @@
-import React, { FC, useMemo } from 'react'
-import { ColumnMeta } from '../../types/interface'
+import React, { FC, useMemo } from 'react';
+import { ColumnMeta } from '../../types/interface';
 
 interface ObjectColumnProps {
   text: { [key: string]: any };
@@ -13,5 +13,5 @@ export const DateColumn: FC<ObjectColumnProps> = ({ text, columnMeta }) => {
     () => text[columnMeta.titleKey || 'id'],
     [columnMeta.titleKey, text]
   );
-  return <div>{value}</div>
+  return <div>{value}</div>;
 }

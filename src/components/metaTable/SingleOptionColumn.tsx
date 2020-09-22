@@ -1,5 +1,5 @@
-import React, { FC, useMemo } from 'react'
-import { ColumnMeta } from '../../types/interface'
+import React, { FC, useMemo } from 'react';
+import { ColumnMeta } from '../../types/interface';
 
 interface SingleOptionColumnProps {
   text: string;
@@ -13,5 +13,5 @@ export const SingleOptionColumn: FC<SingleOptionColumnProps> = ({ text, columnMe
     () => columnMeta.options ? columnMeta.options.find(opt => opt.value === text) : { label: text, value: text },
     [columnMeta.options, text]
   );
-  return <div>{option?.label}</div>
+  return <div>{option?.label}</div>;
 }

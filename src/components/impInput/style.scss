@@ -1,0 +1,9 @@
+.imp-input {
+  .imp-input-text {
+    &:not(.disabled) {
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
+}

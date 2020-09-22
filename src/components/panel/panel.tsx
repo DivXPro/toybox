@@ -1,27 +1,16 @@
 import React, { FC, ReactNode, useMemo } from 'react'
-import { Button } from 'antd'
+import { ItemProps } from './interface'
+import { PanelItem } from './panelItem'
 
 export interface PanelProps {
   left?: ReactNode;
-  right?: ItemType[];
-}
-
-export type ItemType = {
-  type: string;
-  content: ReactNode;
-  props?: { [key: string]: any };
-  callback?: () => void;
+  right?: ItemProps[];
 }
 
 export const Panel: FC<PanelProps> = ({ left, right }) => {
   const rightRender = useMemo(() =>
     (right || []).map((item, idx) => {
-      if (item.type === 'button') {
-        return <Button key={idx} {...item.props}>{item.content}</Button>
-      } else if (item.type === 'component') {
-        return item.content
-      }
-      return null
+      return <PanelItem key={idx} {...item} />;
     }), [right])
 
   return (

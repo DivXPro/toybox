@@ -1,7 +1,7 @@
 import React from 'react'
-import { TablePage } from 'toybox'
+import { TablePage, ListPage } from 'toybox'
 import 'antd/dist/antd.css';
-import 'toybox/dist/index.css'
+import 'toybox/dist/index.css';
 
 const objectMeta = {
   key: 'bill',
@@ -171,12 +171,20 @@ const panel = {
 //   }] as { type: 'button', content: string, callback: () => void }[];
 
 const App = () => {
-  return <TablePage
-          title="Example Table Page"
-          objectMeta={objectMeta}
-          loadData={loadData}
-          panel={panel}
-        />
+  return <div>
+      <TablePage
+        title="Example Table Page"
+        objectMeta={objectMeta}
+        loadData={loadData}
+        panel={panel}
+      />
+      <ListPage
+        title="Example List Page"
+        objectMeta={objectMeta}
+        loadData={loadData}
+        panel={panel}
+      />
+    </div>
 }
 
 export default App

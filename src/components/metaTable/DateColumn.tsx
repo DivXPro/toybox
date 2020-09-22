@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { FC } from 'react';
 
 interface DataColumnProps {
   text: string;
@@ -7,5 +7,5 @@ interface DataColumnProps {
 }
 
 export const DateColumn: FC<DataColumnProps> = ({ record }) => {
-  return <div>{record}</div>
+  return <div>{record}</div>;
 }

@@ -1,4 +1,4 @@
-import React, { FC, useMemo } from 'react'
+import React, { FC, useMemo } from 'react';
 
 interface BooleanColumnProps {
   text: boolean;
@@ -14,6 +14,6 @@ export const DateColumn: FC<BooleanColumnProps> = ({ text }) => {
       return '否'
     }
     return null
-  }, [text])
-  return <div>{value}</div>
+  }, [text]);
+  return <div>{value}</div>;
 }

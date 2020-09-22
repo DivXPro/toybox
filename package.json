@@ -1,7 +1,7 @@
 {
-  "name": "toybox",
-  "version": "1.0.0",
-  "description": "Made with create-react-library",
+  "name": "@airclass/toybox",
+  "version": "0.1.0",
+  "description": "React components library extend antd",
   "author": "DivXPro",
   "license": "MIT",
   "repository": "DivXPro/toybox",

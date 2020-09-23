@@ -127,49 +127,6 @@ const panel = {
   ]
 }
 
-// const columnMetas = [
-//   {
-//     key: 'name',
-//     name: '名称',
-//     type: 'string'
-//   }, {
-//     key: 'billCycle',
-//     name: '账期',
-//     type: 'string'
-//   }, {
-//     key: 'amount',
-//     name: '金额',
-//     type: 'number'
-//   }
-// ];
-
-// const dataSource = [{
-//     name: '销售',
-//     billCycle: '202001',
-//     amount: 2000
-//   }, {
-//     name: '实收',
-//     billCycle: '202001',
-//     amount: 1000
-//   }, {
-//     name: '应收',
-//     billCycle: '202001',
-//     amount: 1000
-//   }];
-
-// const rightBtns = [{
-//     type: 'button',
-//     content: 'Submit',
-//     callback: () => { console.log('submit' )},
-//     props: {
-//       type: 'primary'
-//     }
-//   }, {
-//     type: 'button',
-//     content: 'cancel',
-//     callback: () => { console.log('cancel') }
-//   }] as { type: 'button', content: string, callback: () => void }[];
-
 const App: FC = () => {
   const rightRender = useMemo(() =>
   (panel.right).map((item, idx) => {
@@ -181,6 +138,11 @@ const App: FC = () => {
         title="Example Table Page"
         objectMeta={objectMeta}
         loadData={loadData}
+        operateItems={[
+          { text: 'view', type: 'primary', size: 'small' },
+          { text: 'edit', type: 'dashed', size: 'small' },
+          { text: 'remove', type: 'text', size: 'small', danger: true }
+        ]}
         panel={{ leftRender: <IconSearch type="nav-search" placeholder="请输入关键词" />, rightRender }}
       />
       <ListPage

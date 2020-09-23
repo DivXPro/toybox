@@ -2,8 +2,9 @@ import React, { FC, useMemo, useCallback } from 'react';
 import { Table } from 'antd';
 import { DateColumn } from './DateColumn';
 import { SingleOptionColumn } from './SingleOptionColumn';
+import { OperateItem, OperateColumn, operateFactory } from './OperateColumn';
 import { ColumnMeta } from '../../types/interface';
-import { TablePaginationConfig } from 'antd/lib/table';
+import { TablePaginationConfig, ColumnType } from 'antd/lib/table';
 
 export interface MetaTableProps {
   rowKey: string;
@@ -13,6 +14,7 @@ export interface MetaTableProps {
   loading: boolean;
   onChange: (pagination: TablePaginationConfig, filters?: any, sorter?: any) => void;
   pagination?: TablePaginationConfig | false;
+  operateItems?: OperateItem[];
 }
 
 
@@ -22,7 +24,8 @@ export const columnFactory = (columnMeta: ColumnMeta, fc: FC<{ text: any; record
   };
 }
 
-export const MetaTable: FC<MetaTableProps> = ({ rowKey, columnMetas, dataSource, components = [], onChange, pagination }) => {
+
+export const MetaTable: FC<MetaTableProps> = ({ rowKey, columnMetas, dataSource, components = [], onChange, pagination, operateItems }) => {
   const pickComponent = useCallback((columnMeta: ColumnMeta) => {
     if (columnMeta.objectComponent != null) {
       return columnFactory(columnMeta, components[columnMeta.objectComponent])
@@ -41,13 +44,22 @@ export const MetaTable: FC<MetaTableProps> = ({ rowKey, columnMetas, dataSource,
   },[components]);
 
   const makeColumn = useCallback((columnMetas: ColumnMeta[]) => {
-    return columnMetas.map(columnMeta => ({
+    const columns = columnMetas.map(columnMeta => ({
       key: columnMeta.key,
       title: columnMeta.name,
       dataIndex: columnMeta.key,
-      render: pickComponent(columnMeta)
-    }))
-  }, [pickComponent]);
+      render: pickComponent(columnMeta),
+    }));
+    if (operateItems != null && operateItems.length > 0) {
+      columns.push({
+        key: 'meta-table-operate',
+        title: '',
+        dataIndex: 'meta-table-operate',
+        render: operateFactory(operateItems, OperateColumn),
+      });
+    } 
+    return columns;
+  }, [operateItems, pickComponent]);
 
   const columns = useMemo(() => makeColumn(columnMetas), [columnMetas, makeColumn]);
 

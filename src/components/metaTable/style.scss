@@ -1,0 +1,9 @@
+.tbox-operate-column {
+  display: flex;
+  justify-content: flex-end;
+  button {
+    +button {
+      margin-left: 8px;
+    }
+  }
+}

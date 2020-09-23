@@ -4,13 +4,14 @@ import { InputProps } from 'antd/lib/input';
 
 export type ImpInputProps = {
   onSave: (value: string | number | readonly string[] | undefined) => void;
+  inputClassName: string;
 } & InputProps;
 
 export const ImpInput: FC<ImpInputProps> = (props) => {
-  const { value, onSave, onPressEnter, onChange, onBlur, ...other } = props;
+  const { value, onSave, onPressEnter, onChange, onBlur, inputClassName, ...other } = props;
 
   const [active, setActive] = useState(false);
-  const [innerValue, setInnerValue] = useState(props.value);
+  const [innerValue, setInnerValue] = useState(value);
 
   const disabled = useMemo(() => {
     return props.disabled;
@@ -51,8 +52,8 @@ export const ImpInput: FC<ImpInputProps> = (props) => {
     <div className='imp-input'>
       {
         active
-          ? <Input onBlur={onBlurHandle} onPressEnter={onPressEnterHandle} onChange={onChangeHandle} value={innerValue} {...other} />
-          : <div className={`${disabled ? 'disabled' : ' '} imp-input-text`} onClick={activeHandle} >{props.value}</div>
+          ? <Input className={inputClassName} onBlur={onBlurHandle} onPressEnter={onPressEnterHandle} onChange={onChangeHandle} value={innerValue} {...other} />
+          : <div className={`${disabled ? 'disabled' : ' '} imp-input-text`} onClick={activeHandle} >{value}</div>
       }
     </div>
   );

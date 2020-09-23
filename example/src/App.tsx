@@ -1,7 +1,8 @@
-import React from 'react'
-import { TablePage, ListPage } from 'toybox'
+import React, { FC, useMemo } from 'react'
+import { TablePage, ListPage, PanelItem, IconSearch } from 'toybox'
 import 'antd/dist/antd.css';
 import 'toybox/dist/index.css';
+import 'remixicon/fonts/remixicon.css';
 
 const objectMeta = {
   key: 'bill',
@@ -96,8 +97,7 @@ const list = [
   }
 ]
 
-const loadData = (...args: any) => {
-  console.log('loadData', args);
+const loadData = () => {
   const promise = new Promise<{ list: { [key: string]: any }[], total: number }>(function (resolve) {
     setTimeout(function () {
       resolve({ list, total: 20 });
@@ -170,19 +170,24 @@ const panel = {
 //     callback: () => { console.log('cancel') }
 //   }] as { type: 'button', content: string, callback: () => void }[];
 
-const App = () => {
+const App: FC = () => {
+  const rightRender = useMemo(() =>
+  (panel.right).map((item, idx) => {
+    return <PanelItem key={idx} {...item} />;
+  }), [])
+
   return <div>
       <TablePage
         title="Example Table Page"
         objectMeta={objectMeta}
         loadData={loadData}
-        panel={panel}
+        panel={{ leftRender: <IconSearch type="nav-search" placeholder="请输入关键词" />, rightRender }}
       />
       <ListPage
         title="Example List Page"
         objectMeta={objectMeta}
         loadData={loadData}
-        panel={panel}
+        panel={{ rightRender}}
       />
     </div>
 }

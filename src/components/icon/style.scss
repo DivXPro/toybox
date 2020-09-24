@@ -1,11 +1,14 @@
+@import '../../styles/theme.scss';
+
 .tbox-icon {
-  .tbox-small {
+  color: $icon-color;
+  &.tbox-small {
     font-size: 14px;
   }
-  .tbox-medium {
+  &.tbox-medium {
     font-size: 16px;
   }
-  .tbox-large {
+  &.tbox-large {
     font-size: 20px;
   }
 }

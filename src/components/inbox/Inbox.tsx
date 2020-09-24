@@ -58,12 +58,12 @@ export const Inbox: FC<InboxProps> = ({ bundle = DEFAULT_BUNDLE, onPick, reload,
   const handleRead = useCallback((id: string) => {
     const idx = messages.findIndex(msg => msg.id === id);
     if (idx > -1) {
-      setMessages(update(messages, { idx: { haveRead: { $set: true } }}));
+      setMessages(update(messages, { [idx]: { haveRead: { $set: true } }}));
+      if (unRead) {
+        setMessages(messages.filter(msg => msg.id !== id))
+      }
+      read(id);
     }
-    if (unRead) {
-      setMessages(messages.filter(msg => msg.id !== id))
-    }
-    read(id);
   }, [messages, read, unRead]);
 
   const InBoxPanel = () => {
@@ -84,7 +84,6 @@ export const Inbox: FC<InboxProps> = ({ bundle = DEFAULT_BUNDLE, onPick, reload,
         loading={loading}
         remove={handleRemove}
         read={handleRead}
-        unRead={unRead}
       />
     </div>
   );

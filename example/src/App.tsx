@@ -1,6 +1,6 @@
 import React, { FC, useMemo } from 'react';
-import { TablePage, ListPage, PanelItem, Search, ProHeader, Avatar, Inbox, NotificationMessage } from 'toybox';
-import { Layout, Popover } from 'antd';
+import { TablePage, ListPage, PanelItem, Search, ProHeader, Avatar, InboxButton, NotificationMessage } from 'toybox';
+import { Layout } from 'antd';
 import 'antd/dist/antd.css';
 import 'toybox/dist/index.css';
 import 'remixicon/fonts/remixicon.css';
@@ -236,6 +236,15 @@ const loadMessages: (unread: boolean, limit: number, type?: string) => Promise<N
   return promise;
 }
 
+const loadBadge: () => Promise<number> = () => {
+  const promise = new Promise<number>(function (resolve) {
+    setTimeout(function () {
+      resolve(20);
+    }, 1000);
+  });
+  return promise;
+}
+
 const panel = {
   right: [
     {
@@ -257,18 +266,6 @@ const panel = {
   ]
 }
 
-const Not = () => {
-  return (
-    <Popover placement="rightBottom"
-      overlayClassName="popover-no-padding"
-      content={<Inbox onPick={() => undefined} loadMore={loadMore} reload={loadMessages} />}
-      trigger="click"
-    >
-      <div className="side-menu--item">Message</div>
-    </Popover>
-  )
-}
-
 const App: FC = () => {
   const rightRender = useMemo(() =>
   (panel.right).map((item, idx) => {
@@ -281,7 +278,15 @@ const App: FC = () => {
         brand="DEMO"
         rightRender={
           <React.Fragment>
-            <Not />
+            <InboxButton
+              placement="bottomLeft"
+              loadBadge={loadBadge}
+              onPick={() => undefined}
+              loadMore={loadMore}
+              reload={loadMessages}
+              remove={() => undefined}
+              read={() => undefined}
+            />
             <Avatar.AvatarWithName name="小林" img="https://teambition-file.alibaba-inc.com/thumbnail/011he036f61ebeb2f1e09c0e586b4788a195/w/200/h/200" />
           </React.Fragment>
         }

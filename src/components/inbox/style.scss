@@ -82,3 +82,16 @@
     }
   }
 }
+
+.inbox-button {
+  width: 32px;
+  height: 32px;
+  border-radius: 4px;
+  line-height: 32px;
+  text-align: center;
+  margin: 0 8px;
+  &:hover {
+    cursor: pointer;
+    background-color: $gray-3;
+  }
+}

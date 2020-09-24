@@ -13,9 +13,8 @@ export interface InboxContentProps {
   loadMore: (offset: number, limit: number) => Promise<any>;
   remove: (id: string) => void;
   read: (id: string) => void;
-  unRead: boolean;
 }
-export const InboxContent: FC<InboxContentProps> = ({ loading = false, hasMore, onPick, messages = [], loadMore, read, remove, unRead = false }) => {
+export const InboxContent: FC<InboxContentProps> = ({ loading = false, hasMore, onPick, messages = [], loadMore, read, remove }) => {
   // const [notifications, setNotifications] = useState<NotificationMessage[]>(messages);
   const isItemLoaded = useCallback((index: number) => !hasMore || index < messages.length, [hasMore, messages.length]);
   const itemCount = useMemo(() => hasMore ? messages.length + 1 : messages.length, [hasMore, messages.length]);

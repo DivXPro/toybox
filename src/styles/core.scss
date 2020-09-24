@@ -19,3 +19,12 @@
     padding: 0;
   }
 }
+.popover-no-arrow {
+  .ant-popover-arrow {
+    display: none;
+  }
+}
+
+[class^="ri-"], [class*=" ri-"] {
+  vertical-align: -4px;
+}

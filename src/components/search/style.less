@@ -1,6 +1,6 @@
-$mask-color: #bfbfbf;
-$mask-active-color: #8c8c8c;
-$serach-background: #f7f7f7;
+@mask-color: #bfbfbf;
+@mask-active-color: #8c8c8c;
+@serach-background: #f7f7f7;
 
 .tbox-icon-search {
   position: relative;
@@ -41,7 +41,7 @@ $serach-background: #f7f7f7;
     position: relative;
     display: inline-flex;
     border-radius: 16px;
-    background: $serach-background;
+    background: @serach-background;
     width: 280px;
     height: 32px;
     overflow: hidden;
@@ -57,7 +57,7 @@ $serach-background: #f7f7f7;
       animation: moveToRight 168ms;
       animation-fill-mode: forwards;
       animation-timing-function: linear;
-      color: $mask-color;
+      color: @mask-color;
       .tbox-search-mask-text {
         margin-left: 4px;
       }
@@ -76,7 +76,7 @@ $serach-background: #f7f7f7;
     }
     &:hover {
       .tbox-search-mask {
-        color: $mask-active-color;
+        color: @mask-active-color;
       }
     }
     &.tbox-search-focus {

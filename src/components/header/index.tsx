@@ -1,13 +1,18 @@
 import React, { FC, ReactNode } from 'react';
+import { Layout } from 'antd';
+
+const { Header } = Layout;
 
 export interface HeaderProps {
-  title: string;
+  brand?: ReactNode;
   content?: ReactNode;
+  rightRender?: ReactNode;
 }
 
-export const Header: FC<HeaderProps> = ({ title, content }) => {
-  return <div className='tbox-header'>
-    <div className='tbox-header--title'>{title}</div>
+export const ProHeader: FC<HeaderProps> = ({ brand, content, rightRender }) => {
+  return <Header className='tbox-header'>
+    <div className='tbox-header--brand'>{brand}</div>
     <div className='tbox-header--content'>{content}</div>
-  </div>
+    <div className='tbox-header--right'>{rightRender}</div>
+  </Header>
 }

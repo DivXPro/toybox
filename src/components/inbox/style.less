@@ -1,0 +1,77 @@
+@import '../../styles/theme.less';
+
+.inbox {
+  width: 360px;
+  .inbox-panel {
+    display: flex;
+    padding: 20px 10px;
+    height: 48px;
+    border-bottom: 1px solid @gray-4;
+    align-items: center;
+    .inbox-panel--tab {
+      font-weight: bold;
+      border-radius: 16px;
+      background-color: @primary-alpha;
+      color: @primary-color;
+      padding: 2px 10px;
+    }
+  }
+  .inbox-content {
+    height: 420px;
+    .notification {
+      padding: 15px 16px;
+      border-bottom: 1px solid @gray-4;
+      .notification-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        color: @gray-6;
+        .notification-not-read {
+          width: 8px;
+          height: 8px;
+          border-radius: 4px;
+          background-color: @primary-light;
+          margin: 6px;
+        }
+        .notification-operate {
+          display: none;
+          .notification-operate--item {
+            width: 20px;
+            height: 20px;
+            svg {
+              width: 16px;
+              height: 16px;
+              fill: @gray-7;
+            }
+            + .notification-operate--item {
+              margin-left: 10px;
+            }
+            &:hover {
+              svg {
+                fill: @primary-color;
+              }
+            }
+          }
+        }
+      }
+      .notification-body {
+        color: @gray-7;
+      }
+      + .notification {
+        &:last-child {
+          border-bottom: none;
+        }
+      }
+      &:hover {
+        cursor: pointer;
+        background-color: @gray-3;
+        .notification-not-read {
+          display: none;
+        }
+        .notification-operate {
+          display: flex;
+        }
+      }
+    }
+  }
+}

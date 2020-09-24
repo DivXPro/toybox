@@ -1,6 +1,8 @@
 import React, { FC, useState, useRef, useEffect, useCallback, useMemo } from 'react';
 import { SearchProps } from './search';
 import { Button, Input } from 'antd';
+import { Icon } from '../icon';
+import classNames from 'classnames'
 
 const SEARCH_ICON_NAME = 'ri-search-2-line';
 
@@ -29,7 +31,7 @@ export const IconSearch: FC<IconSearchProps> = ({ addonAfter, autoFocus = false,
 
 
   const prefix = useMemo(() => {
-    return <i className={SEARCH_ICON_NAME} />;
+    return <Icon name={SEARCH_ICON_NAME} />
   }, []);
 
   const handleFocus = useCallback(() => {
@@ -46,7 +48,7 @@ export const IconSearch: FC<IconSearchProps> = ({ addonAfter, autoFocus = false,
   return (
     <div className="tbox-icon-search">
       {holdInput ? null : <Button className="tbox-icon-search-icon" type="text" onClick={() => inputRef.current?.focus()} icon={<i className={SEARCH_ICON_NAME} />} />}
-      <div className={`tbox-search ${holdInput ? 'tbox-search-hold' : 'tbox-search-fold'}`}>
+      <div className={classNames('tbox-search', holdInput ? 'tbox-search-hold' : 'tbox-search-fold')}>
         <Input
           className='tbox-search-input'
           ref={inputRef}

@@ -1,4 +1,4 @@
-import './styles/core.scss'
+import './styles/core.less'
 
 export { Panel, PanelItem, PanelProps } from './components/panel';
 export { MetaTable, MetaTableProps } from './components/metaTable';
@@ -7,3 +7,5 @@ export { TablePage, TablePageProps } from './components/tablePage';
 export { ListPage, ListPageProps } from './components/listPage';
 export { ImpInput, ImpInputProps } from './components/impInput';
 export { Search, SearchProps, IconSearch, IconSearchProps } from './components/search';
+export { Icon, IconProps } from './components/icon';
+export { Inbox, InboxProps } from './components/inbox';

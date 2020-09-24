@@ -133,7 +133,8 @@ const App: FC = () => {
     return <PanelItem key={idx} {...item} />;
   }), [])
 
-  return <div>
+  return (
+    <div>
       <TablePage
         title="Example Table Page"
         objectMeta={objectMeta}
@@ -152,6 +153,7 @@ const App: FC = () => {
         panel={{ rightRender}}
       />
     </div>
+  )
 }
 
 export default App

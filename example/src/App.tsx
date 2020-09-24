@@ -228,7 +228,6 @@ const loadMore: (unread: boolean, offset: number, limit: number, timestamp: numb
 }
 
 const loadMessages: (unread: boolean, limit: number, type?: string) => Promise<NotificationMessage[]> = (): Promise<NotificationMessage[]> => {
-  console.log('loadMessage');
   const promise = new Promise<NotificationMessage[]>(function (resolve) {
     setTimeout(function () {
       resolve(msgs);
@@ -280,8 +279,12 @@ const App: FC = () => {
     <Layout>
       <ProHeader
         brand="DEMO"
-        content={<Avatar.AvatarWithName name="小林" img="https://teambition-file.alibaba-inc.com/thumbnail/011he036f61ebeb2f1e09c0e586b4788a195/w/200/h/200" />}
-        rightRender={<Not />}
+        rightRender={
+          <React.Fragment>
+            <Not />
+            <Avatar.AvatarWithName name="小林" img="https://teambition-file.alibaba-inc.com/thumbnail/011he036f61ebeb2f1e09c0e586b4788a195/w/200/h/200" />
+          </React.Fragment>
+        }
       />
       <Layout.Content>
         <TablePage

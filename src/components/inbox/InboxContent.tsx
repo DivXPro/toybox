@@ -1,4 +1,4 @@
-import React, { FC, useMemo, useState, useCallback } from 'react';
+import React, { FC, useMemo, useCallback } from 'react';
 import { Empty } from 'antd';
 import { FixedSizeList as List } from 'react-window';
 import InfiniteLoader from 'react-window-infinite-loader';
@@ -11,37 +11,45 @@ export interface InboxContentProps {
   hasMore: boolean;
   messages: NotificationMessage[];
   loadMore: (offset: number, limit: number) => Promise<any>;
+  remove: (id: string) => void;
+  read: (id: string) => void;
+  unRead: boolean;
 }
-export const InboxContent: FC<InboxContentProps> = ({ loading = false, hasMore, onPick, messages = [], loadMore }) => {
-  const [notifications, setNotifications] = useState<NotificationMessage[]>(messages);
+export const InboxContent: FC<InboxContentProps> = ({ loading = false, hasMore, onPick, messages = [], loadMore, read, remove, unRead = false }) => {
+  // const [notifications, setNotifications] = useState<NotificationMessage[]>(messages);
   const isItemLoaded = useCallback((index: number) => !hasMore || index < messages.length, [hasMore, messages.length]);
   const itemCount = useMemo(() => hasMore ? messages.length + 1 : messages.length, [hasMore, messages.length]);
 
-  const handleRemove = useCallback((id: string) => {
-    const idx = notifications.findIndex(n => n.id === id);
-    if (idx > -1) {
-      setNotifications(notifications.filter(n => n.id !== id));
-    }
-  }, [notifications, setNotifications]);
+  // const handleRemove = useCallback((id: string) => {
+  //   const idx = notifications.findIndex(n => n.id === id);
+  //   if (idx > -1) {
+  //     setNotifications(notifications.filter(n => n.id !== id));
+  //     remove(id);
+  //   }
+  // }, [notifications, remove]);
 
-  const handleRead = useCallback((id: string) => {
-    const idx = notifications.findIndex(n => n.id === id);
-    if (idx > -1) {
-      setNotifications(notifications.map((n, i) => {
-        if (i === idx) {
-          n.haveRead = true;
-        }
-        return n;
-      }));
-    }
-  }, [notifications, setNotifications]);
+  // const handleRead = useCallback((id: string) => {
+  //   const idx = notifications.findIndex(n => n.id === id);
+  //   if (idx > -1) {
+  //     setNotifications(notifications.map((n, i) => {
+  //       if (i === idx) {
+  //         n.haveRead = true;
+  //       }
+  //       return n;
+  //     }));
+  //     if (unRead) {
+
+  //     }
+  //     read(id);
+  //   }
+  // }, [notifications, read]);
 
   const Item = useCallback(({index, style} : { index: number, style: any}) => {
     if (isItemLoaded(index)) {
-      return <Notification style={style} onPick={onPick} message={messages[index]} remove={handleRemove} read={handleRead} key={index} />
+      return <Notification style={style} onPick={onPick} message={messages[index]} remove={remove} read={read} key={index} />
     }
     return <div style={style}></div>
-  }, [handleRead, handleRemove, isItemLoaded, messages, onPick])
+  }, [read, remove, isItemLoaded, messages, onPick])
 
   const loadMoreItems = useCallback((start: number, stop: number) => {
     if (!loading) {

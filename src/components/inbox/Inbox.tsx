@@ -1,18 +1,21 @@
-import React, { FC, useState, useCallback, useEffect } from 'react';
+import React, { FC, useState, useCallback } from 'react';
 import classNames from 'classnames';
+import update from 'immutability-helper';
 import { InboxContent } from './InboxContent';
 import { NotificationMessage } from './Notification';
 
 export interface InboxProps {
   bundle?: number;
   onPick: () => void;
+  read: (id: string) => void;
+  remove: (id: string) => void;
   loadMore: (unread: boolean, offset: number, limit: number, timestamp: number, type?: string) => Promise<NotificationMessage[]>;
   reload: (unread: boolean, limit: number, type?: string) => Promise<NotificationMessage[]>;
 }
 
 const DEFAULT_BUNDLE = 6;
 
-export const Inbox: FC<InboxProps> = ({ bundle = DEFAULT_BUNDLE, onPick, reload, loadMore }) => {
+export const Inbox: FC<InboxProps> = ({ bundle = DEFAULT_BUNDLE, onPick, reload, loadMore, remove, read }) => {
   const [currentTimestamp, setCurrentTimestamp] = useState<number>(new Date().getTime());
   const [unRead, setUnread] = useState(false);
   const [messages, setMessages] = useState<NotificationMessage[]>([]);
@@ -47,6 +50,22 @@ export const Inbox: FC<InboxProps> = ({ bundle = DEFAULT_BUNDLE, onPick, reload,
     }
   }, [bundle, messages, reload, unRead, loadMore, currentTimestamp]);
 
+  const handleRemove = useCallback((id: string) => {
+    setMessages(messages.filter(msg => msg.id !== id))
+    remove(id);
+  }, [messages, remove]);
+
+  const handleRead = useCallback((id: string) => {
+    const idx = messages.findIndex(msg => msg.id === id);
+    if (idx > -1) {
+      setMessages(update(messages, { idx: { haveRead: { $set: true } }}));
+    }
+    if (unRead) {
+      setMessages(messages.filter(msg => msg.id !== id))
+    }
+    read(id);
+  }, [messages, read, unRead]);
+
   const InBoxPanel = () => {
     return <div className="tbox-inbox-panel">
       <div className={classNames('inbox-panel--tab', { active: !unRead })} onClick={() => reloadMsgs(false)}>全部</div>
@@ -57,7 +76,16 @@ export const Inbox: FC<InboxProps> = ({ bundle = DEFAULT_BUNDLE, onPick, reload,
   return (
     <div className="tbox-inbox">
       <InBoxPanel />
-      <InboxContent onPick={onPick} messages={messages} loadMore={handleLoadMore} hasMore={hasMore} loading={loading}/>
+      <InboxContent
+        onPick={onPick}
+        messages={messages}
+        loadMore={handleLoadMore}
+        hasMore={hasMore}
+        loading={loading}
+        remove={handleRemove}
+        read={handleRead}
+        unRead={unRead}
+      />
     </div>
   );
 }

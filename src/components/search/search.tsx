@@ -1,6 +1,6 @@
 import React, { FC, ReactNode, useCallback, useMemo, useRef, useState, useEffect } from 'react';
 import { Input } from 'antd';
-import { IconSearch } from './iconSearch';
+import classNames from 'classnames';
 
 export interface SearchProps {
   type?: 'normal' | 'nav-search';
@@ -59,8 +59,12 @@ export const Search: FC<SearchProps> = ({ type = 'normal', addonAfter, autoFocus
     return true;
   }, [focus, type])
 
+  const holdInput = useMemo(() => {
+    return focus || (inputRef?.current?.input.value != null && inputRef?.current?.input.value !== '');
+  }, [focus])
+
   return (
-    <div className={`tbox-search tbox-${type}${focus ? ' tbox-search-focus': ''}`}>
+    <div className={classNames('tbox-search', `tbox-${type}`, { 'tbox-search-focus': holdInput })}>
       { searchMask }
       <Input
         ref={inputRef}

@@ -13,7 +13,7 @@ export interface InboxProps {
   reload: (unread: boolean, limit: number, type?: string) => Promise<NotificationMessage[]>;
 }
 
-const DEFAULT_BUNDLE = 6;
+const DEFAULT_BUNDLE = 10;
 
 export const Inbox: FC<InboxProps> = ({ bundle = DEFAULT_BUNDLE, onPick, reload, loadMore, remove, read }) => {
   const [currentTimestamp, setCurrentTimestamp] = useState<number>(new Date().getTime());

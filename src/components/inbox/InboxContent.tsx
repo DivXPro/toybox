@@ -60,6 +60,7 @@ export const InboxContent: FC<InboxContentProps> = ({ loading = false, hasMore, 
   const list = useMemo(() => {
     return (
       <React.Fragment>
+        {(messages == null || messages.length === 0 && !loading) ? <div style={{ marginTop: '50px', marginBottom: '50px' }}><Empty description="没发现消息通知" /></div> : null}
         <InfiniteLoader isItemLoaded={isItemLoaded} itemCount={itemCount} loadMoreItems={loadMoreItems}>
           {
             ({onItemsRendered, ref}) => (
@@ -76,7 +77,6 @@ export const InboxContent: FC<InboxContentProps> = ({ loading = false, hasMore, 
             )
           }
         </InfiniteLoader>
-        { (messages == null || messages.length === 0) ? <div style={{ marginTop: '50px', marginBottom: '50px' }}><Empty description="没发现消息通知" /></div> : null }
       </React.Fragment>
     );
   }, [isItemLoaded, itemCount, loadMoreItems, messages, Item]);

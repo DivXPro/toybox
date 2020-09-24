@@ -1,0 +1,21 @@
+@import '../components/panel/style.scss';
+@import '../components/loadingWrapper/style.scss';
+@import '../components/search/style.scss';
+@import '../components/metaTable/style.scss';
+@import '../components/icon/style.scss';
+@import '../components/inbox/style.scss';
+@import '../components/header/style.scss';
+@import '../components/cardList/style.scss';
+@import '../components/impInput/style.scss';
+@import '../components/avatar/style.scss';
+
+.tbox-page {
+  padding: 12px;
+  background-color: #fff;
+}
+
+.popover-no-padding {
+  .ant-popover-inner-content {
+    padding: 0;
+  }
+}

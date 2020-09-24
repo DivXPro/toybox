@@ -1,7 +1,4 @@
 import React, { FC, ReactNode } from 'react';
-import { Layout } from 'antd';
-
-const { Header } = Layout;
 
 export interface HeaderProps {
   brand?: ReactNode;
@@ -10,9 +7,9 @@ export interface HeaderProps {
 }
 
 export const ProHeader: FC<HeaderProps> = ({ brand, content, rightRender }) => {
-  return <Header className='tbox-header'>
+  return <div id="header" className='tbox-header'>
     <div className='tbox-header--brand'>{brand}</div>
     <div className='tbox-header--content'>{content}</div>
     <div className='tbox-header--right'>{rightRender}</div>
-  </Header>
+  </div>
 }

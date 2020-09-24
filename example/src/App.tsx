@@ -1,5 +1,6 @@
-import React, { FC, useMemo } from 'react'
-import { TablePage, ListPage, PanelItem, IconSearch } from 'toybox'
+import React, { FC, useMemo } from 'react';
+import { TablePage, ListPage, PanelItem, Search, ProHeader, Avatar, Inbox, NotificationMessage } from 'toybox';
+import { Layout, Popover } from 'antd';
 import 'antd/dist/antd.css';
 import 'toybox/dist/index.css';
 import 'remixicon/fonts/remixicon.css';
@@ -97,11 +98,141 @@ const list = [
   }
 ]
 
+const msgs = [
+  {
+    id: '1233451',
+    title: '普通通知',
+    content: '请去看一下员工花名册',
+    link: '/users',
+    userId: 'string',
+    creator: {
+      userId: 'string',
+      avatarUrl: 'string',
+      name: 'string',
+      isSystem: true,
+    },
+    type: 'Core',
+    icon: 'core',
+    createdAt: new Date(),
+    updatedAt: new Date(),
+    haveRead: false,
+  },
+  {
+    id: '1233452',
+    title: '普通通知2',
+    content: '请去看一下员工花名册',
+    link: '/users',
+    userId: 'string',
+    creator: {
+      userId: 'string',
+      avatarUrl: 'string',
+      name: 'string',
+      isSystem: true,
+    },
+    type: 'Core',
+    icon: 'core',
+    createdAt: new Date(),
+    updatedAt: new Date(),
+    haveRead: false,
+  },
+  {
+    id: '1233453',
+    title: '普通通知',
+    content: '请去看一下员工花名册',
+    link: '/users',
+    userId: 'string',
+    creator: {
+      userId: 'string',
+      avatarUrl: 'string',
+      name: 'string',
+      isSystem: true,
+    },
+    type: 'Core',
+    icon: 'core',
+    createdAt: new Date(),
+    updatedAt: new Date(),
+    haveRead: false,
+  },
+  {
+    id: '1233454',
+    title: '普通通知2',
+    content: '请去看一下员工花名册',
+    link: '/users',
+    userId: 'string',
+    creator: {
+      userId: 'string',
+      avatarUrl: 'string',
+      name: 'string',
+      isSystem: true,
+    },
+    type: 'Core',
+    icon: 'core',
+    createdAt: new Date(),
+    updatedAt: new Date(),
+    haveRead: false,
+  },
+  {
+    id: '1233455',
+    title: '普通通知',
+    content: '请去看一下员工花名册',
+    link: '/users',
+    userId: 'string',
+    creator: {
+      userId: 'string',
+      avatarUrl: 'string',
+      name: 'string',
+      isSystem: true,
+    },
+    type: 'Core',
+    icon: 'core',
+    createdAt: new Date(),
+    updatedAt: new Date(),
+    haveRead: false,
+  },
+  {
+    id: '1233456',
+    title: '普通通知2',
+    content: '请去看一下员工花名册',
+    link: '/users',
+    userId: 'string',
+    creator: {
+      userId: 'string',
+      avatarUrl: 'string',
+      name: 'string',
+      isSystem: true,
+    },
+    type: 'Core',
+    icon: 'core',
+    createdAt: new Date(),
+    updatedAt: new Date(),
+    haveRead: false,
+  }
+];
+
 const loadData = () => {
   const promise = new Promise<{ list: { [key: string]: any }[], total: number }>(function (resolve) {
     setTimeout(function () {
       resolve({ list, total: 20 });
-    }, 300);
+    }, 1000);
+  });
+  return promise;
+}
+
+const loadMore: (unread: boolean, offset: number, limit: number, timestamp: number, type?: string) => Promise<NotificationMessage[]> = () => {
+  const promise = new Promise<NotificationMessage[]>(function (resolve) {
+    setTimeout(function () {
+      resolve(msgs);
+    }, 1000);
+  });
+  return promise;
+}
+
+const loadMessages: (unread: boolean, limit: number, type?: string) => Promise<NotificationMessage[]> = (): Promise<NotificationMessage[]> => {
+  console.log('loadMessage');
+  const promise = new Promise<NotificationMessage[]>(function (resolve) {
+    setTimeout(function () {
+      resolve(msgs);
+    }, 1000);
   });
   return promise;
 }
@@ -127,32 +258,51 @@ const panel = {
   ]
 }
 
+const Not = () => {
+  return (
+    <Popover placement="rightBottom"
+      overlayClassName="popover-no-padding"
+      content={<Inbox onPick={() => undefined} loadMore={loadMore} reload={loadMessages} />}
+      trigger="click"
+    >
+      <div className="side-menu--item">Message</div>
+    </Popover>
+  )
+}
+
 const App: FC = () => {
   const rightRender = useMemo(() =>
   (panel.right).map((item, idx) => {
     return <PanelItem key={idx} {...item} />;
-  }), [])
+  }), []);
 
   return (
-    <div>
-      <TablePage
-        title="Example Table Page"
-        objectMeta={objectMeta}
-        loadData={loadData}
-        operateItems={[
-          { text: 'view', type: 'primary', size: 'small' },
-          { text: 'edit', type: 'dashed', size: 'small' },
-          { text: 'remove', type: 'text', size: 'small', danger: true }
-        ]}
-        panel={{ leftRender: <IconSearch type="nav-search" placeholder="请输入关键词" />, rightRender }}
+    <Layout>
+      <ProHeader
+        brand="DEMO"
+        content={<Avatar.AvatarWithName name="小林" img="https://teambition-file.alibaba-inc.com/thumbnail/011he036f61ebeb2f1e09c0e586b4788a195/w/200/h/200" />}
+        rightRender={<Not />}
       />
-      <ListPage
-        title="Example List Page"
-        objectMeta={objectMeta}
-        loadData={loadData}
-        panel={{ rightRender}}
-      />
-    </div>
+      <Layout.Content>
+        <TablePage
+          title="Example Table Page"
+          objectMeta={objectMeta}
+          loadData={loadData}
+          operateItems={[
+            { text: 'view', type: 'primary', size: 'small' },
+            { text: 'edit', type: 'dashed', size: 'small' },
+            { text: 'remove', type: 'text', size: 'small', danger: true }
+          ]}
+          panel={{ leftRender: <Search type="nav-search" placeholder="请输入关键词" />, rightRender }}
+        />
+        <ListPage
+          title="Example List Page"
+          objectMeta={objectMeta}
+          loadData={loadData}
+          panel={{ rightRender }}
+        />
+      </Layout.Content>
+    </Layout>
   )
 }
 

@@ -26,23 +26,24 @@ export interface NotificationProps {
   remove: (id: string) => void;
   read: (id: string) => void;
   onPick: () => void;
+  style?: any;
 }
 
 function isAbsolutePath(path: string) {
   return /^([a-zA-Z]*):\/\/[^\s]+/.test(path);
 }
 
-export const Notification: FC<NotificationProps> = ({ message, remove, read, onPick }) => {
+export const Notification: FC<NotificationProps> = ({ message, remove, read, onPick, style }) => {
   const history = useHistory();
   const handleClick = useCallback(() => {
     onPick();
-    if (message.link == null) {
+    if (message?.link == null) {
       return;
     }
     history.push(message.link);
-  }, [history, message.link, onPick]);
+  }, [history, message, onPick]);
 
-  const isAbsolute = useMemo(() => isAbsolutePath(message.link), [message.link]);
+  const isAbsolute = useMemo(() => isAbsolutePath(message?.link), [message]);
 
   const handleRemove = useCallback(() => {
     if (typeof remove === 'function') {
@@ -57,7 +58,7 @@ export const Notification: FC<NotificationProps> = ({ message, remove, read, onP
   }, [message.id, read]);
 
   return (
-    <div className="notification">
+    <div className="tbox-notification" style={style}>
       <div className="notification-header">
         <div className="notification-type">{message.type}</div>
         <div className="notification-operate">

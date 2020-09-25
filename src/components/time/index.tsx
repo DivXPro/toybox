@@ -5,13 +5,13 @@ import 'dayjs/locale/zh-cn';
 import classNames from 'classnames';
 
 dayjs.extend(relativeTime);
+dayjs.locale('zh-cn');
 
 export interface TimeProps {
   time: Date | number | string;
   type?: 'fromNow' | 'absolute';
   className?: string;
 }
-dayjs.locale('zh-cn');
 
 const absolute = (time: Date | number | string) => {
   const now = dayjs(new Date());

@@ -24,7 +24,7 @@ const objectMeta = {
     billCycle: {
       key: 'billCycle',
       name: '账期',
-      type: 'string'
+      type: 'date'
     },
     amount: {
       key: 'amount',
@@ -39,61 +39,61 @@ const list = [
   {
     id: '1234',
     name: '销售',
-    billCycle: '202001',
+    billCycle: '2020-01-01',
     amount: 2000
   },
   {
     id: '1235',
     name: '销售',
-    billCycle: '202002',
+    billCycle: '2020-02-01',
     amount: 1300
   },
   {
     id: '1236',
     name: '实收',
-    billCycle: '202003',
+    billCycle: '2020-03-03',
     amount: 1500
   },
   {
     id: '1237',
     name: '销售',
-    billCycle: '202004',
+    billCycle: '2020/04/04',
     amount: 1800
   },
   {
     id: '1238',
     name: '实收',
-    billCycle: '202005',
+    billCycle: '2020/05/10',
     amount: 2311
   },
   {
     id: '1239',
     name: '销售',
-    billCycle: '202006',
+    billCycle: '2020/06/11',
     amount: 1608
   },
   {
     id: '1240',
     name: '实收',
-    billCycle: '202007',
+    billCycle: '2020/07/12',
     amount: 2305
   },
   {
     id: '1241',
     name: '销售',
-    billCycle: '202008',
+    billCycle: '2020/08/18',
     amount: 1660
   },
   {
     id: '1242',
     name: '实收',
-    billCycle: '202008',
+    billCycle: '2020/08/1',
     amount: 2310
   },
   {
     id: '1243',
     name: '应收',
-    billCycle: '202009',
+    billCycle: '2020/09/12',
     amount: 3310
   }
 ]

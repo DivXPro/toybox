@@ -1,14 +1,10 @@
 import React, { FC, useMemo } from 'react';
-import { ColumnMeta } from '../../types/interface';
+import { ColumnFCProps } from './interface';
 
-interface ObjectColumnProps {
-  text: { [key: string]: any };
-  record: { [key: string]: any };
-  index: number;
-  columnMeta: ColumnMeta;
-}
+export type ObjectColumnProps = ColumnFCProps;
 
-export const DateColumn: FC<ObjectColumnProps> = ({ text, columnMeta }) => {
+
+export const ObjectColumn: FC<ObjectColumnProps> = ({ text, columnMeta }) => {
   const value = useMemo(
     () => text[columnMeta.titleKey || 'id'],
     [columnMeta.titleKey, text]

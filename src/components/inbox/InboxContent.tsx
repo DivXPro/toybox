@@ -26,6 +26,7 @@ export const InboxContent: FC<InboxContentProps> = ({ loading = false, hasMore, 
   }, [read, remove, isItemLoaded, messages, onPick])
 
   const loadMoreItems = useCallback((start: number, stop: number) => {
+    console.log('loadMore', start, stop, loading);
     if (!loading) {
       return loadMore(start, stop);
     }
@@ -36,10 +37,9 @@ export const InboxContent: FC<InboxContentProps> = ({ loading = false, hasMore, 
     return (messages == null || messages.length === 0) && !loading
   }, [loading, messages]);
 
-  const list = useMemo(() => {
+  const messageList = useMemo(() => {
     return (
       <React.Fragment>
-        {isEmpty ? <div style={{ marginTop: '50px', marginBottom: '50px' }}><Empty description="没发现消息通知" /></div> : null}
         <div style={isEmpty ? {display: 'none'} : undefined}>
           <InfiniteLoader isItemLoaded={isItemLoaded} itemCount={itemCount} loadMoreItems={loadMoreItems}>
             {
@@ -58,13 +58,14 @@ export const InboxContent: FC<InboxContentProps> = ({ loading = false, hasMore, 
             }
           </InfiniteLoader>
         </div>
+        {isEmpty ? <div style={{ marginTop: '50px', marginBottom: '50px' }}><Empty description="没发现消息通知" /></div> : null}
       </React.Fragment>
     );
   }, [isEmpty, isItemLoaded, itemCount, loadMoreItems, Item]);
 
   return (
     <div className="tbox-inbox-content">
-      {list}
+      {messageList}
     </div>
   );
 }

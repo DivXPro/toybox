@@ -286,6 +286,7 @@ const App: FC = () => {
               reload={loadMessages}
               remove={() => undefined}
               read={() => undefined}
+              bundle={6}
             />
             <Avatar.AvatarWithName name="小林" img="https://teambition-file.alibaba-inc.com/thumbnail/011he036f61ebeb2f1e09c0e586b4788a195/w/200/h/200" />
           </React.Fragment>

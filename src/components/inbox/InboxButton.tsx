@@ -12,7 +12,7 @@ export type InboxButtonProps = InboxProps & {
   loadBadge: () => Promise<number>;
 };
 
-export const InboxButton: FC<InboxButtonProps> = ({ remove, read, loadMore, reload, loadBadge, style, className, placement }) => {
+export const InboxButton: FC<InboxButtonProps> = ({ remove, read, loadMore, reload, loadBadge, style, className, placement, bundle }) => {
   const [unreadCount, setUnreadCount] = useState(0);
   useEffect(() => {
     const reLoadBadge = async () => {
@@ -30,7 +30,7 @@ export const InboxButton: FC<InboxButtonProps> = ({ remove, read, loadMore, relo
     <Popover placement={placement}
       destroyTooltipOnHide={true}
       overlayClassName="popover-no-padding popover-no-arrow"
-      content={<Inbox read={read} remove={remove}onPick={() => undefined} loadMore={loadMore} reload={reload} />}
+      content={<Inbox read={read} remove={remove} onPick={() => undefined} loadMore={loadMore} reload={reload} bundle={bundle} />}
       trigger="click"
     >
       <div className={classNames('inbox-button', className)} style={style}>

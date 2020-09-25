@@ -11,3 +11,4 @@ export { Icon, IconProps } from './components/icon';
 export { Inbox, InboxButton, InboxProps, InboxButtonProps, NotificationMessage } from './components/inbox';
 export { ProHeader, HeaderProps } from './components/header';
 export { default as Avatar, AvatarProps } from './components/avatar';
+export { Time, TimeProps } from './components/time';

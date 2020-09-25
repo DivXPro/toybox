@@ -103,7 +103,7 @@ const msgs = [
     id: '1233451',
     title: '普通通知',
     content: '请去看一下员工花名册',
-    link: '/users',
+    link: 'https://www.163.com',
     userId: 'string',
     creator: {
       userId: 'string',

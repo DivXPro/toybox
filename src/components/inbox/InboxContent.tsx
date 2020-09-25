@@ -15,33 +15,8 @@ export interface InboxContentProps {
   read: (id: string) => void;
 }
 export const InboxContent: FC<InboxContentProps> = ({ loading = false, hasMore, onPick, messages = [], loadMore, read, remove }) => {
-  // const [notifications, setNotifications] = useState<NotificationMessage[]>(messages);
   const isItemLoaded = useCallback((index: number) => !hasMore || index < messages.length, [hasMore, messages.length]);
   const itemCount = useMemo(() => hasMore ? messages.length + 1 : messages.length, [hasMore, messages.length]);
-
-  // const handleRemove = useCallback((id: string) => {
-  //   const idx = notifications.findIndex(n => n.id === id);
-  //   if (idx > -1) {
-  //     setNotifications(notifications.filter(n => n.id !== id));
-  //     remove(id);
-  //   }
-  // }, [notifications, remove]);
-
-  // const handleRead = useCallback((id: string) => {
-  //   const idx = notifications.findIndex(n => n.id === id);
-  //   if (idx > -1) {
-  //     setNotifications(notifications.map((n, i) => {
-  //       if (i === idx) {
-  //         n.haveRead = true;
-  //       }
-  //       return n;
-  //     }));
-  //     if (unRead) {
-
-  //     }
-  //     read(id);
-  //   }
-  // }, [notifications, read]);
 
   const Item = useCallback(({index, style} : { index: number, style: any}) => {
     if (isItemLoaded(index)) {
@@ -57,29 +32,35 @@ export const InboxContent: FC<InboxContentProps> = ({ loading = false, hasMore, 
     return null;
   }, [loadMore, loading]);
 
+  const isEmpty = useMemo(() => {
+    return (messages == null || messages.length === 0) && !loading
+  }, [loading, messages]);
+
   const list = useMemo(() => {
     return (
       <React.Fragment>
-        {(messages == null || messages.length === 0 && !loading) ? <div style={{ marginTop: '50px', marginBottom: '50px' }}><Empty description="没发现消息通知" /></div> : null}
-        <InfiniteLoader isItemLoaded={isItemLoaded} itemCount={itemCount} loadMoreItems={loadMoreItems}>
-          {
-            ({onItemsRendered, ref}) => (
-              <List
-                ref={ref}
-                onItemsRendered={onItemsRendered}
-                height={400}
-                width={360}
-                itemSize={100}
-                itemCount={itemCount}
-              >
-                {Item}
-              </List>
-            )
-          }
-        </InfiniteLoader>
+        {isEmpty ? <div style={{ marginTop: '50px', marginBottom: '50px' }}><Empty description="没发现消息通知" /></div> : null}
+        <div style={isEmpty ? {display: 'none'} : undefined}>
+          <InfiniteLoader isItemLoaded={isItemLoaded} itemCount={itemCount} loadMoreItems={loadMoreItems}>
+            {
+              ({ onItemsRendered, ref }) => (
+                <List
+                  ref={ref}
+                  onItemsRendered={onItemsRendered}
+                  height={400}
+                  width={360}
+                  itemSize={100}
+                  itemCount={itemCount}
+                >
+                  {Item}
+                </List>
+              )
+            }
+          </InfiniteLoader>
+        </div>
       </React.Fragment>
     );
-  }, [isItemLoaded, itemCount, loadMoreItems, messages, Item]);
+  }, [isEmpty, isItemLoaded, itemCount, loadMoreItems, Item]);
 
   return (
     <div className="tbox-inbox-content">

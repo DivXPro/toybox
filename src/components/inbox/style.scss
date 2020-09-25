@@ -63,6 +63,12 @@
       }
       .notification-body {
         color: $gray-7;
+        P {
+          margin-bottom: 4px;
+        }
+        .tbox-time_mavx {
+          font-size: 12px;
+        }
       }
       + .notification {
         &:last-child {

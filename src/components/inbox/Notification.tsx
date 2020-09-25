@@ -1,6 +1,7 @@
 import React, { FC, useCallback, useMemo } from 'react';
-import { useHistory } from 'react-router';
+import { useHistory } from 'react-router-dom';
 import { Icon } from '../icon';
+import { Time } from '../time';
 
 export interface NotificationMessage {
   id: string;
@@ -35,15 +36,19 @@ function isAbsolutePath(path: string) {
 
 export const Notification: FC<NotificationProps> = ({ message, remove, read, onPick, style }) => {
   const history = useHistory();
+  const isAbsolute = useMemo(() => isAbsolutePath(message?.link), [message]);
   const handleClick = useCallback(() => {
     onPick();
     if (message?.link == null) {
       return;
     }
-    history.push(message.link);
-  }, [history, message, onPick]);
-
-  const isAbsolute = useMemo(() => isAbsolutePath(message?.link), [message]);
+    console.log('isAbsolute ?', isAbsolute, message.link);
+    if (isAbsolute) {
+      window.open(message.link, '_target');
+    } else {
+      history.push(message.link);
+    }
+  }, [history, isAbsolute, message, onPick]);
 
   const handleRemove = useCallback(() => {
     if (typeof remove === 'function') {
@@ -57,32 +62,42 @@ export const Notification: FC<NotificationProps> = ({ message, remove, read, onP
     }
   }, [message.id, read]);
 
+  const operate = useMemo(() => {
+    return (
+      <div className="notification-operate">
+        {
+          message.haveRead
+            ? null
+            :
+            <div className="notification-operate--item" onClick={handleRead} key="read">
+              <Icon name="ri-check-double-line" />
+            </div>
+        }
+        <div className="notification-operate--item" onClick={handleRemove} key="remove">
+          <Icon name="ri-close-line" />
+        </div>
+      </div>
+    )
+  }, [handleRead, handleRemove, message.haveRead]);
+
   return (
     <div className="tbox-notification" style={style}>
       <div className="notification-header">
         <div className="notification-type">{message.type}</div>
-        <div className="notification-operate">
-          {
-            message.haveRead
-              ? null
-              :
-              <div className="notification-operate--item" onClick={handleRead} key="read">
-                <Icon name="ri-check-double-line" />
-              </div>
-          }
-          <div className="notification-operate--item" onClick={handleRemove} key="remove">
-            <Icon name="ri-close-line" />
-          </div>
-        </div>
-        {message.haveRead ? null : <div className="notification-not-read" />}
+        { operate }
+        { message.haveRead ? null : <div className="notification-not-read" /> }
       </div>
       {
-        isAbsolute
-          ?
+        // isAbsolute
+        //   ?
             <div className="notification-body" onClick={handleClick}>
-              {message.content}
+              <p>{message.content}</p>
+              <Time time={message.createdAt} />
             </div>
-          : <a className="notification-body" href={message.link} target="_blank" rel="noreferrer">{message.content}</a>
+          // : <div className="notification-body">
+          //     <p><a href={message.link} target="_blank" rel="noreferrer">{message.content}</a></p>
+          //     <Time time={message.createdAt} />
+          //   </div>
       }
     </div>
   )

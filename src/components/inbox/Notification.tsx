@@ -87,18 +87,10 @@ export const Notification: FC<NotificationProps> = ({ message, remove, read, onP
         { operate }
         { message.haveRead ? null : <div className="notification-not-read" /> }
       </div>
-      {
-        // isAbsolute
-        //   ?
-            <div className="notification-body" onClick={handleClick}>
-              <p>{message.content}</p>
-              <Time time={message.createdAt} />
-            </div>
-          // : <div className="notification-body">
-          //     <p><a href={message.link} target="_blank" rel="noreferrer">{message.content}</a></p>
-          //     <Time time={message.createdAt} />
-          //   </div>
-      }
+      <div className="notification-body" onClick={handleClick}>
+        <p>{message.content}</p>
+        <Time time={message.createdAt} />
+      </div>
     </div>
   )
 }

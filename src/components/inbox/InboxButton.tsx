@@ -1,4 +1,4 @@
-import React, { FC, useState, useEffect } from 'react';
+import React, { FC, ReactNode, useState, useEffect } from 'react';
 import classNames from 'classnames';
 import { Badge, Popover } from 'antd';
 import { TooltipPlacement } from 'antd/lib/tooltip';
@@ -10,9 +10,10 @@ export type InboxButtonProps = InboxProps & {
   className?: string;
   style?: Record<string, any>;
   loadBadge: () => Promise<number>;
+  icon?: ReactNode;
 };
 
-export const InboxButton: FC<InboxButtonProps> = ({ remove, read, loadMore, reload, loadBadge, style, className, placement, bundle }) => {
+export const InboxButton: FC<InboxButtonProps> = ({ remove, read, loadMore, reload, loadBadge, style, className, placement, bundle, icon }) => {
   const [unreadCount, setUnreadCount] = useState(0);
   useEffect(() => {
     const reLoadBadge = async () => {
@@ -35,7 +36,7 @@ export const InboxButton: FC<InboxButtonProps> = ({ remove, read, loadMore, relo
     >
       <div className={classNames('inbox-button', className)} style={style}>
         <Badge count={unreadCount}>
-          <Icon name="ri-notification-4-line" size="large" />
+          { icon || <Icon name="ri-notification-4-line" size="large" />}
         </Badge>
       </div>
     </Popover>

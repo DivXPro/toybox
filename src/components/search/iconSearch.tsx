@@ -67,5 +67,4 @@ export const IconSearch: FC<IconSearchProps> = ({ addonAfter, autoFocus = false,
       </div>
     </div>
   )
-  
 }

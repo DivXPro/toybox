@@ -1,9 +1,11 @@
 import React, { FC, useMemo } from 'react';
 import { TablePage, ListPage, PanelItem, Search, ProHeader, Avatar, InboxButton, NotificationMessage } from 'toybox';
-import { Layout } from 'antd';
+import { Layout, Menu } from 'antd';
 import 'antd/dist/antd.css';
 import 'toybox/dist/index.css';
 import 'remixicon/fonts/remixicon.css';
+
+const { Content, Sider } = Layout;
 
 const objectMeta = {
   key: 'bill',
@@ -292,25 +294,36 @@ const App: FC = () => {
           </React.Fragment>
         }
       />
-      <Layout.Content>
-        <TablePage
-          title="Example Table Page"
-          objectMeta={objectMeta}
-          loadData={loadData}
-          operateItems={[
-            { text: 'view', type: 'primary', size: 'small' },
-            { text: 'edit', type: 'dashed', size: 'small' },
-            { text: 'remove', type: 'text', size: 'small', danger: true }
-          ]}
-          panel={{ leftRender: <Search type="nav-search" placeholder="请输入关键词" />, rightRender }}
-        />
-        <ListPage
-          title="Example List Page"
-          objectMeta={objectMeta}
-          loadData={loadData}
-          panel={{ rightRender }}
-        />
-      </Layout.Content>
+      <Layout>
+        <Sider theme="light" width={200}>
+          <Menu defaultSelectedKeys={['2']} mode="inline" style={{ marginTop: '12px', height: '100%' }}>
+            <Menu.Item key="1">nav 1</Menu.Item>
+            <Menu.Item key="2">nav 2</Menu.Item>
+            <Menu.Item key="3">nav 3</Menu.Item>
+          </Menu>
+        </Sider>
+        <Layout>
+          <Content>
+            <TablePage
+              title="Example Table Page"
+              objectMeta={objectMeta}
+              loadData={loadData}
+              operateItems={[
+                { text: 'view', type: 'primary', size: 'small' },
+                { text: 'edit', type: 'dashed', size: 'small' },
+                { text: 'remove', type: 'text', size: 'small', danger: true }
+              ]}
+              panel={{ leftRender: <Search type="nav-search" placeholder="请输入关键词" />, rightRender }}
+            />
+            <ListPage
+              title="Example List Page"
+              objectMeta={objectMeta}
+              loadData={loadData}
+              panel={{ rightRender }}
+            />
+          </Content>
+        </Layout>
+      </Layout>
     </Layout>
   )
 }

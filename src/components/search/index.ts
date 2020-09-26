@@ -1,2 +1,2 @@
-export { Search, SearchProps } from './search';
-export { IconSearch, IconSearchProps } from './iconSearch';
+export { default as Search, SearchProps } from './search';
+export { IconSearchProps } from './iconSearch';

@@ -34,7 +34,7 @@ export interface FieldOption {
 }
 
 export type ColumnMeta = {
-  objectComponent?: string;
+  component?: string;
   fixed?: boolean;
   align?: 'left' | 'right' | 'center';
 } & FieldMeta

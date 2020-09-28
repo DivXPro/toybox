@@ -33,6 +33,24 @@ const objectMeta = {
       name: '金额',
       type: 'number'
     },
+    user: {
+      key: 'user',
+      name: '用户',
+      type: 'businessObject',
+      titleKey: 'name',
+      properties: {
+        id: {
+          key: 'id',
+          name: 'ID',
+          type: 'string'
+        },
+        name: {
+          key: 'name',
+          name: '用户名',
+          type: 'string'
+        }
+      }
+    },
   },
   titleKey: 'name',
 }
@@ -42,13 +60,21 @@ const list = [
     id: '1234',
     name: '销售',
     billCycle: '2020-01-01',
-    amount: 2000
+    amount: 2000,
+    user: {
+      id: 'xxx',
+      name: '熊丽'
+    }
   },
   {
     id: '1235',
     name: '销售',
     billCycle: '2020-02-01',
-    amount: 1300
+    amount: 1300,
+    user: {
+      id: 'xxx2',
+      name: '熊丽2'
+    }
   },
   {
     id: '1236',
@@ -211,6 +237,18 @@ const msgs = [
   }
 ];
 
+const visibleColumns = [
+  {
+    key: 'name'
+  }, {
+    key: 'billCycle'
+  }, {
+    key: 'amount'
+  }, {
+    key: 'user',
+  }
+];
+
 const loadData = () => {
   const promise = new Promise<{ list: { [key: string]: any }[], total: number }>(function (resolve) {
     setTimeout(function () {
@@ -308,6 +346,7 @@ const App: FC = () => {
               title="Example Table Page"
               objectMeta={objectMeta}
               loadData={loadData}
+              visibleColumns={visibleColumns}
               operateItems={[
                 { text: 'view', type: 'primary', size: 'small' },
                 { text: 'edit', type: 'dashed', size: 'small' },

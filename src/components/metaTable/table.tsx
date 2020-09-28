@@ -30,7 +30,6 @@ export interface MetaTableProps {
   rowSelection?: TableRowSelection<RowData>;
 }
 
-
 export const columnFactory = (columnMeta: ColumnMeta, fc?: FC<ColumnFCProps>) => {
   if (fc == null) {
     return undefined;
@@ -72,11 +71,12 @@ export const MetaTable: FC<MetaTableProps> = ({
   }, [columnComponents]);
 
   const pickComponent = useCallback((columnMeta: ColumnMeta) => {
-    if (columnMeta.objectComponent != null) {
-      return columnFactory(columnMeta, mergeColumnComponents[columnMeta.objectComponent])
+    if (columnMeta.component != null) {
+      return columnFactory(columnMeta, mergeColumnComponents[columnMeta.component])
     }
     if (columnMeta.type === 'businessObject' || columnMeta.type === 'object' || columnMeta.type === 'document') {
-      return columnFactory(columnMeta, mergeColumnComponents[columnMeta.key]);
+      console.log('columnMeta', columnMeta);
+      return columnFactory(columnMeta, mergeColumnComponents[columnMeta.key]) || columnFactory(columnMeta, mergeColumnComponents[columnMeta.type]);
     }
     return columnFactory(columnMeta, mergeColumnComponents[columnMeta.type]);
   }, [mergeColumnComponents]);
@@ -88,6 +88,7 @@ export const MetaTable: FC<MetaTableProps> = ({
       dataIndex: columnMeta.key,
       render: pickComponent(columnMeta),
     }));
+    console.log('columns', columns);
     if (operateItems != null && operateItems.length > 0) {
       columns.push({
         key: 'meta-table-operate',

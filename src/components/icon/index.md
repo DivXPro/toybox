@@ -9,7 +9,6 @@ import { Icon } from './index.tsx';
 
 # Icon
 ### Basic usage
-
 <Playground>
   <Icon name="ri-home-line" />
 </Playground>

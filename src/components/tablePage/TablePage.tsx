@@ -1,10 +1,11 @@
-import React, { FC, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { useAntdTable } from 'ahooks';
 import { Form } from 'antd';
 import { MetaTable } from '../metaTable';
 import { Panel, PanelProps } from '../panel';
 import { BusinessObjectMeta } from '../../types/interface';
 import { OperateItem } from '../metaTable/OperateColumn';
+import { Search } from '../search';
 
 export interface TablePageProps {
   title: string;
@@ -22,8 +23,7 @@ export interface ColumnVisible {
   component?: string;
 }
 
-
-export const TablePage: FC<TablePageProps> = ({ title, objectMeta, panel, operateItems, visibleColumns, loadData }) => {
+const TablePage = ({ title, objectMeta, panel, operateItems, visibleColumns, loadData }: TablePageProps) => {
   const columnMetas = useMemo(() => {
     if (visibleColumns != null) {
       return visibleColumns.map(col => {
@@ -42,11 +42,11 @@ export const TablePage: FC<TablePageProps> = ({ title, objectMeta, panel, operat
     return Object.keys(objectMeta.properties).map(key => objectMeta.properties[key])
   }, [objectMeta.properties, visibleColumns])
 
-  const [form] = Form.useForm()
+  const [form] = Form.useForm();
   const { tableProps } = useAntdTable(loadData, {
     defaultPageSize: 10,
     form
-  })
+  });
 
   return (
     <div className='tbox-page'>
@@ -56,3 +56,7 @@ export const TablePage: FC<TablePageProps> = ({ title, objectMeta, panel, operat
     </div>
   )
 }
+
+TablePage.Search = Search;
+
+export default TablePage;

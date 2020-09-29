@@ -45,21 +45,22 @@ const TablePage = ({ title, objectMeta, panel, operateItems, visibleColumns, loa
     return Object.keys(objectMeta.properties).map(key => objectMeta.properties[key])
   }, [objectMeta.properties, visibleColumns])
   const [form] = Form.useForm();
-  const { tableProps } = useAntdTable(loadData, {
+  const { tableProps, search } = useAntdTable(loadData, {
     defaultPageSize: 10, 
     form,
   });
+  const { submit } = search;
 
-  const search = useMemo(() => {
-    return searchOption ? <TableSearch form={form} findParams={searchOption.findParams} /> : undefined
-  }, [form, searchOption]);
+  const searchBar = useMemo(() => {
+    return searchOption ? <TableSearch form={form} submit={submit}  findParams={searchOption.findParams} /> : undefined
+  }, [form, searchOption, submit]);
 
   return (
     <div className='tbox-page'>
       <h1>{title}</h1>
       {
         panel
-          ? <Panel leftRender={search}  rightRender={panel.rightRender} />
+          ? <Panel leftRender={searchBar}  rightRender={panel.rightRender} />
           : undefined
       }
       <MetaTable rowKey="id" operateItems={operateItems} columnMetas={columnMetas} {...tableProps} />

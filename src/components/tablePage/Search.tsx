@@ -7,6 +7,7 @@ import { Search } from '../search';
 export interface TableSearchProps {
   form: FormInstance<any>;
   findParams: SearchFindParam[];
+  submit: () => void;
 }
 
 export interface OptionItem {
@@ -22,10 +23,11 @@ export interface SearchFindParam {
   remote?: (query: string) => Promise<OptionItem[]>;
 }
 
-export const TableSearch: FC<TableSearchProps> = ({ form, findParams }) => {
+export const TableSearch: FC<TableSearchProps> = ({ form, findParams, submit }) => {
   const handleSearch = useCallback(() => {
     console.log('handleSearch');
-  }, []);
+    submit();
+  }, [submit]);
 
   const findItems = useMemo(() => {
     return findParams.map((param, index) => {

@@ -1,6 +1,7 @@
-import React, { useMemo, useCallback } from 'react';
-import { useAntdTable } from 'ahooks';
+import React, { useMemo } from 'react';
 import { Form } from 'antd';
+// import { useAntdTable } from 'ahooks';
+import useAntdTable from './useTable';
 import { MetaTable } from '../metaTable';
 import { Panel, PanelProps } from '../panel';
 import { BusinessObjectMeta } from '../../types/interface';

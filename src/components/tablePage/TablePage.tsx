@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useCallback } from 'react';
 import { useAntdTable } from 'ahooks';
 import { Form } from 'antd';
 import { MetaTable } from '../metaTable';
@@ -43,7 +43,7 @@ const TablePage = ({ title, objectMeta, panel, operateItems, visibleColumns, loa
       });
     }
     return Object.keys(objectMeta.properties).map(key => objectMeta.properties[key])
-  }, [objectMeta.properties, visibleColumns])
+  }, [objectMeta.properties, visibleColumns]);
   const [form] = Form.useForm();
   const { tableProps, search } = useAntdTable(loadData, {
     defaultPageSize: 10, 
@@ -51,9 +51,16 @@ const TablePage = ({ title, objectMeta, panel, operateItems, visibleColumns, loa
   });
   const { submit } = search;
 
+  const onSubmit = useCallback(() => {
+    console.log('getFieldsValue', form.getFieldsValue(undefined, () => true), form);
+    submit();
+  }, [form, submit]);
+
   const searchBar = useMemo(() => {
-    return searchOption ? <TableSearch form={form} submit={submit}  findParams={searchOption.findParams} /> : undefined
-  }, [form, searchOption, submit]);
+    return searchOption
+      ? <TableSearch form={form} submit={onSubmit} findParams={searchOption.findParams} />
+      : undefined;
+  }, [form, searchOption, onSubmit]);
 
   return (
     <div className='tbox-page'>

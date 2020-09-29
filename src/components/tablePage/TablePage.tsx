@@ -13,7 +13,7 @@ export interface TablePageProps {
   panel?: PanelProps;
   operateItems?: OperateItem[];
   visibleColumns?: ColumnVisible[];
-  loadData: (params?: any) => Promise<{ list: {[key: string]: any}[], total: number }>;
+  loadData: (pageable: { pageSize: number, current: number}, fieldsValue: Record<string, any>) => Promise<{ list: {[key: string]: any}[], total: number }>;
   searchOption?: {
     findParams: SearchFindParam[];
   }
@@ -51,16 +51,11 @@ const TablePage = ({ title, objectMeta, panel, operateItems, visibleColumns, loa
   });
   const { submit } = search;
 
-  const onSubmit = useCallback(() => {
-    console.log('getFieldsValue', form.getFieldsValue(undefined, () => true), form);
-    submit();
-  }, [form, submit]);
-
   const searchBar = useMemo(() => {
     return searchOption
-      ? <TableSearch form={form} submit={onSubmit} findParams={searchOption.findParams} />
+      ? <TableSearch form={form} submit={submit} findParams={searchOption.findParams} />
       : undefined;
-  }, [form, searchOption, onSubmit]);
+  }, [form, searchOption, submit]);
 
   return (
     <div className='tbox-page'>

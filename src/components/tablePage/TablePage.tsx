@@ -6,7 +6,7 @@ import { MetaTable } from '../metaTable';
 import { Panel, PanelProps } from '../panel';
 import { BusinessObjectMeta } from '../../types/interface';
 import { OperateItem } from '../metaTable/OperateColumn';
-import { TableSearch, SearchFindParam } from './Search';
+import { TableSearch, SearchFindParam } from './TableSearch';
 
 export interface TablePageProps {
   title: string;

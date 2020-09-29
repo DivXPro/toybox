@@ -28,7 +28,7 @@ const Search = ({ type = 'normal', addonAfter, autoFocus = false, defaultValue, 
   }, [autoFocus])
 
   const innerOnChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.nativeEvent.type === 'click' && value === '') {
+    if (event.type === 'click' && value === '') {
         onClear && onClear();
     }
     onChange && onChange(event.target.value);

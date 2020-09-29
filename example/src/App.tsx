@@ -1,5 +1,5 @@
 import React, { FC, useMemo } from 'react';
-import { TablePage, ListPage, PanelItem, Search, ProHeader, Avatar, InboxButton, NotificationMessage } from 'toybox';
+import { TablePage, ListPage, PanelItem, ProHeader, Avatar, InboxButton, NotificationMessage } from 'toybox';
 import { Layout, Menu } from 'antd';
 import 'antd/dist/antd.css';
 import 'toybox/dist/index.css';
@@ -352,7 +352,8 @@ const App: FC = () => {
                 { text: 'edit', type: 'dashed', size: 'small' },
                 { text: 'remove', type: 'text', size: 'small', danger: true }
               ]}
-              panel={{ leftRender: <Search type="nav-search" placeholder="请输入关键词" />, rightRender }}
+              panel={{ rightRender }}
+              searchOption={{ search: (val: any) => console.log('search', val), findParams: [{ name: '名称', type: 'string', key: 'name' }] }}
             />
             <ListPage
               title="Example List Page"
@@ -367,4 +368,4 @@ const App: FC = () => {
   )
 }
 
-export default App
+export default App;

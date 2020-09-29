@@ -1,10 +1,11 @@
-import React, { useMemo, useCallback } from 'react';
-import { Form, Select, Input } from 'antd';
+import React, { FC, useMemo, useCallback } from 'react';
+import { Form, Select } from 'antd';
 import { FormInstance } from 'antd/lib/form';
 import { RemoteSelect } from './RemoteSelect';
+import { Search } from '../search';
 
 export interface TableSearchProps {
-  form: FormInstance<Record<string, any>>;
+  form: FormInstance<any>;
   search: (params: Record<string, any>) => void;
   findParams: SearchFindParam[];
 }
@@ -20,10 +21,9 @@ export interface SearchFindParam {
   key: string;
   options?: OptionItem[];
   remote?: (query: string) => Promise<OptionItem[]>;
-  search: (params: Record<string, any>) => void;
 }
 
-export const TableSearch = ({ form, findParams, search }: TableSearchProps) => {
+export const TableSearch: FC<TableSearchProps> = ({ form, findParams, search }) => {
   const handleSearch = useCallback(() => {
     search(form.getFieldsValue());
   }, [form, search]);
@@ -33,7 +33,7 @@ export const TableSearch = ({ form, findParams, search }: TableSearchProps) => {
       let search;
       switch(param.type) {
         case 'string':
-          search = <Input placeholder={param.name} onPressEnter={handleSearch} />
+          search = <Search placeholder={param.name} onSearch={handleSearch} onClear={handleSearch} />
           break;
         case 'singleOption':
           search = <Select placeholder={param.name} options={param.options} onChange={handleSearch} />

@@ -1,5 +1,5 @@
 import React, { FC, useMemo } from 'react';
-import { TablePage, ListPage, PanelItem, ProHeader, Avatar, InboxButton, NotificationMessage } from 'toybox';
+import { TablePage, ListPage, PanelItem, ProHeader, Avatar, InboxButton, NotificationMessage, Search } from 'toybox';
 import { Layout, Menu } from 'antd';
 import 'antd/dist/antd.css';
 import 'toybox/dist/index.css';
@@ -342,6 +342,7 @@ const App: FC = () => {
         </Sider>
         <Layout>
           <Content>
+            <Search  onClear={() => console.log('clear')}/>
             <TablePage
               title="Example Table Page"
               objectMeta={objectMeta}
@@ -353,7 +354,6 @@ const App: FC = () => {
                 { text: 'remove', type: 'text', size: 'small', danger: true }
               ]}
               panel={{ rightRender }}
-              searchOption={{ search: (val: any) => console.log('search', val), findParams: [{ name: '名称', type: 'string', key: 'name' }] }}
             />
             <ListPage
               title="Example List Page"

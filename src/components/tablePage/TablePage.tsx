@@ -1,4 +1,4 @@
-import React, { useMemo, useCallback } from 'react';
+import React, { useMemo } from 'react';
 import { useAntdTable } from 'ahooks';
 import { Form } from 'antd';
 import { MetaTable } from '../metaTable';
@@ -13,9 +13,8 @@ export interface TablePageProps {
   panel?: PanelProps;
   operateItems?: OperateItem[];
   visibleColumns?: ColumnVisible[];
-  loadData: () => Promise<{ list: {[key: string]: any}[], total: number }>;
+  loadData: (params?: any) => Promise<{ list: {[key: string]: any}[], total: number }>;
   searchOption?: {
-    search: (params: Record<string, any>) => void;
     findParams: SearchFindParam[];
   }
 }
@@ -52,7 +51,7 @@ const TablePage = ({ title, objectMeta, panel, operateItems, visibleColumns, loa
   });
 
   const search = useMemo(() => {
-    return searchOption ? <TableSearch form={form} search={searchOption.search} findParams={searchOption.findParams} /> : undefined
+    return searchOption ? <TableSearch form={form} findParams={searchOption.findParams} /> : undefined
   }, [form, searchOption]);
 
   return (

@@ -12,3 +12,4 @@ export { Inbox, InboxButton, InboxProps, InboxButtonProps, NotificationMessage }
 export { ProHeader, HeaderProps } from './components/header';
 export { default as Avatar, AvatarProps } from './components/avatar';
 export { Time, TimeProps } from './components/time';
+export { FieldDate, FieldSelect, FieldString } from './components/field';

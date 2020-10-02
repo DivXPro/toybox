@@ -106,6 +106,7 @@ const App: FC = () => {
             <FieldString fieldProps={{ style: { width: '300px' } }} mode="edit" value="abcText" />
             <FieldDate mode="read" value="2020-12-1" format="YYYY-MM-DD" />
             <FieldDate mode="edit" value="2020-12-1" format="YYYY-MM-DD" />
+            <FieldDate mode="edit" value="2020-12-1 12:30:00" format="YYYY-MM-DD HH:mm:ss" showTime />
             <FieldSelect mode="edit" value="a" options={options} />
             <FieldSelect mode="edit" value="a" remote={loadOptions} remoteByValue={loadOptionByValue} />
             <TablePage

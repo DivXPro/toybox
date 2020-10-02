@@ -9,6 +9,7 @@ import { parseValueToMoment } from '../../../utls';
 export interface FieldDateProps extends FieldProps {
   placeholder?: string;
   format?: string;
+  showTime?: boolean;
   picker?: DatePickerProps['picker'];
   onChange?: (date: moment.Moment, dateString?: string) => void;
   onOpenChange?: (open: boolean) => void;
@@ -18,7 +19,7 @@ export interface FieldDateProps extends FieldProps {
 }
 
 
-const FieldDate = ({ disabled, value, placeholder, mode, format = 'YYYY-MM-DD', fieldProps, picker, onChange, onOpenChange, open, bordered }: FieldDateProps, ref: Ref<any>) => {
+const FieldDate = ({ disabled, value, placeholder, mode, format = 'YYYY-MM-DD', fieldProps, picker, onChange, onOpenChange, open, bordered, showTime }: FieldDateProps, ref: Ref<any>) => {
   const innerOnChange = useCallback((date: moment.Moment, dateString: string) => {
     onChange && onChange(date, dateString);
   }, [onChange]);
@@ -29,7 +30,19 @@ const FieldDate = ({ disabled, value, placeholder, mode, format = 'YYYY-MM-DD', 
     return <span ref={ref}>{moment(value).format(format) || '-'}</span>
   }
   if (mode === 'edit' || mode === 'update') {
-    return <DatePicker {...fieldProps} bordered={bordered} placeholder={placeholder} disabled={disabled} ref={ref} onChange={innerOnChange} picker={picker} open={open} onOpenChange={onOpenChange} value={innerValue} />
+    return <DatePicker
+            ref={ref}
+            value={innerValue}
+            bordered={bordered}
+            placeholder={placeholder}
+            disabled={disabled}
+            onChange={innerOnChange}
+            picker={picker}
+            open={open}
+            onOpenChange={onOpenChange}
+            showTime={showTime}
+            {...fieldProps}
+          />
   }
   return null;
 }

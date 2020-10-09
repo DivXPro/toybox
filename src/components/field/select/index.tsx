@@ -19,18 +19,20 @@ export interface OptionItem {
 
 export interface FieldSelectProps extends FieldProps {
   value: string | number;
+  defaultValue?: string | number;
   remote?: (key: string, params?: any) => Promise<OptionItem[]>;
   remoteByValue?: (value: string | number, params?: any) => Promise<OptionItem>;
   options?: OptionItem[];
   placeholder?: string;
   params?: any;
+  onChange?: (value: string | number) => void;
 }
 
 const defaultRemote = () => new Promise<OptionItem[]>((resolve) => {
   resolve([]);
 });
 
-const FieldSelect = ({ value, mode, fieldProps, remote, remoteByValue, options, placeholder, params }: FieldSelectProps, ref: Ref<any>) => {
+const FieldSelect = ({ defaultValue, value, onChange, mode, fieldProps, remote, remoteByValue, options, placeholder, params }: FieldSelectProps, ref: Ref<any>) => {
   const [loading, remoteOptions, loadData] = useFetchOptions(remote || defaultRemote, params);
   const [initOption, setInitOption] = useState<OptionItem>();
   const [initial, setInitial] = useState(false);
@@ -83,6 +85,8 @@ const FieldSelect = ({ value, mode, fieldProps, remote, remoteByValue, options, 
   if (mode === 'edit') {
     return <Select
             value={value}
+            onChange={onChange}
+            defaultValue={defaultValue}
             showSearch={remote != null}
             size={size}
             onSearch={loadData}

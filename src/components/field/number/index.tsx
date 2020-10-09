@@ -5,10 +5,12 @@ import { FieldProps } from '../interface';
 
 export interface FieldNumberProps extends FieldProps {
   value: number;
+  defaultValue?: number;
   placeholder?: string;
+  onChange?: (value: number) => void;
 }
 
-const FieldNumber = ({ mode, value, placeholder, fieldProps, disabled }: FieldNumberProps, ref: Ref<any>) => {
+const FieldNumber = ({ mode, value, defaultValue, placeholder, fieldProps, disabled, onChange }: FieldNumberProps, ref: Ref<any>) => {
   const inputRef = useRef();
   useImperativeHandle(
     ref,
@@ -25,6 +27,8 @@ const FieldNumber = ({ mode, value, placeholder, fieldProps, disabled }: FieldNu
   if (mode === 'edit' || mode === 'update') {
     return <InputNumber
       value={value}
+      onChange={onChange}
+      defaultValue={defaultValue}
       placeholder={placeholder}
       ref={inputRef}
       disabled={disabled}

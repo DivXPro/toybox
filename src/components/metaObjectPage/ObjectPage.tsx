@@ -26,7 +26,6 @@ const ExtendContent: FC<{views: { name: string, node: ReactNode }[]}> = ({views}
   </Tabs>
 };
 
-
 export const MetaObjectPage: FC<MetaObjectPageProps> = ({ businessObjectMeta, data, onBack, extend }) => {
   const title = useMemo(() => data[businessObjectMeta.titleKey], [businessObjectMeta.titleKey, data]);
   const fieldItemsMeta = useObjectMeta(businessObjectMeta);

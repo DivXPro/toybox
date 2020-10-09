@@ -5,10 +5,12 @@ import { FieldProps } from '../interface';
 
 export interface FieldStringProps extends FieldProps {
   value: string;
+  defaultValue?: string;
   placeholder?: string;
+  onChange?: (value: string) => void;
 }
 
-const FieldString = ({ mode, value, placeholder, fieldProps, disabled }: FieldStringProps, ref: Ref<any>) => {
+const FieldString = ({ mode, value, onChange, defaultValue, placeholder, fieldProps, disabled }: FieldStringProps, ref: Ref<any>) => {
   const inputRef = useRef();
   useImperativeHandle(
     ref,
@@ -23,7 +25,15 @@ const FieldString = ({ mode, value, placeholder, fieldProps, disabled }: FieldSt
     return <span>{dom}</span>
   }
   if (mode === 'edit' || mode === 'update') {
-    return <Input value={value} placeholder={placeholder} ref={inputRef} disabled={disabled} {...fieldProps} />
+    return <Input
+      ref={inputRef}
+      value={value}
+      onChange={onChange}
+      defaultValue={defaultValue}
+      placeholder={placeholder}
+      disabled={disabled}
+      {...fieldProps}
+    />
   }
   return null;
 }

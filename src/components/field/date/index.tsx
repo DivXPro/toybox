@@ -15,11 +15,12 @@ export interface FieldDateProps extends FieldProps {
   onOpenChange?: (open: boolean) => void;
   open?: boolean;
   value: Date | number | string;
+  defaultValue: Date | number | string;
   bordered?: boolean;
 }
 
 
-const FieldDate = ({ disabled, value, placeholder, mode, format = 'YYYY-MM-DD', fieldProps, picker, onChange, onOpenChange, open, bordered, showTime }: FieldDateProps, ref: Ref<any>) => {
+const FieldDate = ({ disabled, value, defaultValue, placeholder, mode, format = 'YYYY-MM-DD', fieldProps, picker, onChange, onOpenChange, open, bordered, showTime }: FieldDateProps, ref: Ref<any>) => {
   const innerOnChange = useCallback((date: moment.Moment, dateString: string) => {
     onChange && onChange(date, dateString);
   }, [onChange]);
@@ -33,6 +34,7 @@ const FieldDate = ({ disabled, value, placeholder, mode, format = 'YYYY-MM-DD', 
     return <DatePicker
             ref={ref}
             value={innerValue}
+            defaultValue={defaultValue}
             bordered={bordered}
             placeholder={placeholder}
             disabled={disabled}

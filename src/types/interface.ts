@@ -55,3 +55,12 @@ export enum FieldType {
   MULTI_OPTION = 'multiOption',
   DOCUMENT = 'document',
 }
+
+export type MetaPageMode = 'list' | 'view';
+
+export interface MetaRoute {
+  objectKey: string;
+  mode: MetaPageMode;
+  objectId?: string;
+  objectName?: string;
+}

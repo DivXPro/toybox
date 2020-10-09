@@ -1,12 +1,12 @@
 import React, { useMemo } from 'react';
 import { Form } from 'antd';
-// import { useAntdTable } from 'ahooks';
 import useAntdTable from './useTable';
 import { MetaTable } from '../metaTable';
 import { Panel, PanelProps } from '../panel';
 import { BusinessObjectMeta } from '../../types/interface';
 import { OperateItem } from '../metaTable/OperateColumn';
 import { TableSearch, SearchFindParam } from './TableSearch';
+import { MetaPageHeader } from '../metaPageHeader';
 
 export interface TablePageProps {
   title: string;
@@ -57,15 +57,14 @@ const TablePage = ({ title, objectMeta, panel, operateItems, visibleColumns, loa
       ? <TableSearch form={form} submit={submit} findParams={searchOption.findParams} />
       : undefined;
   }, [form, searchOption, submit]);
-
+  const tablePanel = useMemo(() => panel
+    ? <Panel leftRender={searchBar} rightRender={panel.rightRender} />
+    : null,
+    [panel, searchBar]
+  );
   return (
     <div className='tbox-page'>
-      <h1>{title}</h1>
-      {
-        panel
-          ? <Panel leftRender={searchBar}  rightRender={panel.rightRender} />
-          : undefined
-      }
+      <MetaPageHeader title={title} footer={tablePanel} />
       <MetaTable rowKey="id" operateItems={operateItems} columnMetas={columnMetas} {...tableProps} />
     </div>
   )

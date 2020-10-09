@@ -4,7 +4,7 @@ import { FieldProps } from '../interface';
 
 
 export type FieldBooleanProps = FieldProps & {
-  value: boolean;
+  value?: boolean;
   textValues: [string, string];
   defaultValue?: boolean;
   onChange?: (value: boolean) => void;

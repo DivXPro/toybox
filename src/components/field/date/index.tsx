@@ -14,8 +14,8 @@ export interface FieldDateProps extends FieldProps {
   onChange?: (date: moment.Moment, dateString?: string) => void;
   onOpenChange?: (open: boolean) => void;
   open?: boolean;
-  value: Date | number | string;
-  defaultValue: Date | number | string;
+  value?: Date | number | string;
+  defaultValue?: Date | number | string;
   bordered?: boolean;
 }
 

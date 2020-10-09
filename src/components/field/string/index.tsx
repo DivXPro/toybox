@@ -4,7 +4,7 @@ import React, { useRef, useImperativeHandle, Ref } from 'react';
 import { FieldProps } from '../interface';
 
 export interface FieldStringProps extends FieldProps {
-  value: string;
+  value?: string;
   defaultValue?: string;
   placeholder?: string;
   onChange?: (value: string) => void;

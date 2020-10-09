@@ -4,7 +4,7 @@ import React, { useRef, useImperativeHandle, Ref } from 'react';
 import { FieldProps } from '../interface';
 
 export interface FieldNumberProps extends FieldProps {
-  value: number;
+  value?: number;
   defaultValue?: number;
   placeholder?: string;
   onChange?: (value: number) => void;

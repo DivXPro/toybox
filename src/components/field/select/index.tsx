@@ -18,7 +18,7 @@ export interface OptionItem {
 }
 
 export interface FieldSelectProps extends FieldProps {
-  value: string | number;
+  value?: string | number;
   defaultValue?: string | number;
   remote?: (key: string, params?: any) => Promise<OptionItem[]>;
   remoteByValue?: (value: string | number, params?: any) => Promise<OptionItem>;

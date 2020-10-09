@@ -1,0 +1,1 @@
+export { MetaDescriptons, MetaDescriptonsProps } from './Descriptions';

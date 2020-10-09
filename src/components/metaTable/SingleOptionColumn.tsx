@@ -1,5 +1,6 @@
-import React, { FC, useMemo } from 'react';
+import React, { FC } from 'react';
 import { ColumnMeta } from '../../types/interface';
+import { FieldSelect } from '../field';
 
 interface SingleOptionColumnProps {
   text: string;
@@ -9,9 +10,5 @@ interface SingleOptionColumnProps {
 }
 
 export const SingleOptionColumn: FC<SingleOptionColumnProps> = ({ text, columnMeta }) => {
-  const option = useMemo(
-    () => columnMeta.options ? columnMeta.options.find(opt => opt.value === text) : { label: text, value: text },
-    [columnMeta.options, text]
-  );
-  return <div>{option?.label}</div>;
+  return <FieldSelect value={text} options={columnMeta.options} mode="read" />;
 }

@@ -75,7 +75,6 @@ export const MetaTable: FC<MetaTableProps> = ({
       return columnFactory(columnMeta, mergeColumnComponents[columnMeta.component])
     }
     if (columnMeta.type === 'businessObject' || columnMeta.type === 'object' || columnMeta.type === 'document') {
-      console.log('columnMeta', columnMeta);
       return columnFactory(columnMeta, mergeColumnComponents[columnMeta.key]) || columnFactory(columnMeta, mergeColumnComponents[columnMeta.type]);
     }
     return columnFactory(columnMeta, mergeColumnComponents[columnMeta.type]);
@@ -88,7 +87,6 @@ export const MetaTable: FC<MetaTableProps> = ({
       dataIndex: columnMeta.key,
       render: pickComponent(columnMeta),
     }));
-    console.log('columns', columns);
     if (operateItems != null && operateItems.length > 0) {
       columns.push({
         key: 'meta-table-operate',

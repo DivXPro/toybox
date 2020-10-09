@@ -81,7 +81,8 @@ const FieldSelect = ({ value, mode, fieldProps, remote, remoteByValue, options, 
     return <span>{current?.label}</span>;
   }
   if (mode === 'edit') {
-    return <Select value={value}
+    return <Select
+            value={value}
             showSearch={remote != null}
             size={size}
             onSearch={loadData}

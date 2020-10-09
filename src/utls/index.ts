@@ -1,6 +1,6 @@
 import moment from 'moment';
 
-type DateValue = moment.Moment | moment.Moment[] | string | string[] | number | number[];
+type DateValue = moment.Moment | moment.Moment[] | string | string[] | number | number[] | Date;
 
 export const isNil = (value: any) => value === null || value === undefined;
 

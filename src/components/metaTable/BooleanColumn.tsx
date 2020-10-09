@@ -1,4 +1,5 @@
-import React, { FC, useMemo } from 'react';
+import React, { FC } from 'react';
+import { FieldBoolean } from '../field/boolean';
 
 interface BooleanColumnProps {
   text: boolean;
@@ -7,13 +8,5 @@ interface BooleanColumnProps {
 }
 
 export const DateColumn: FC<BooleanColumnProps> = ({ text }) => {
-  const value = useMemo(() => {
-    if (text === true) {
-      return '是'
-    } else if (text === false) {
-      return '否'
-    }
-    return null
-  }, [text]);
-  return <div>{value}</div>;
+  return <FieldBoolean value={text} mode="read" />
 }

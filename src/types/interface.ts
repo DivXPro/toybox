@@ -26,6 +26,7 @@ export interface FieldMeta {
   format?: string;
   titleKey?: string;
   properties?: { [key: string]: FieldMeta };
+  index?: number;
 }
 
 export interface FieldOption {

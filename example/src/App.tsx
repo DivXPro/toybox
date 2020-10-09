@@ -1,5 +1,5 @@
 import React, { FC, useMemo } from 'react';
-import { TablePage, ListPage, PanelItem, ProHeader, Avatar, InboxButton, NotificationMessage, FieldString, FieldDate, FieldSelect } from 'toybox';
+import { useBusinessObjectMeta, TablePage, ListPage, PanelItem, ProHeader, Avatar, InboxButton, NotificationMessage, MetaDescriptons, FieldString, FieldDate, FieldSelect } from 'toybox';
 import { Layout, Menu } from 'antd';
 import { objectMeta, list, msgs, visibleColumns, options, loadOptions, loadOptionByValue } from './data';
 import 'antd/dist/antd.css';
@@ -72,6 +72,8 @@ const App: FC = () => {
     return <PanelItem key={idx} {...item} />;
   }), []);
 
+  const fieldsMeta = useBusinessObjectMeta(objectMeta);
+
   return (
     <Layout>
       <ProHeader
@@ -127,6 +129,7 @@ const App: FC = () => {
               loadData={loadData}
               panel={{ rightRender }}
             />
+            <MetaDescriptons fieldItemsMeta={fieldsMeta} data={list[0]} mode="read" />
           </Content>
         </Layout>
       </Layout>

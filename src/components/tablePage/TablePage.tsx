@@ -45,7 +45,8 @@ const TablePage = ({ title, objectMeta, panel, operateItems, visibleColumns, loa
         );
       });
     }
-    return Object.keys(objectMeta.properties).map(key => objectMeta.properties[key])
+    return Object.keys(objectMeta.properties)
+      .map(key => Object.assign(objectMeta.properties[key], { link: key === objectMeta.titleKey ? viewLink : undefined}))
   }, [objectMeta.properties, objectMeta.titleKey, viewLink, visibleColumns]);
   const [form] = Form.useForm();
   const { tableProps, search } = useAntdTable(loadData, {

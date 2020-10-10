@@ -104,7 +104,7 @@ export const MetaTable: FC<MetaTableProps> = ({
     () => makeColumns(columnMetas),
     [columnMetas, makeColumns]
   );
-
+  console.log('columns', columns);
   return (
     <Table
       rowKey={rowKey}

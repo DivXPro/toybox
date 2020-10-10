@@ -11,7 +11,7 @@ export interface FieldDateProps extends FieldProps {
   format?: string;
   showTime?: boolean;
   picker?: DatePickerProps['picker'];
-  onChange?: (date: moment.Moment, dateString?: string) => void;
+  onChange?: (date: string) => void;
   onOpenChange?: (open: boolean) => void;
   open?: boolean;
   value?: Date | number | string;
@@ -21,9 +21,9 @@ export interface FieldDateProps extends FieldProps {
 
 
 const FieldDate = ({ disabled, value, defaultValue, placeholder, mode, format = 'YYYY-MM-DD', fieldProps, picker, onChange, onOpenChange, open, bordered, showTime }: FieldDateProps, ref: Ref<any>) => {
-  const innerOnChange = useCallback((date: moment.Moment, dateString: string) => {
-    onChange && onChange(date, dateString);
-  }, [onChange]);
+  const innerOnChange = useCallback((date: moment.Moment) => {
+    onChange && onChange(date.format(format));
+  }, [format, onChange]);
 
   const innerValue = useMemo(() => parseValueToMoment(value, format), [format, value]);
 

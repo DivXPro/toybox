@@ -10,21 +10,21 @@ export type ItemMeta = FieldMeta &  {
 }
 
 export type MetaDescriptonsProps = DescriptionsProps & {
-  fieldItemsMeta: ItemMeta[];
+  fieldItemMetas: ItemMeta[];
   mode: FieldMode;
   data: Record<string, any>;
 }
 
 
-export const MetaDescriptons: FC<MetaDescriptonsProps> = ({ fieldItemsMeta, mode, data, ...otherProps }) => {
+export const MetaDescriptons: FC<MetaDescriptonsProps> = ({ fieldItemMetas, mode, data, ...otherProps }) => {
   const fields = useMemo(() => {
-    return fieldItemsMeta.map(
+    return fieldItemMetas.map(
       (field, idx) => 
         <Descriptions.Item key={idx} label={field.name}>
           <FieldItem field={field} mode={mode} value={data[field.key]} />
         </Descriptions.Item>
     )
-  }, [data, fieldItemsMeta, mode]);
+  }, [data, fieldItemMetas, mode]);
 
   return <Descriptions {...otherProps} >
     {fields}

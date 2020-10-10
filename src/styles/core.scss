@@ -29,3 +29,11 @@
 [class^="ri-"], [class*=" ri-"] {
   vertical-align: -4px;
 }
+
+.botton-wapper {
+  button {
+    + button {
+      margin-left: 8px;
+    }
+  }
+}

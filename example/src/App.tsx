@@ -1,10 +1,11 @@
 import React, { FC, useMemo } from 'react';
-import { useBusinessObjectMeta, TablePage, ListPage, PanelItem, ProHeader, Avatar, InboxButton, NotificationMessage, MetaDescriptons, FieldString, FieldDate, FieldSelect } from 'toybox';
+import { useBusinessObjectMeta, useFormModal, TablePage, ListPage, PanelItem, ProHeader, Avatar, InboxButton, NotificationMessage, MetaDescriptons, FieldString, FieldDate, FieldSelect } from 'toybox';
 import { Layout, Menu } from 'antd';
 import { objectMeta, list, msgs, visibleColumns, options, loadOptions, loadOptionByValue } from './data';
 import 'antd/dist/antd.css';
 import 'toybox/dist/index.css';
 import 'remixicon/fonts/remixicon.css';
+import Button from 'antd/lib/button';
 
 const { Content, Sider } = Layout;
 
@@ -72,7 +73,22 @@ const App: FC = () => {
     return <PanelItem key={idx} {...item} />;
   }), []);
 
-  const fieldsMeta = useBusinessObjectMeta(objectMeta);
+  const fieldMetas = useBusinessObjectMeta(objectMeta);
+  const {toggle, FormModal} = useFormModal({
+    title: 'FormModal',
+    modalProps: {},
+    formProps: {
+      fieldMetas: fieldMetas,
+      submitText: 'submit',
+      cancelText: 'cancel',
+      onSubmit: async (data: Record<string, any>) => {
+        console.log('data:', data);
+      },
+      labelCol: { span: 8 },
+      wrapperCol: { span: 16 },
+      labelAlign: 'left',
+    }
+  });
 
   return (
     <Layout>
@@ -129,7 +145,9 @@ const App: FC = () => {
               loadData={loadData}
               panel={{ rightRender }}
             />
-            <MetaDescriptons fieldItemsMeta={fieldsMeta} data={list[0]} mode="read" />
+            <MetaDescriptons fieldItemMetas={fieldMetas} data={list[0]} mode="read" />
+            <Button onClick={toggle}>open form</Button>
+            <FormModal />
           </Content>
         </Layout>
       </Layout>

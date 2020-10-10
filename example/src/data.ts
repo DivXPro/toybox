@@ -11,6 +11,11 @@ export const objectMeta = {
       description: 'ID',
       type: 'string',
     },
+    open: {
+      key: 'open',
+      name: '开放状态',
+      type: 'boolean'
+    },
     name: {
       key: 'name',
       name: '名称',

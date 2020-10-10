@@ -15,4 +15,4 @@ export { Time, TimeProps } from './components/time';
 export { FieldDate, FieldSelect, FieldString } from './components/field';
 export { MetaDescriptons, MetaDescriptonsProps } from './components/metaDescriptions';
 
-export { useFetchData, useBusinessObjectMeta } from './hooks';
+export { useFetchData, useBusinessObjectMeta, useFormModal } from './hooks';

@@ -6,7 +6,7 @@ export const isNil = (value: any) => value === null || value === undefined;
 
 
 export const parseValueToMoment = (
-  value: DateValue,
+  value?: DateValue,
   formatter?: string,
 ): moment.Moment | moment.Moment[] | null | undefined => {
   if (isNil(value) || moment.isMoment(value)) {

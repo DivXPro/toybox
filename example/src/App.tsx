@@ -66,6 +66,9 @@ const panel = {
   ]
 }
 
+const viewLink = ({ id }: { id: string }) => {
+  return `talents/${id}`;
+}
 
 const App: FC = () => {
   const rightRender = useMemo(() =>
@@ -132,6 +135,7 @@ const App: FC = () => {
               objectMeta={objectMeta}
               loadData={loadData}
               visibleColumns={visibleColumns}
+              viewLink={viewLink}
               operateItems={[
                 { text: 'view', type: 'primary', size: 'small' },
                 { text: 'edit', type: 'dashed', size: 'small' },

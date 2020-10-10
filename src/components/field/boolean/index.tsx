@@ -10,7 +10,7 @@ export type FieldBooleanProps = FieldProps & {
   onChange?: (value: boolean) => void;
 }
 
-export const FieldBoolean: FC<FieldBooleanProps> = ({ onChange, value, textValues, defaultValue, mode, fieldProps }) => {
+export const FieldBoolean: FC<FieldBooleanProps> = ({ onChange, value, textValues, defaultValue, mode, fieldProps, onClick }) => {
   const innerTextValues = useMemo(() => {
     return textValues ? textValues : ['否', '是'];
   }, [textValues]);
@@ -24,7 +24,7 @@ export const FieldBoolean: FC<FieldBooleanProps> = ({ onChange, value, textValue
   }, [innerTextValues, value]);
   switch(mode) {
     case 'read':
-      return <div>{textValue}</div>;
+      return <div onClick={onClick}>{textValue}</div>;
     case 'edit':
     case 'update':
       return <Switch onChange={onChange} checkedChildren={innerTextValues[1]} unCheckedChildren={innerTextValues[0]} checked={value} defaultChecked={defaultValue} {...fieldProps} />

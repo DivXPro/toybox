@@ -1,13 +1,12 @@
 import React, { FC, useMemo, useCallback, ReactNode } from 'react';
 import { Table } from 'antd';
 import { TablePaginationConfig } from 'antd/lib/table';
-import { DateColumn } from './DateColumn';
-import { ObjectColumn } from './ObjectColumn';
-import { SingleOptionColumn } from './SingleOptionColumn';
+import { DefaultColumn, DateColumn, ObjectColumn, SingleOptionColumn } from '.';
 import { OperateItem, OperateColumn, operateFactory } from './OperateColumn';
 import { ExpandableConfig, TableRowSelection } from 'antd/lib/table/interface';
 import { ColumnFCProps } from './interface';
 import { ColumnMeta } from '../../types/interface';
+import { BooleanColumn } from './BooleanColumn';
 
 export type RowData = Record<string, any>;
 
@@ -32,7 +31,9 @@ export interface MetaTableProps {
 
 export const columnFactory = (columnMeta: ColumnMeta, fc?: FC<ColumnFCProps>) => {
   if (fc == null) {
-    return undefined;
+    return (text: any, record: { [key: string]: any }, index: number) => {
+      return DefaultColumn({ text, record, index, columnMeta });
+    };
   }
   return (text: any, record: { [key: string]: any }, index: number) => {
     return fc({ text, record, index, columnMeta });
@@ -46,6 +47,7 @@ const defaultColumnsComponents: Record<string, React.FunctionComponent> = {
   document: ObjectColumn,
   object: ObjectColumn,
   singleOptionColumn: SingleOptionColumn,
+  boolean: BooleanColumn,
 }
 
 export const MetaTable: FC<MetaTableProps> = ({
@@ -80,7 +82,7 @@ export const MetaTable: FC<MetaTableProps> = ({
     return columnFactory(columnMeta, mergeColumnComponents[columnMeta.type]);
   }, [mergeColumnComponents]);
 
-  const makeColumn = useCallback((columnMetas: ColumnMeta[]) => {
+  const makeColumns = useCallback((columnMetas: ColumnMeta[]) => {
     const columns = columnMetas.map(columnMeta => ({
       key: columnMeta.key,
       title: columnMeta.name,
@@ -98,7 +100,10 @@ export const MetaTable: FC<MetaTableProps> = ({
     return columns;
   }, [operateItems, pickComponent]);
 
-  const columns = useMemo(() => makeColumn(columnMetas), [columnMetas, makeColumn]);
+  const columns = useMemo(
+    () => makeColumns(columnMetas),
+    [columnMetas, makeColumns]
+  );
 
   return (
     <Table

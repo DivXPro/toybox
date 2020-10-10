@@ -32,7 +32,7 @@ const defaultRemote = () => new Promise<OptionItem[]>((resolve) => {
   resolve([]);
 });
 
-const FieldSelect = ({ defaultValue, value, onChange, mode, fieldProps, remote, remoteByValue, options, placeholder, params }: FieldSelectProps, ref: Ref<any>) => {
+const FieldSelect = ({ defaultValue, value, onChange, mode, fieldProps, remote, remoteByValue, options, placeholder, params, onClick }: FieldSelectProps, ref: Ref<any>) => {
   const [loading, remoteOptions, loadData] = useFetchOptions(remote || defaultRemote, params);
   const [initOption, setInitOption] = useState<OptionItem>();
   const [initial, setInitial] = useState(false);
@@ -80,7 +80,7 @@ const FieldSelect = ({ defaultValue, value, onChange, mode, fieldProps, remote, 
     if (loading) {
       return <Spin />;
     }
-    return <span>{current?.label}</span>;
+    return <span onClick={onClick}>{current?.label}</span>;
   }
   if (mode === 'edit') {
     return <Select

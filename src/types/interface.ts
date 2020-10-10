@@ -38,6 +38,7 @@ export type ColumnMeta = {
   component?: string;
   fixed?: boolean;
   align?: 'left' | 'right' | 'center';
+  link?: (...args: any) => string | string;
 } & FieldMeta
 
 export enum FieldType {

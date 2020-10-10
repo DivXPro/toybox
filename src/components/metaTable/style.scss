@@ -7,3 +7,9 @@
     }
   }
 }
+.tbox-column-link {
+  font-weight: bold;
+  &:hover {
+    cursor: pointer;
+  }
+}

@@ -18,6 +18,7 @@ export interface TablePageProps {
   searchOption?: {
     findParams: SearchFindParam[];
   }
+  viewLink?: (...arg: any) => string;
 }
 
 export interface ColumnVisible {
@@ -27,7 +28,7 @@ export interface ColumnVisible {
   component?: string;
 }
 
-const TablePage = ({ title, objectMeta, panel, operateItems, visibleColumns, loadData, searchOption }: TablePageProps) => {
+const TablePage = ({ title, objectMeta, panel, operateItems, visibleColumns, loadData, searchOption, viewLink }: TablePageProps) => {
   const columnMetas = useMemo(() => {
     if (visibleColumns != null) {
       return visibleColumns.map(col => {
@@ -37,14 +38,15 @@ const TablePage = ({ title, objectMeta, panel, operateItems, visibleColumns, loa
             key: col.key,
             fixed: col.fixed,
             align: col.align,
-            component: col.component
+            component: col.component,
+            link: fieldMeta.key === objectMeta.titleKey ? viewLink : undefined
           },
           fieldMeta,
         );
       });
     }
     return Object.keys(objectMeta.properties).map(key => objectMeta.properties[key])
-  }, [objectMeta.properties, visibleColumns]);
+  }, [objectMeta.properties, objectMeta.titleKey, viewLink, visibleColumns]);
   const [form] = Form.useForm();
   const { tableProps, search } = useAntdTable(loadData, {
     defaultPageSize: 10, 

@@ -10,7 +10,7 @@ export interface FieldTextProps extends FieldProps {
   onChange?: (value: string) => void;
 }
 
-const FieldString = ({ mode, value, defaultValue, onChange, placeholder, fieldProps, disabled }: FieldTextProps, ref: Ref<any>) => {
+const FieldString = ({ mode, value, defaultValue, onChange, placeholder, fieldProps, disabled, onClick }: FieldTextProps, ref: Ref<any>) => {
   const inputRef = useRef();
   useImperativeHandle(
     ref,
@@ -22,7 +22,7 @@ const FieldString = ({ mode, value, defaultValue, onChange, placeholder, fieldPr
 
   if (mode === 'read') {
     const dom = value || '-';
-    return <span>{dom}</span>
+    return <div onClick={onClick}>{dom}</div>
   }
   if (mode === 'edit' || mode === 'update') {
     return <Input.TextArea

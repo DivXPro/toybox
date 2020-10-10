@@ -4,4 +4,5 @@ export interface FieldProps {
   mode: FieldMode;
   fieldProps?: any;
   disabled?: boolean;
+  onClick?: () => void;
 }

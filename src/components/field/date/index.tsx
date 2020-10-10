@@ -20,7 +20,7 @@ export interface FieldDateProps extends FieldProps {
 }
 
 
-const FieldDate = ({ disabled, value, defaultValue, placeholder, mode, format = 'YYYY-MM-DD', fieldProps, picker, onChange, onOpenChange, open, bordered, showTime }: FieldDateProps, ref: Ref<any>) => {
+const FieldDate = ({ disabled, value, defaultValue, placeholder, mode, format = 'YYYY-MM-DD', fieldProps, picker, onChange, onOpenChange, open, onClick, bordered, showTime }: FieldDateProps, ref: Ref<any>) => {
   const innerOnChange = useCallback((date: moment.Moment) => {
     onChange && onChange(date.format(format));
   }, [format, onChange]);
@@ -28,7 +28,7 @@ const FieldDate = ({ disabled, value, defaultValue, placeholder, mode, format = 
   const innerValue = useMemo(() => parseValueToMoment(value, format), [format, value]);
 
   if (mode === 'read') {
-    return <span ref={ref}>{moment(value).format(format) || '-'}</span>
+    return <span ref={ref} onClick={onClick}>{moment(value).format(format) || '-'}</span>
   }
   if (mode === 'edit' || mode === 'update') {
     return <DatePicker

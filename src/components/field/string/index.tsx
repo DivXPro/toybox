@@ -10,7 +10,7 @@ export interface FieldStringProps extends FieldProps {
   onChange?: (value: string) => void;
 }
 
-const FieldString = ({ mode, value, onChange, defaultValue, placeholder, fieldProps, disabled }: FieldStringProps, ref: Ref<any>) => {
+const FieldString = ({ mode, value, onChange, defaultValue, placeholder, fieldProps, disabled, onClick }: FieldStringProps, ref: Ref<any>) => {
   const inputRef = useRef();
   useImperativeHandle(
     ref,
@@ -22,7 +22,7 @@ const FieldString = ({ mode, value, onChange, defaultValue, placeholder, fieldPr
 
   if (mode === 'read') {
     const dom = value || '-';
-    return <span>{dom}</span>
+    return <span onClick={onClick}>{dom}</span>
   }
   if (mode === 'edit' || mode === 'update') {
     return <Input

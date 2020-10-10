@@ -14,5 +14,8 @@ export { default as Avatar, AvatarProps } from './components/avatar';
 export { Time, TimeProps } from './components/time';
 export { FieldDate, FieldSelect, FieldString } from './components/field';
 export { MetaDescriptons, MetaDescriptonsProps } from './components/metaDescriptions';
+export { MetaObjectPage, MetaObjectPageProps } from './components/metaObjectPage';
+export { MetaPageHeader, MetaPageHeaderProps } from './components/metaPageHeader';
+export { MetaForm, MetaFormProps } from './components/metaForm';
 
 export { useFetchData, useBusinessObjectMeta, useFormModal } from './hooks';

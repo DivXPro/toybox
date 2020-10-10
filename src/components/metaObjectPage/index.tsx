@@ -34,11 +34,11 @@ export const MetaObjectPage: FC<MetaObjectPageProps> = ({ businessObjectMeta, da
       const views: { name: string, node: ReactNode }[] = [];
       views.push({
         name: '详细信息',
-        node: <MetaDescriptons fieldItemsMeta={fieldItemsMeta} mode="read" data={data} />
+        node: <MetaDescriptons fieldItemMetas={fieldItemsMeta} mode="read" data={data} />
       });
       return <ExtendContent views={views} />;
     } 
-    return <MetaDescriptons fieldItemsMeta={fieldItemsMeta} mode="read" data={data} />
+    return <MetaDescriptons fieldItemMetas={fieldItemsMeta} mode="read" data={data} />
   }, [data, extend, fieldItemsMeta]);
   return (
     <div className='tbox-page'>

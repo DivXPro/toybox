@@ -68,7 +68,7 @@ const FieldSelect = ({ defaultValue, value, onChange, mode, fieldProps, remote, 
         const option = await remoteByValue(value, params);
         setInitOption(option);
       }
-      if (remote != null) {
+      if (remote != null && !initial) {
         await loadData('');
       }
       setInitial(true)

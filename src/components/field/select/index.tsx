@@ -62,6 +62,13 @@ const FieldSelect = ({ defaultValue, value, onChange, mode, fieldProps, remote, 
     [mergeOptions, value]
   );
 
+  const innerValue = useMemo(() => {
+    if (remote && !initial) {
+      return null;
+    }
+    return value;
+  }, [initial, remote, value])
+
   useEffect(() => {
     const init = async () => {
       if (value != null && current == null && !initial && remoteByValue) {
@@ -84,7 +91,7 @@ const FieldSelect = ({ defaultValue, value, onChange, mode, fieldProps, remote, 
   }
   if (mode === 'edit') {
     return <Select
-            value={value}
+            value={innerValue}
             onChange={onChange}
             defaultValue={defaultValue}
             showSearch={remote != null}

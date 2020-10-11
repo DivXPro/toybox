@@ -21,7 +21,7 @@ export interface FormItemProps {
   fieldProps?: Record<string, any>;
 }
 
-const FormItem: FC<FormItemProps> = ({ type, mode = "edit", value, onChange, fieldProps }) => {
+const FormItem: FC<FormItemProps> = ({ type, mode = "edit", value, onChange, ...fieldProps }) => {
   switch(type) {
     case 'string':
       return <FieldString mode={mode} value={value} onChange={onChange} {...fieldProps} />

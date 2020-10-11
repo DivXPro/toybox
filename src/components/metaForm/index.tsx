@@ -1,13 +1,13 @@
 import React, { FC, useMemo } from 'react';
 import { Form } from 'antd';
-import { FieldMeta } from '../../types/interface';
+import { FieldMetaProfile } from '../../types/interface';
 import { FieldMode, FieldString, FieldText, FieldNumber, FieldSelect, FieldDate } from '../field';
 import { FormProps, FormInstance } from 'antd/lib/form';
 import { FieldBoolean } from '../field/boolean';
 import { Store } from 'antd/lib/form/interface';
 
 export interface MetaFormProps extends FormProps {
-  fieldMetas: FieldMeta[];
+  fieldMetas: FieldMetaProfile[];
   initialValues?: any;
   onFinish?: (data: Store) => Promise<void>;
   userForm?: FormInstance;
@@ -18,24 +18,27 @@ export interface FormItemProps {
   mode?: FieldMode;
   value?: any;
   onChange?: (...args: any) => void;
+  fieldProps?: Record<string, any>;
 }
 
-const FormItem: FC<FormItemProps> = ({ type, mode = "edit", value, onChange, ...otherProps }) => {
+const FormItem: FC<FormItemProps> = ({ type, mode = "edit", value, onChange, fieldProps }) => {
   switch(type) {
     case 'string':
-      return <FieldString mode={mode} value={value} onChange={onChange} {...otherProps} />
+      return <FieldString mode={mode} value={value} onChange={onChange} {...fieldProps} />
     case 'text':
-      return <FieldText mode={mode} value={value} onChange={onChange} {...otherProps} />
+      return <FieldText mode={mode} value={value} onChange={onChange} {...fieldProps} />
     case 'number':
-      return <FieldNumber mode={mode} value={value} onChange={onChange} {...otherProps} />
+      return <FieldNumber mode={mode} value={value} onChange={onChange} {...fieldProps} />
     case 'boolean':
-      return <FieldBoolean mode={mode} value={value} onChange={onChange} {...otherProps} />
+      return <FieldBoolean mode={mode} value={value} onChange={onChange} {...fieldProps} />
     case 'singleOption':
-      return <FieldSelect mode={mode} value={value} onChange={onChange} {...otherProps} />;
+      return <FieldSelect mode={mode} value={value} onChange={onChange} {...fieldProps} />;
     case 'date':
-      return <FieldDate mode={mode} format="YYYY-MM-DD" value={value} onChange={onChange} {...otherProps} />
+      return <FieldDate mode={mode} format="YYYY-MM-DD" value={value} onChange={onChange} {...fieldProps} />
     case 'datetime':
-      return <FieldDate mode={mode} format="YYYY-MM-DD HH:mm:ss" value={value} onChange={onChange}{...otherProps} />
+      return <FieldDate mode={mode} format="YYYY-MM-DD HH:mm:ss" value={value} onChange={onChange}{...fieldProps} />
+    case 'businessObject':
+      return <FieldSelect mode={mode} value={value} onChange={onChange} {...fieldProps} />;
     default:
       return null;
   }

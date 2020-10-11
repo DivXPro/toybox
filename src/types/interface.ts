@@ -1,3 +1,5 @@
+import { OptionItem } from "../components/field/select";
+
 export interface BusinessObjectMeta {
   key: string;
   name: string;
@@ -27,6 +29,11 @@ export interface FieldMeta {
   titleKey?: string;
   properties?: { [key: string]: FieldMeta };
   index?: number;
+}
+
+export interface FieldMetaProfile extends FieldMeta {
+  remote?: (key: string, params?: any) => Promise<OptionItem[]>;
+  remoteByValue?: (value: string | number, params?: any) => Promise<OptionItem>;
 }
 
 export interface FieldOption {

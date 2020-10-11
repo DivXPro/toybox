@@ -1,11 +1,10 @@
 import React, { FC, useMemo } from 'react';
 import { useBusinessObjectMeta, useFormModal, TablePage, ListPage, PanelItem, ProHeader, Avatar, InboxButton, NotificationMessage, MetaDescriptons, FieldString, FieldDate, FieldSelect } from 'toybox';
-import { Layout, Menu } from 'antd';
+import { Button, Layout, Menu } from 'antd';
 import { objectMeta, list, msgs, visibleColumns, options, loadOptions, loadOptionByValue } from './data';
 import 'antd/dist/antd.css';
 import 'toybox/dist/index.css';
 import 'remixicon/fonts/remixicon.css';
-import Button from 'antd/lib/button';
 
 const { Content, Sider } = Layout;
 
@@ -77,20 +76,20 @@ const App: FC = () => {
   }), []);
 
   const fieldMetas = useBusinessObjectMeta(objectMeta);
-  const {toggle, FormModal} = useFormModal({
+  const {FormModal} = useFormModal({
     title: 'FormModal',
     modalProps: {},
     formProps: {
       fieldMetas: fieldMetas,
-      submitText: 'submit',
-      cancelText: 'cancel',
-      onSubmit: async (data: Record<string, any>) => {
-        console.log('data:', data);
-      },
       labelCol: { span: 8 },
       wrapperCol: { span: 16 },
       labelAlign: 'left',
-    }
+    },
+    onFinish: async (data: any) => {
+      console.log('data:', data);
+    },
+    onCancel: () => undefined,
+    trigger: <Button>123</Button>,
   });
 
   return (
@@ -150,7 +149,6 @@ const App: FC = () => {
               panel={{ rightRender }}
             />
             <MetaDescriptons fieldItemMetas={fieldMetas} data={list[0]} mode="read" />
-            <Button onClick={toggle}>open form</Button>
             <FormModal />
           </Content>
         </Layout>

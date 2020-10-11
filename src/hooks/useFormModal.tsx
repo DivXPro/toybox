@@ -1,30 +1,37 @@
-import React, { FC, useCallback } from 'react';
+import React, { FC, useCallback, ReactNode } from 'react';
 import { Modal } from 'antd';
+import { ModalProps } from 'antd/lib/modal';
 import useModal from './useModal';
 import { MetaForm, MetaFormProps } from '../components/metaForm';
-import { ModalProps } from 'antd/lib/modal';
+import { useForm } from 'antd/lib/form/Form';
 
 export interface FormModalProps extends ModalProps {
   title: string;
-  modalProps: Omit<Omit<Omit<ModalProps, 'title'>, 'visible'>, 'footer'>;
-  formProps: MetaFormProps;
+  onFinish: (data: any) => Promise<any>;
+  onCancel: () => void;
+  modalProps: Omit<Omit<ModalProps, 'title'>, 'visible'>;
+  formProps: Omit<MetaFormProps, 'onFinish'>;
+  trigger?: ReactNode;
 }
 
-export default ({ title, modalProps, formProps}: FormModalProps) => {
+export default ({ title, modalProps, formProps, onFinish, onCancel, trigger}: FormModalProps) => {
   const [visible, toggle] = useModal();
-  const { onSubmit, onCancel, ...other } = formProps;
-  const handleSubmit = useCallback(async (data: Record<string, any>) => {
+  const { ...other } = formProps;
+  const [form] = useForm();
+
+  const handleSubmit = useCallback(async () => {
     try {
-      onSubmit && await onSubmit(data);
+      const values = await form.validateFields();
+      onFinish && await onFinish(values);
       toggle();
     } catch(e) {
       console.warn(e);
     }
-  }, [onSubmit, toggle]);
+  }, [form, onFinish, toggle]);
 
-  const handleCancel = useCallback(async (data: Record<string, any>) => {
+  const handleCancel = useCallback(() => {
     try {
-      onCancel && await onCancel(data);
+      onCancel && onCancel();
       toggle();
     } catch (e) {
       console.warn(e);
@@ -32,9 +39,13 @@ export default ({ title, modalProps, formProps}: FormModalProps) => {
   }, [onCancel, toggle]);
 
   const FormModal: FC = () => (
-    <Modal title={title} visible={visible} footer={null} onCancel={handleCancel} {...modalProps}>
-      <MetaForm onSubmit={handleSubmit} onCancel={handleCancel} {...other} />
-    </Modal>
+    <React.Fragment>
+      <Modal title={title} visible={visible} onOk={handleSubmit} onCancel={handleCancel} {...modalProps}>
+        <MetaForm userForm={form} onFinish={handleSubmit} {...other} />
+      </Modal>
+      {trigger && <div onClick={toggle}>{trigger}</div> }
+    </React.Fragment>
+
   )
 
   return {visible, toggle, FormModal};

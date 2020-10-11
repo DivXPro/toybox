@@ -1,17 +1,16 @@
 import React, { FC, useMemo } from 'react';
-import { Form, Button } from 'antd';
+import { Form } from 'antd';
 import { FieldMeta } from '../../types/interface';
 import { FieldMode, FieldString, FieldText, FieldNumber, FieldSelect, FieldDate } from '../field';
-import { FormProps } from 'antd/lib/form';
+import { FormProps, FormInstance } from 'antd/lib/form';
 import { FieldBoolean } from '../field/boolean';
+import { Store } from 'antd/lib/form/interface';
 
 export interface MetaFormProps extends FormProps {
   fieldMetas: FieldMeta[];
   initialValues?: any;
-  submitText: string;
-  cancelText: string;
-  onSubmit?: (data: Record<string, any>) => Promise<any>;
-  onCancel?: (data: Record<string, any>) => Promise<any>;
+  onFinish?: (data: Store) => Promise<void>;
+  userForm?: FormInstance;
 }
 
 export interface FormItemProps {
@@ -42,7 +41,7 @@ const FormItem: FC<FormItemProps> = ({ type, mode = "edit", value, onChange, ...
   }
 }
 
-export const MetaForm: FC<MetaFormProps> = ({ fieldMetas, submitText, cancelText, onSubmit, onCancel, ...formProps }) => {
+export const MetaForm: FC<MetaFormProps> = ({ fieldMetas, onFinish, userForm, ...formProps }) => {
   const [form] = Form.useForm();
   const formItems = useMemo(() => {
     return fieldMetas.map((field, idx) => {
@@ -52,18 +51,8 @@ export const MetaForm: FC<MetaFormProps> = ({ fieldMetas, submitText, cancelText
       </Form.Item>
     });
   }, [fieldMetas]);
-  console.log('formItems', formItems);
-  return <Form form={form} onFinish={onSubmit} {...formProps}>
+  // const formRef = useRef(userForm || form);
+  return <Form form={userForm || form} onFinish={onFinish} {...formProps}>
     {formItems}
-    <Form.Item label=" " colon={false} key="buttons">
-      <div className="botton-wapper">
-        <Button type="primary" htmlType="submit">
-          {submitText}
-        </Button>
-        <Button htmlType="button" onClick={onCancel} >
-          {cancelText}
-        </Button>
-      </div>
-    </Form.Item>
   </Form>;
 }

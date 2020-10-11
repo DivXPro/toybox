@@ -94,9 +94,7 @@ const FieldSelect = ({ defaultValue, value, onChange, mode, fieldProps, remote, 
             placeholder={placeholder}
             ref={inputRef}
             options={mergeOptions}
-            filterOption={(input, option) =>
-              option?.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-            }
+            filterOption={false}
             {...fieldProps}
           />
   }

@@ -33,7 +33,7 @@ const defaultRemote = () => new Promise<OptionItem[]>((resolve) => {
 });
 
 const FieldSelect = ({ defaultValue, value, onChange, mode, fieldProps, remote, remoteByValue, options, placeholder, params, onClick }: FieldSelectProps, ref: Ref<any>) => {
-  const [loading, remoteOptions, loadData] = useFetchOptions(remote || defaultRemote, params);
+  const [loading, remoteOptions, fetchData] = useFetchOptions(remote || defaultRemote, params);
   const [initOption, setInitOption] = useState<OptionItem>();
   const [initial, setInitial] = useState(false);
   const inputRef = useRef<any>();
@@ -41,7 +41,7 @@ const FieldSelect = ({ defaultValue, value, onChange, mode, fieldProps, remote, 
 
   useImperativeHandle(ref, () => ({
     ...(inputRef.current || {}),
-    fetchData: () => loadData,
+    fetchData,
   }));
 
   const mergeOptions = useMemo(() => {
@@ -69,12 +69,12 @@ const FieldSelect = ({ defaultValue, value, onChange, mode, fieldProps, remote, 
         setInitOption(option);
       }
       if (remote != null && !initial) {
-        await loadData('');
+        await fetchData('');
       }
       setInitial(true)
     }
     init();
-  }, [current, initial, loadData, params, remote, remoteByValue, value]);
+  }, [current, initial, fetchData, params, remote, remoteByValue, value]);
   
   if (mode === 'read') {
     if (loading) {
@@ -89,11 +89,14 @@ const FieldSelect = ({ defaultValue, value, onChange, mode, fieldProps, remote, 
             defaultValue={defaultValue}
             showSearch={remote != null}
             size={size}
-            onSearch={loadData}
+            onSearch={fetchData}
             loading={loading}
             placeholder={placeholder}
             ref={inputRef}
             options={mergeOptions}
+            filterOption={(input, option) =>
+              option?.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+            }
             {...fieldProps}
           />
   }

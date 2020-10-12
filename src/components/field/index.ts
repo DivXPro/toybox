@@ -3,5 +3,6 @@ export { default as FieldString, FieldStringProps } from './string';
 export { default as FieldText, FieldTextProps } from './text';
 export { default as FieldNumber, FieldNumberProps } from './number';
 export { default as FieldSelect , FieldSelectProps } from  './select';
+export { default as FieldPercent, FieldPercentProps } from './percent';
 
 export { FieldMode } from './interface';

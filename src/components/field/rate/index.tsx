@@ -10,7 +10,7 @@ export interface FieldNumberProps extends FieldProps {
   onChange?: (value: number) => void;
 }
 
-const FieldNumber = ({ mode, value, defaultValue, placeholder, fieldProps, disabled, onChange, onClick }: FieldNumberProps, ref: Ref<any>) => {
+const FieldNumber = ({ mode, value, defaultValue, fieldProps, disabled, onChange, onClick }: FieldNumberProps, ref: Ref<any>) => {
   const inputRef = useRef();
   useImperativeHandle(
     ref,

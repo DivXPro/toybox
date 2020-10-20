@@ -1,6 +1,6 @@
 {
   "name": "@airclass/toybox",
-  "version": "0.1.32",
+  "version": "0.1.33",
   "description": "React components library extend antd",
   "author": "DivXPro",
   "license": "MIT",
@@ -47,6 +47,7 @@
     "@types/react-router-dom": "^5.1.5",
     "@types/react-window": "^1.8.2",
     "@types/react-window-infinite-loader": "^1.0.3",
+    "@types/styled-components": "^5.1.4",
     "@typescript-eslint/eslint-plugin": "^2.26.0",
     "@typescript-eslint/parser": "^2.26.0",
     "babel-eslint": "^10.0.3",
@@ -90,6 +91,7 @@
     "react-router-dom": "^5.2.0",
     "react-window": "^1.8.5",
     "react-window-infinite-loader": "^1.0.5",
-    "remixicon": "^2.5.0"
+    "remixicon": "^2.5.0",
+    "styled-components": "^5.2.0"
   }
 }

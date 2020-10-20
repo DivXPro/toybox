@@ -28,7 +28,7 @@ const FieldDate = ({ disabled, value, defaultValue, placeholder, mode, format = 
   const innerValue = useMemo(() => parseValueToMoment(value, format), [format, value]);
 
   if (mode === 'read') {
-    return <span ref={ref} onClick={onClick}>{moment(value).format(format) || '-'}</span>
+    return <span ref={ref} onClick={onClick}>{ value != null ? moment(value).format(format) : '-'}</span>
   }
   if (mode === 'edit' || mode === 'update') {
     return <DatePicker

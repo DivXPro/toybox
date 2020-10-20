@@ -1,11 +1,16 @@
 import React, { FC, useMemo, ReactNode } from 'react';
+import { Tabs, Spin } from 'antd';
+import styled from 'styled-components';
 import { MetaPageHeader } from '../metaPageHeader';
 import { BusinessObjectMeta } from '../../types/interface';
 import { MetaDescriptons } from '../metaDescriptions';
 import useObjectMeta from '../../hooks/useBusinessObjectMeta';
-import { Tabs } from 'antd';
 
 const { TabPane } = Tabs;
+
+const ContentWrapper = styled.div`
+  padding: 12px 24px;
+`;
 
 export interface MetaObjectPageProps {
   businessObjectMeta: BusinessObjectMeta;
@@ -27,6 +32,7 @@ const ExtendContent: FC<{views: { name: string, node: ReactNode }[]}> = ({views}
 };
 
 export const MetaObjectPage: FC<MetaObjectPageProps> = ({ businessObjectMeta, data, onBack, extend }) => {
+  const loading = useMemo(() => !(businessObjectMeta && data), [businessObjectMeta, data]);
   const title = useMemo(() => data[businessObjectMeta.titleKey], [businessObjectMeta.titleKey, data]);
   const fieldItemsMeta = useObjectMeta(businessObjectMeta);
   const extendContent = useMemo(() => {
@@ -41,9 +47,13 @@ export const MetaObjectPage: FC<MetaObjectPageProps> = ({ businessObjectMeta, da
     return <MetaDescriptons fieldItemMetas={fieldItemsMeta} mode="read" data={data} />
   }, [data, extend, fieldItemsMeta]);
   return (
-    <div className='tbox-page'>
-      <MetaPageHeader title={title} onBack={onBack} />
-      { extendContent }
-    </div>
+    loading
+      ? <Spin />
+      : <div className='tbox-page'>
+          <MetaPageHeader title={title} onBack={onBack} />
+          <ContentWrapper>
+            { extendContent }
+          </ContentWrapper>
+        </div>
   );
 }

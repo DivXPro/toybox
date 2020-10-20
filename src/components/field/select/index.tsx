@@ -5,7 +5,8 @@ import React, {
   useContext,
   useImperativeHandle,
   useState,
-  useEffect
+  useEffect,
+  useCallback
 } from 'react';
 import { Select, Spin } from 'antd';
 import SizeContext from 'antd/lib/config-provider/SizeContext';
@@ -25,7 +26,7 @@ export interface FieldSelectProps extends FieldProps {
   options?: OptionItem[];
   placeholder?: string;
   params?: any;
-  onChange?: (value: string | number) => void;
+  onChange?: (value: string | number, options?: OptionItem | OptionItem[]) => void;
 }
 
 const defaultRemote = () => new Promise<OptionItem[]>((resolve) => {
@@ -83,6 +84,10 @@ const FieldSelect = ({ defaultValue, value, onChange, mode, fieldProps, remote, 
     init();
   }, [current, initial, fetchData, params, remote, remoteByValue, value]);
   
+  const handleChange = useCallback((value: React.ReactText, options: OptionItem | OptionItem[]) => {
+    onChange && onChange(value, options);
+  }, [onChange]);
+
   if (mode === 'read') {
     if (loading) {
       return <Spin />;
@@ -92,7 +97,7 @@ const FieldSelect = ({ defaultValue, value, onChange, mode, fieldProps, remote, 
   if (mode === 'edit') {
     return <Select
             value={innerValue}
-            onChange={onChange}
+            onChange={handleChange}
             defaultValue={defaultValue}
             showSearch={remote != null}
             size={size}

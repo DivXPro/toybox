@@ -1,16 +1,12 @@
 import React, { FC, useMemo, ReactNode } from 'react';
 import { Tabs } from 'antd';
-import styled from 'styled-components';
 import { MetaPageHeader } from '../metaPageHeader';
 import { BusinessObjectMeta } from '../../types/interface';
 import { MetaDescriptons } from '../metaDescriptions';
 import useObjectMeta from '../../hooks/useBusinessObjectMeta';
+import { ContentWrapper } from '../tablePage/ContentWrapper';
 
 const { TabPane } = Tabs;
-
-const ContentWrapper = styled.div`
-  padding: 12px 24px;
-`;
 
 export interface MetaObjectPageProps {
   businessObjectMeta: BusinessObjectMeta;

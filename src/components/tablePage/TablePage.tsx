@@ -7,6 +7,7 @@ import { BusinessObjectMeta } from '../../types/interface';
 import { OperateItem } from '../metaTable/OperateColumn';
 import { TableSearch, SearchFindParam } from './TableSearch';
 import { MetaPageHeader } from '../metaPageHeader';
+import { ContentWrapper } from './ContentWrapper';
 
 export interface TablePageProps {
   title: string;
@@ -68,7 +69,9 @@ const TablePage = ({ title, objectMeta, panel, operateItems, visibleColumns, loa
   return (
     <div className='tbox-page'>
       <MetaPageHeader title={title} footer={tablePanel} />
-      <MetaTable rowKey="id" operateItems={operateItems} columnMetas={columnMetas} {...tableProps} />
+      <ContentWrapper>
+        <MetaTable rowKey="id" operateItems={operateItems} columnMetas={columnMetas} {...tableProps} />
+      </ContentWrapper>
     </div>
   )
 }

@@ -37,10 +37,11 @@ export const MetaObjectPage: FC<MetaObjectPageProps> = ({ businessObjectMeta, da
         name: '详细信息',
         node: <MetaDescriptons fieldItemMetas={fieldItemsMeta} mode="read" data={data} />
       });
+      views.push(...extend.map(e => ({ name: e.name, node: e.render(businessObjectMeta, data)})))
       return <ExtendContent views={views} />;
     } 
     return <MetaDescriptons fieldItemMetas={fieldItemsMeta} mode="read" data={data} />
-  }, [data, extend, fieldItemsMeta]);
+  }, [businessObjectMeta, data, extend, fieldItemsMeta]);
   return (
     <div className='tbox-page'>
       <MetaPageHeader title={title} onBack={onBack} />

@@ -1,4 +1,4 @@
-import React, { FC, useCallback, FunctionComponent } from 'react';
+import React, { FC, useCallback, FunctionComponent, ReactNode } from 'react';
 import { List } from 'antd';
 import { ListItemMetaProps } from 'antd/lib/list/Item';
 import { ListGridType } from 'antd/lib/list';
@@ -10,7 +10,7 @@ export interface MetaListProps {
   loading?: boolean;
   itemMata?: ListItemMetaProps;
   grid?: ListGridType
-  content?: FunctionComponent;
+  content?: (item: Record<string, any>) => ReactNode;
   onChange?: (pagination: PaginationConfig) => void;
   pagination?: PaginationConfig | false;
 }

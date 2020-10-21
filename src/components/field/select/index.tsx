@@ -18,22 +18,38 @@ export interface OptionItem {
   value: React.ReactText;
 }
 
+type SelectValue = React.ReactText | React.ReactText[] | undefined;
+
 export interface FieldSelectProps extends FieldProps {
-  value?: string | number;
-  defaultValue?: string | number;
+  value?: SelectValue;
+  defaultValue?: SelectValue;
+  multiple?: boolean;
   remote?: (key: string, params?: any) => Promise<OptionItem[]>;
-  remoteByValue?: (value: string | number, params?: any) => Promise<OptionItem>;
+  remoteByValue?: (value: SelectValue, params?: any) => Promise<OptionItem>;
   options?: OptionItem[];
   placeholder?: string;
   params?: any;
-  onChange?: (value: string | number, options?: OptionItem | OptionItem[]) => void;
+  onChange?: (value: SelectValue, options?: OptionItem | OptionItem[]) => void;
 }
 
 const defaultRemote = () => new Promise<OptionItem[]>((resolve) => {
   resolve([]);
 });
 
-const FieldSelect = ({ defaultValue, value, onChange, mode, fieldProps, remote, remoteByValue, options, placeholder, params, onClick }: FieldSelectProps, ref: Ref<any>) => {
+const FieldSelect = ({
+  defaultValue,
+  value,
+  onChange,
+  mode,
+  fieldProps,
+  remote,
+  remoteByValue,
+  options,
+  placeholder,
+  params,
+  onClick,
+  multiple,
+}: FieldSelectProps, ref: Ref<any>) => {
   const [loading, remoteOptions, fetchData] = useFetchOptions(remote || defaultRemote, params);
   const [initOption, setInitOption] = useState<OptionItem>();
   const [initial, setInitial] = useState(false);
@@ -107,6 +123,7 @@ const FieldSelect = ({ defaultValue, value, onChange, mode, fieldProps, remote, 
             ref={inputRef}
             options={mergeOptions}
             filterOption={false}
+            mode={ multiple ? 'multiple' : undefined }
             {...fieldProps}
           />
   }

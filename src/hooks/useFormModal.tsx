@@ -5,8 +5,8 @@ import useModal from './useModal';
 import { MetaForm, MetaFormProps } from '../components/metaForm';
 import { useForm } from 'antd/lib/form/Form';
 
-export interface FormModalProps extends ModalProps {
-  title: string;
+export interface FormModalProps {
+  title?: ReactNode;
   onFinish: (data: any) => Promise<any>;
   onCancel: () => void;
   modalProps: Omit<Omit<ModalProps, 'title'>, 'visible'>;

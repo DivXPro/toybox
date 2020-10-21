@@ -22,7 +22,7 @@ export interface ExtendRender {
 }
 
 const ExtendContent: FC<{views: { name: string, node: ReactNode }[]}> = ({views}) => {
-  return <Tabs defaultActiveKey="1">
+  return <Tabs defaultActiveKey="0">
     {views.map((v, idx) => <TabPane key={idx.toString()} tab={v.name}>{v.node}</TabPane>)}
   </Tabs>
 };

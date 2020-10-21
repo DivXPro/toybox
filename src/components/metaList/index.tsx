@@ -1,4 +1,4 @@
-import React, { FC, useCallback, FunctionComponent, ReactNode } from 'react';
+import React, { FC, useCallback, ReactNode } from 'react';
 import { List } from 'antd';
 import { ListItemMetaProps } from 'antd/lib/list/Item';
 import { ListGridType } from 'antd/lib/list';
@@ -20,14 +20,14 @@ export const MetaList: FC<MetaListProps> = ({ dataSource, loading, itemMata, con
     onChange && onChange({current, pageSize});
   }, [onChange]);
 
-  const [mergedPagination, resetPagination] = usePagination(
+  const [mergedPagination] = usePagination(
     dataSource.length,
     pagination,
     onPaginationChange,
   );
   const renderItem = useCallback((item: Record<string, any>) => {
     return <List.Item>
-      { grid ? null : <List.Item.Meta {...itemMata} />}
+      { grid && itemMata ? null : <List.Item.Meta {...itemMata} />}
       { content ? content(item) : null }
     </List.Item>
   }, [content, grid, itemMata]);

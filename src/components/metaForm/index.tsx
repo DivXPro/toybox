@@ -16,29 +16,30 @@ export interface MetaFormProps extends FormProps {
 export interface FormItemProps {
   type: string;
   mode?: FieldMode;
+  disabled?: boolean;
   value?: any;
   onChange?: (...args: any) => void;
   fieldProps?: Record<string, any>;
 }
 
-const FormItem: FC<FormItemProps> = ({ type, mode = "edit", value, onChange, ...fieldProps }) => {
+const FormItem: FC<FormItemProps> = ({ type, mode = "edit", value, onChange, disabled, fieldProps }) => {
   switch(type) {
     case 'string':
-      return <FieldString mode={mode} value={value} onChange={onChange} {...fieldProps} />
+      return <FieldString mode={mode} value={value} onChange={onChange} disabled={disabled} {...fieldProps} />
     case 'text':
-      return <FieldText mode={mode} value={value} onChange={onChange} {...fieldProps} />
+      return <FieldText mode={mode} value={value} onChange={onChange} disabled={disabled} {...fieldProps} />
     case 'number':
-      return <FieldNumber mode={mode} value={value} onChange={onChange} {...fieldProps} />
+      return <FieldNumber mode={mode} value={value} onChange={onChange} disabled={disabled} {...fieldProps} />
     case 'boolean':
-      return <FieldBoolean mode={mode} value={value} onChange={onChange} {...fieldProps} />
+      return <FieldBoolean mode={mode} value={value} onChange={onChange} disabled={disabled} {...fieldProps} />
     case 'singleOption':
-      return <FieldSelect mode={mode} value={value} onChange={onChange} {...fieldProps} />;
+      return <FieldSelect mode={mode} value={value} onChange={onChange} disabled={disabled} {...fieldProps} />;
     case 'date':
-      return <FieldDate mode={mode} format="YYYY-MM-DD" value={value} onChange={onChange} {...fieldProps} />
+      return <FieldDate mode={mode} format="YYYY-MM-DD" value={value} disabled={disabled} onChange={onChange} {...fieldProps} />
     case 'datetime':
-      return <FieldDate mode={mode} format="YYYY-MM-DD HH:mm:ss" value={value} onChange={onChange}{...fieldProps} />
+      return <FieldDate mode={mode} format="YYYY-MM-DD HH:mm:ss" value={value} disabled={disabled} onChange={onChange}{...fieldProps} />
     case 'businessObject':
-      return <FieldSelect mode={mode} value={value} onChange={onChange} {...fieldProps} />;
+      return <FieldSelect mode={mode} value={value} disabled={disabled} onChange={onChange} {...fieldProps} />;
     default:
       return null;
   }
@@ -48,9 +49,9 @@ export const MetaForm: FC<MetaFormProps> = ({ fieldMetas, onFinish, userForm, ..
   const [form] = Form.useForm();
   const formItems = useMemo(() => {
     return fieldMetas.map((field, idx) => {
-      const { type , key, name, ...other } = field;
+      const { type, key, name, mode, disabled, ...other } = field;
       return <Form.Item key={idx} name={key} label={name}>
-        <FormItem type={type} mode="edit" {...other} />
+        <FormItem type={type} mode={mode || 'edit'} disabled={disabled} {...other} />
       </Form.Item>
     });
   }, [fieldMetas]);

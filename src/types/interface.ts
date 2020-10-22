@@ -32,6 +32,8 @@ export interface FieldMeta {
 }
 
 export interface FieldMetaProfile extends FieldMeta {
+  disabled?: boolean;
+  mode?: 'read' | 'update' | 'edit';
   remote?: (key: string, params?: any) => Promise<OptionItem[]>;
   remoteByValue?: (value: string | number, params?: any) => Promise<OptionItem>;
 }

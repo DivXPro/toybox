@@ -40,7 +40,7 @@ const TablePage = ({ title, objectMeta, panel, operateItems, visibleColumns, loa
   useImperativeHandle(
     ref,
     () => ({
-      reload: () => submit,
+      reload: () => submit(),
     }),
     [submit],
   );

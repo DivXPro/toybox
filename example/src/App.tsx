@@ -1,4 +1,4 @@
-import React, { FC, useMemo } from 'react';
+import React, { FC, useMemo, useRef } from 'react';
 import { useBusinessObjectMeta, useFormModal, TablePage, ListPage, PanelItem, ProHeader, Avatar, InboxButton, NotificationMessage, MetaDescriptons, FieldString, FieldDate, FieldSelect } from 'toybox';
 import { Button, Layout, Menu } from 'antd';
 import { objectMeta, list, msgs, visibleColumns, options, loadOptions, loadOptionByValue } from './data';
@@ -70,6 +70,8 @@ const viewLink = ({ id }: { id: string }) => {
 }
 
 const App: FC = () => {
+  const inputRef = useRef<any>();
+  const tableRef = useRef<any>();
   const rightRender = useMemo(() =>
   (panel.right).map((item, idx) => {
     return <PanelItem key={idx} {...item} />;
@@ -128,8 +130,9 @@ const App: FC = () => {
             <FieldDate mode="edit" value="2020-12-1" format="YYYY-MM-DD" />
             <FieldDate mode="edit" value="2020-12-1 12:30:00" format="YYYY-MM-DD HH:mm:ss" showTime />
             <FieldSelect mode="edit" value="a" options={options} />
-            <FieldSelect mode="edit" value="a" remote={loadOptions} remoteByValue={loadOptionByValue} />
+            <FieldString ref={inputRef} mode="edit" value="s" />
             <TablePage
+              ref={tableRef}
               title="Example Table Page"
               objectMeta={objectMeta}
               loadData={loadData}

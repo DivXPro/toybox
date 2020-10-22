@@ -1,4 +1,5 @@
 import { OptionItem } from "../../dist/components/tablePage/TableSearch";
+import { ReactText } from "react";
 
 export const objectMeta = {
   key: 'bill',
@@ -267,10 +268,14 @@ export const loadOptions = () => {
   return promise;
 }
 
-export const loadOptionByValue = (value: string | number) => {
-  const promise = new Promise<OptionItem>(function (resolve) {
+export const loadOptionByValue = (value: ReactText | ReactText[], params?: any) => {
+  const promise = new Promise<OptionItem | OptionItem[]>(function (resolve) {
     setTimeout(() => {
-      resolve({ label: 'new lable', value });
+      if (Array.isArray(value)) {
+        resolve(value.map((v, i) => ({ label: `new label ${i}`, value: v})));
+      } else {
+        resolve({ label: 'new lable', value });
+      }
     }, 300);
   });
   return promise;

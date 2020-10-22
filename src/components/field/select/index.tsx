@@ -10,6 +10,7 @@ import React, {
 } from 'react';
 import { Select, Spin } from 'antd';
 import SizeContext from 'antd/lib/config-provider/SizeContext';
+import intersection from 'lodash/intersection';
 import { FieldProps } from '../interface';
 import useFetchOptions from './hooks/useFetchOptions';
 
@@ -18,14 +19,14 @@ export interface OptionItem {
   value: React.ReactText;
 }
 
-type SelectValue = React.ReactText | React.ReactText[] | undefined;
+type SelectValue = React.ReactText | React.ReactText[];
 
 export interface FieldSelectProps extends FieldProps {
   value?: SelectValue;
   defaultValue?: SelectValue;
   multiple?: boolean;
   remote?: (key: string, params?: any) => Promise<OptionItem[]>;
-  remoteByValue?: (value: SelectValue, params?: any) => Promise<OptionItem>;
+  remoteByValue?: (value: SelectValue, params?: any) => Promise<OptionItem | OptionItem[]>;
   options?: OptionItem[];
   placeholder?: string;
   params?: any;
@@ -51,7 +52,7 @@ const FieldSelect = ({
   multiple,
 }: FieldSelectProps, ref: Ref<any>) => {
   const [loading, remoteOptions, fetchData] = useFetchOptions(remote || defaultRemote, params);
-  const [initOption, setInitOption] = useState<OptionItem>();
+  const [initOptions, setInitOptions] = useState<OptionItem[]>([]);
   const [initial, setInitial] = useState(false);
   const inputRef = useRef<any>();
   const size = useContext(SizeContext);
@@ -65,14 +66,14 @@ const FieldSelect = ({
     if (remote == null) {
       return options;
     }
-    if (remoteOptions.some(opt => opt.value === initOption?.value)) {
+    if (intersection(remoteOptions.map(o => o.value), (initOptions || []).map(io => io.value)).length === initOptions.length) {
       return remoteOptions;
     }
-    if (initOption != null) {
-      return ([initOption]).concat(...remoteOptions);
+    if (initOptions != null && initOptions.length > 0) {
+      return ([...initOptions]).concat(...remoteOptions);
     }
     return remoteOptions;
-  }, [initOption, options, remote, remoteOptions])
+  }, [initOptions, options, remote, remoteOptions])
 
   const current = useMemo(
     () => mergeOptions ? mergeOptions.find(opt => opt.value === value) : undefined,
@@ -89,8 +90,12 @@ const FieldSelect = ({
   useEffect(() => {
     const init = async () => {
       if (value != null && current == null && !initial && remoteByValue) {
-        const option = await remoteByValue(value, params);
-        setInitOption(option);
+        const options = await remoteByValue(value, params);
+        if (Array.isArray(options)) {
+          setInitOptions(options);
+        } else {
+          setInitOptions([options]);
+        }
       }
       if (remote != null && !initial) {
         await fetchData('');

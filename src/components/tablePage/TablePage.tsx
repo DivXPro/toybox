@@ -1,4 +1,4 @@
-import React, { useMemo, useImperativeHandle } from 'react';
+import React, { useMemo, useImperativeHandle, Ref } from 'react';
 import { Form } from 'antd';
 import useAntdTable from './useTable';
 import { MetaTable } from '../metaTable';
@@ -29,7 +29,7 @@ export interface ColumnVisible {
   component?: string;
 }
 
-const TablePage = ({ title, objectMeta, panel, operateItems, visibleColumns, loadData, searchOption, viewLink }: TablePageProps, ref: React.MutableRefObject<any>) => {
+const TablePage = ({ title, objectMeta, panel, operateItems, visibleColumns, loadData, searchOption, viewLink }: TablePageProps, ref: Ref<any>) => {
   const [form] = Form.useForm();
   const { tableProps, search } = useAntdTable(loadData, {
     defaultPageSize: 10,
@@ -88,4 +88,4 @@ const TablePage = ({ title, objectMeta, panel, operateItems, visibleColumns, loa
 
 TablePage.Search = TableSearch;
 
-export default TablePage;
+export default React.forwardRef(TablePage);

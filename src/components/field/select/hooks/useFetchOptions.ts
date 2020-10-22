@@ -8,10 +8,12 @@ const useFetchOptions = (
   const [options, setOptions] = useState<OptionItem[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
 
-  const fetchData = useCallback(async (key: string) => {
+  const fetchData = useCallback((key: string) => {
     setLoading(true);
-    setOptions(await loadData(key, params));
-    setLoading(false);
+    loadData(key, params).then((data) => {
+      setOptions(data);
+      setLoading(false);
+    });
   }, [loadData, params]);
 
 

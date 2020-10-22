@@ -25,7 +25,6 @@ export interface SearchFindParam {
 
 export const TableSearch: FC<TableSearchProps> = ({ form, findParams, submit }) => {
   const handleSearch = useCallback(() => {
-    console.log('handleSearch');
     submit();
   }, [submit]);
 

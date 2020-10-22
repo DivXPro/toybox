@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useImperativeHandle } from 'react';
 import { Form } from 'antd';
 import useAntdTable from './useTable';
 import { MetaTable } from '../metaTable';
@@ -29,7 +29,21 @@ export interface ColumnVisible {
   component?: string;
 }
 
-const TablePage = ({ title, objectMeta, panel, operateItems, visibleColumns, loadData, searchOption, viewLink }: TablePageProps) => {
+const TablePage = ({ title, objectMeta, panel, operateItems, visibleColumns, loadData, searchOption, viewLink }: TablePageProps, ref: React.MutableRefObject<any>) => {
+  const [form] = Form.useForm();
+  const { tableProps, search } = useAntdTable(loadData, {
+    defaultPageSize: 10,
+    form,
+  });
+  const { submit } = search;
+
+  useImperativeHandle(
+    ref,
+    () => ({
+      reload: () => submit,
+    }),
+    [submit],
+  );
   const columnMetas = useMemo(() => {
     if (visibleColumns != null) {
       return visibleColumns.map(col => {
@@ -49,23 +63,19 @@ const TablePage = ({ title, objectMeta, panel, operateItems, visibleColumns, loa
     return Object.keys(objectMeta.properties)
       .map(key => Object.assign(objectMeta.properties[key], { link: key === objectMeta.titleKey ? viewLink : undefined}))
   }, [objectMeta.properties, objectMeta.titleKey, viewLink, visibleColumns]);
-  const [form] = Form.useForm();
-  const { tableProps, search } = useAntdTable(loadData, {
-    defaultPageSize: 10, 
-    form,
-  });
-  const { submit } = search;
 
   const searchBar = useMemo(() => {
     return searchOption
       ? <TableSearch form={form} submit={submit} findParams={searchOption.findParams} />
       : undefined;
   }, [form, searchOption, submit]);
+
   const tablePanel = useMemo(() => panel
     ? <Panel leftRender={searchBar} rightRender={panel.rightRender} />
     : null,
     [panel, searchBar]
   );
+
   return (
     <div className='tbox-page'>
       <MetaPageHeader title={title} footer={tablePanel} />

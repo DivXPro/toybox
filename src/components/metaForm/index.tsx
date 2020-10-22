@@ -22,24 +22,24 @@ export interface FormItemProps {
   fieldProps?: Record<string, any>;
 }
 
-const FormItem: FC<FormItemProps> = ({ type, mode = "edit", value, onChange, disabled, fieldProps }) => {
+const FormItem: FC<FormItemProps> = ({ type, mode = "edit", value, onChange, disabled, ...other }) => {
   switch(type) {
     case 'string':
-      return <FieldString mode={mode} value={value} onChange={onChange} disabled={disabled} {...fieldProps} />
+      return <FieldString mode={mode} value={value} onChange={onChange} disabled={disabled} {...other} />
     case 'text':
-      return <FieldText mode={mode} value={value} onChange={onChange} disabled={disabled} {...fieldProps} />
+      return <FieldText mode={mode} value={value} onChange={onChange} disabled={disabled} {...other} />
     case 'number':
-      return <FieldNumber mode={mode} value={value} onChange={onChange} disabled={disabled} {...fieldProps} />
+      return <FieldNumber mode={mode} value={value} onChange={onChange} disabled={disabled} {...other} />
     case 'boolean':
-      return <FieldBoolean mode={mode} value={value} onChange={onChange} disabled={disabled} {...fieldProps} />
+      return <FieldBoolean mode={mode} value={value} onChange={onChange} disabled={disabled} {...other} />
     case 'singleOption':
-      return <FieldSelect mode={mode} value={value} onChange={onChange} disabled={disabled} {...fieldProps} />;
+      return <FieldSelect mode={mode} value={value} onChange={onChange} disabled={disabled} {...other} />;
     case 'date':
-      return <FieldDate mode={mode} format="YYYY-MM-DD" value={value} disabled={disabled} onChange={onChange} {...fieldProps} />
+      return <FieldDate mode={mode} format="YYYY-MM-DD" value={value} disabled={disabled} onChange={onChange} {...other} />
     case 'datetime':
-      return <FieldDate mode={mode} format="YYYY-MM-DD HH:mm:ss" value={value} disabled={disabled} onChange={onChange}{...fieldProps} />
+      return <FieldDate mode={mode} format="YYYY-MM-DD HH:mm:ss" value={value} disabled={disabled} onChange={onChange}{...other} />
     case 'businessObject':
-      return <FieldSelect mode={mode} value={value} disabled={disabled} onChange={onChange} {...fieldProps} />;
+      return <FieldSelect mode={mode} value={value} disabled={disabled} onChange={onChange} {...other} />;
     default:
       return null;
   }

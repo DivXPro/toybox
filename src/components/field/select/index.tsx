@@ -10,6 +10,7 @@ import React, {
 } from 'react';
 import { Select, Spin } from 'antd';
 import SizeContext from 'antd/lib/config-provider/SizeContext';
+import debounce from 'lodash/debounce';
 import intersection from 'lodash/intersection';
 import { FieldProps } from '../interface';
 import useFetchOptions from './hooks/useFetchOptions';
@@ -118,7 +119,7 @@ const FieldSelect = ({
   if (mode === 'edit') {
     return <Select
             value={innerValue}
-            onChange={handleChange}
+            onChange={debounce(handleChange, 500)}
             defaultValue={defaultValue}
             showSearch={remote != null}
             size={size}

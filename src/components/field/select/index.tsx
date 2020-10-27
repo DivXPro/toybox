@@ -51,6 +51,7 @@ const FieldSelect = ({
   params,
   onClick,
   multiple,
+  disabled,
 }: FieldSelectProps, ref: Ref<any>) => {
   const [loading, remoteOptions, fetchData] = useFetchOptions(remote || defaultRemote, params);
   const [initOptions, setInitOptions] = useState<OptionItem[]>([]);
@@ -130,6 +131,7 @@ const FieldSelect = ({
             options={mergeOptions}
             filterOption={false}
             mode={ multiple ? 'multiple' : undefined }
+            disabled={disabled}
             {...fieldProps}
           />
   }

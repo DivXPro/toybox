@@ -8,7 +8,6 @@ import { Store } from 'antd/lib/form/interface';
 
 export interface MetaFormProps extends FormProps {
   fieldMetas: FieldMetaProfile[];
-  initialValues?: any;
   onFinish?: (data: Store) => Promise<void>;
   userForm?: FormInstance;
 }
@@ -55,7 +54,6 @@ export const MetaForm: FC<MetaFormProps> = ({ fieldMetas, onFinish, userForm, ..
       </Form.Item>
     });
   }, [fieldMetas]);
-  // const formRef = useRef(userForm || form);
   return <Form form={userForm || form} onFinish={onFinish} {...formProps}>
     {formItems}
   </Form>;

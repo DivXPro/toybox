@@ -38,15 +38,16 @@ export default ({ title, modalProps, formProps, onFinish, onCancel, trigger}: Fo
     }
   }, [onCancel, toggle]);
 
-  const FormModal: FC = () => (
-    <React.Fragment>
-      <Modal title={title} visible={visible} onOk={handleSubmit} onCancel={handleCancel} {...modalProps}>
-        <MetaForm userForm={form} onFinish={handleSubmit} {...other} />
-      </Modal>
-      {trigger && <div onClick={toggle}>{trigger}</div> }
-    </React.Fragment>
+  const FormModal: FC = () => {
+    return (
+      <React.Fragment>
+        <Modal title={title} visible={visible} onOk={handleSubmit} onCancel={handleCancel} {...modalProps}>
+          <MetaForm userForm={form} onFinish={handleSubmit} {...other} />
+        </Modal>
+        {trigger && <div onClick={toggle}>{trigger}</div>}
+      </React.Fragment>
+    )
+  }
 
-  )
-
-  return {visible, toggle, FormModal};
+  return [visible, toggle, FormModal] as [boolean, () => void, FC];
 }

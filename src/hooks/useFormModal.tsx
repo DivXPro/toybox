@@ -4,6 +4,7 @@ import { ModalProps } from 'antd/lib/modal';
 import useModal from './useModal';
 import { MetaForm, MetaFormProps } from '../components/metaForm';
 import { useForm } from 'antd/lib/form/Form';
+import { CloseIcon } from '../components/utils';
 
 export interface FormModalProps {
   title?: ReactNode;
@@ -39,9 +40,11 @@ export default ({ title, modalProps, formProps, onFinish, onCancel, trigger}: Fo
   }, [onCancel, toggle]);
 
   const FormModal: FC = () => {
+    const { closeIcon, ...modalOtherProps } = modalProps;
+    const modalCloseIcon = closeIcon || <CloseIcon />
     return (
       <React.Fragment>
-        <Modal title={title} visible={visible} onOk={handleSubmit} onCancel={handleCancel} {...modalProps}>
+        <Modal title={title} visible={visible} onOk={handleSubmit} onCancel={handleCancel} closeIcon={modalCloseIcon} {...modalOtherProps}>
           <MetaForm userForm={form} onFinish={handleSubmit} {...other} />
         </Modal>
         {trigger && <div onClick={toggle}>{trigger}</div>}

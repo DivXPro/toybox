@@ -4,6 +4,7 @@ import { DrawerProps } from 'antd/lib/drawer';
 import useModal from './useModal';
 import { MetaForm, MetaFormProps } from '../components/metaForm';
 import { useForm } from 'antd/lib/form/Form';
+import { CloseIcon } from '../components/utils';
 
 export interface FormDrawerProps {
   title?: ReactNode;
@@ -55,15 +56,18 @@ export default ({ title, drawerProps, formProps, onFinish, onCancel, trigger }: 
     )
   }, [handleCancel, handleSubmit]);
 
-  const FormDrawer: FC = () => (
-    <React.Fragment>
-      <Drawer title={title} visible={visible} onClose={handleCancel} footer={footer} {...drawerProps}>
-        <MetaForm userForm={form} onFinish={handleSubmit} {...other} />
-      </Drawer>
-      {trigger && <div onClick={toggle}>{trigger}</div>}
-    </React.Fragment>
-
-  )
+  const FormDrawer: FC = () => {
+    const { closeIcon, ...drawerOtherProps } = drawerProps;
+    const drawerCloseIcon = closeIcon || <CloseIcon />
+    return (
+      <React.Fragment>
+        <Drawer title={title} visible={visible} onClose={handleCancel} footer={footer} closeIcon={drawerCloseIcon} {...drawerOtherProps}>
+          <MetaForm userForm={form} onFinish={handleSubmit} {...other} />
+        </Drawer>
+        {trigger && <div onClick={toggle}>{trigger}</div>}
+      </React.Fragment>
+    )
+  }
 
   return { visible, toggle, FormDrawer };
 }

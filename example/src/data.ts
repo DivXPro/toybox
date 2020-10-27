@@ -268,7 +268,7 @@ export const loadOptions = () => {
   return promise;
 }
 
-export const loadOptionByValue = (value: ReactText | ReactText[], params?: any) => {
+export const loadOptionByValue = (value: ReactText | ReactText[]) => {
   const promise = new Promise<OptionItem | OptionItem[]>(function (resolve) {
     setTimeout(() => {
       if (Array.isArray(value)) {

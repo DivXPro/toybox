@@ -32,12 +32,13 @@ export default ({ title, drawerProps, formProps, onFinish, onCancel, trigger }: 
 
   const handleCancel = useCallback(() => {
     try {
+      form.setFieldsValue(formProps.initialValues);
       onCancel && onCancel();
       toggle();
     } catch (e) {
       console.warn(e);
     }
-  }, [onCancel, toggle]);
+  }, [form, formProps.initialValues, onCancel, toggle]);
 
   const footer = useMemo(() => {
     return (
@@ -69,5 +70,5 @@ export default ({ title, drawerProps, formProps, onFinish, onCancel, trigger }: 
     )
   }
 
-  return { visible, toggle, FormDrawer };
+  return [visible, toggle, FormDrawer] as [boolean, () => void, FC];
 }

@@ -32,12 +32,13 @@ export default ({ title, modalProps, formProps, onFinish, onCancel, trigger}: Fo
 
   const handleCancel = useCallback(() => {
     try {
+      form.setFieldsValue(formProps.initialValues);
       onCancel && onCancel();
       toggle();
     } catch (e) {
       console.warn(e);
     }
-  }, [onCancel, toggle]);
+  }, [form, formProps.initialValues, onCancel, toggle]);
 
   const FormModal: FC = () => {
     const { closeIcon, ...modalOtherProps } = modalProps;

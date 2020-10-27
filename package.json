@@ -31,7 +31,6 @@
     "ahooks": "^2.6.1",
     "antd": "^4.6.5",
     "moment": "^2.29.0",
-    "remixicon": "^2.5.0",
     "react-router-dom": "^5.2.0"
   },
   "devDependencies": {

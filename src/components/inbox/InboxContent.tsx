@@ -26,7 +26,6 @@ export const InboxContent: FC<InboxContentProps> = ({ loading = false, hasMore, 
   }, [read, remove, isItemLoaded, messages, onPick])
 
   const loadMoreItems = useCallback((start: number, stop: number) => {
-    console.log('loadMore', start, stop, loading);
     if (!loading) {
       return loadMore(start, stop);
     }

@@ -22,16 +22,16 @@ export const Inbox: FC<InboxProps> = ({ bundle = DEFAULT_BUNDLE, onPick, reload,
   const [loading, setLoading] = useState<boolean>(false);
   const [hasMore, setHasMore] = useState<boolean>(true);
 
-  const reloadMsgs = useCallback((unread: boolean) => {
+  const reloadMsgs = useCallback((isUnread: boolean) => {
     setLoading(true);
     setMessages([]);
-    setUnread(unread);
-    reload(unRead, bundle).then((msgs) => {
+    setUnread(isUnread);
+    reload(isUnread, bundle).then((msgs) => {
       setHasMore(msgs.length == bundle);
       setLoading(false);
       setMessages(msgs);
     });
-  }, [bundle, reload, unRead]); 
+  }, [bundle, reload]); 
 
   const handleLoadMore = useCallback(async (offset: number, limit = bundle) => {
     if (messages.length === 0) {

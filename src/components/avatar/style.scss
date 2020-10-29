@@ -33,7 +33,6 @@ $xl-font-size: 20px;
   .tbox-avatar-image {
     display: inline-block;
     margin-left: 4px;
-    position: relative;
   }
 }
 .tbox-avatar-image {
@@ -44,6 +43,7 @@ $xl-font-size: 20px;
   width: $xs-size;
   height: $xs-size;
   line-height: $xs-size;
+  position: relative;
   .tbox-avatar-img, .tbox-avatar-name {
     width: 100%;
     height: 100%;

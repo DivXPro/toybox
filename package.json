@@ -9,7 +9,7 @@
   "module": "dist/index.modern.js",
   "source": "src/index.ts",
   "engines": {
-    "node": ">=10"
+    "node": ">=10" 
   },
   "scripts": {
     "build": "microbundle-crl --no-compress --css-modules false --format modern,cjs",

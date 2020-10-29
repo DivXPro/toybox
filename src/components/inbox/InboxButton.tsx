@@ -27,6 +27,7 @@ export const InboxButton: FC<InboxButtonProps> = ({ remove, read, loadMore, relo
   }, [loadBadge]);
 
   useEffect(() => {
+    reLoadBadge();
     setInterval(reLoadBadge, interval);
   }, [reLoadBadge, interval]);
 

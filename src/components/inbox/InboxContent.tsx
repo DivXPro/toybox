@@ -57,7 +57,7 @@ export const InboxContent: FC<InboxContentProps> = ({ loading = false, hasMore, 
             }
           </InfiniteLoader>
         </div>
-        {isEmpty ? <div style={{ marginTop: '50px', marginBottom: '50px' }}><Empty description="没发现消息通知" /></div> : null}
+        {isEmpty ? <div style={{ paddingTop: '60px', }}><Empty description="没发现消息通知" /></div> : null}
       </React.Fragment>
     );
   }, [isEmpty, isItemLoaded, itemCount, loadMoreItems, Item]);

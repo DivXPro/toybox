@@ -11,12 +11,11 @@ export type InboxButtonProps = InboxProps & {
   style?: Record<string, any>;
   loadBadge: () => Promise<number>;
   icon?: ReactNode;
-  interval?: number;
+  intervalTime?: number;
 };
 
-export const InboxButton: FC<InboxButtonProps> = ({ remove, read, loadMore, reload, loadBadge, style, className, placement, bundle, icon, interval = 10000 }) => {
+export const InboxButton: FC<InboxButtonProps> = ({ remove, read, loadMore, reload, loadBadge, style, className, placement, bundle, icon, intervalTime = 10000 }) => {
   const [unreadCount, setUnreadCount] = useState(0);
-
   const reLoadBadge = useCallback(async () => {
     try {
       const count = await loadBadge();
@@ -28,8 +27,11 @@ export const InboxButton: FC<InboxButtonProps> = ({ remove, read, loadMore, relo
 
   useEffect(() => {
     reLoadBadge();
-    setInterval(reLoadBadge, interval);
-  }, [reLoadBadge, interval]);
+    const interval = setInterval(reLoadBadge, intervalTime);
+    return () => {
+      clearInterval(interval);
+    }
+  }, [reLoadBadge, intervalTime]);
 
   const handleRead = useCallback(async (id: string) => {
     await read(id);

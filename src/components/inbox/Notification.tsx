@@ -20,13 +20,15 @@ export interface NotificationMessage {
   createdAt: Date | string | number;
   updatedAt: Date | string | number;
   haveRead: boolean;
+  mode: 'link' | 'view';
+  viewProps?: any;
 }
 
 export interface NotificationProps {
   message: NotificationMessage;
   remove: (id: string) => void;
   read: (id: string) => void;
-  onPick: () => void;
+  onPick: (message?: NotificationMessage) => void;
   style?: any;
 }
 
@@ -38,7 +40,7 @@ export const Notification: FC<NotificationProps> = ({ message, remove, read, onP
   const history = useHistory();
   const isAbsolute = useMemo(() => isAbsolutePath(message?.link), [message]);
   const handleClick = useCallback(() => {
-    onPick();
+    onPick(message);
     if (message?.link == null) {
       return;
     }

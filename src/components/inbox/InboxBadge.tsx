@@ -7,7 +7,7 @@ const INTERVAL_TIME = 10000;
 export type InboxBadgeProps = {
   className?: string;
   style?: Record<string, any>;
-  loadBadge: () => Promise<number>;
+  loadBadge: (nowTotal?: number) => Promise<number>;
   icon?: ReactNode;
   intervalTime?: number;
   value?: number;
@@ -17,12 +17,12 @@ export const InboxBadge: FC<InboxBadgeProps> = ({ loadBadge, style, className, i
   const [unreadCount, setUnreadCount] = useState(value);
   const reLoadBadge = useCallback(async () => {
     try {
-      const count = await loadBadge();
+      const count = await loadBadge(unreadCount);
       setUnreadCount(count);
     } catch (error) {
       reLoadBadge();
     }
-  }, [loadBadge]);
+  }, [loadBadge, unreadCount]);
 
   useEffect(() => {
     reLoadBadge();

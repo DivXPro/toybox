@@ -8,7 +8,7 @@ import { Notification, NotificationMessage } from './Notification';
 
 const WIDTH = 360;
 const HEIGHT = 400;
-const ITEM_HEIGHT = 120;
+const ITEM_HEIGHT = 124;
 
 export interface InboxContentProps {
   onPick: (message?: NotificationMessage) => void;

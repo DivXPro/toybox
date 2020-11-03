@@ -37,6 +37,7 @@ $inbox-panel-height: 48px;
         justify-content: space-between;
         color: $gray-6;
         height: 24px;
+        margin-bottom: 4px;
         .notification-not-read {
           width: 8px;
           height: 8px;
@@ -47,8 +48,11 @@ $inbox-panel-height: 48px;
         .notification-operate {
           display: none;
           .notification-operate--item {
+            display: flex;
             width: 20px;
             height: 20px;
+            text-align: center;
+            line-height: 20px;
             i {
               width: 16px;
               height: 16px;

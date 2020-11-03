@@ -1,9 +1,14 @@
-import React, { FC, useMemo, useCallback } from 'react';
+import React, { FC, useMemo, useCallback, useRef } from 'react';
 import { Empty } from 'antd';
+import { useSize } from 'ahooks';
 import { FixedSizeList as List } from 'react-window';
 import InfiniteLoader from 'react-window-infinite-loader';
 import { Notification, NotificationMessage } from './Notification';
 
+
+const WIDTH = 360;
+const HEIGHT = 400;
+const ITEM_HEIGHT = 120;
 
 export interface InboxContentProps {
   onPick: () => void;
@@ -14,13 +19,25 @@ export interface InboxContentProps {
   remove: (id: string) => void;
   read: (id: string) => void;
 }
+
 export const InboxContent: FC<InboxContentProps> = ({ loading = false, hasMore, onPick, messages = [], loadMore, read, remove }) => {
+  const ref = useRef<any>();
+  const size = useSize(ref);
   const isItemLoaded = useCallback((index: number) => !hasMore || index < messages.length, [hasMore, messages.length]);
   const itemCount = useMemo(() => hasMore ? messages.length + 1 : messages.length, [hasMore, messages.length]);
 
   const Item = useCallback(({index, style} : { index: number, style: any}) => {
     if (isItemLoaded(index)) {
-      return <Notification style={style} onPick={onPick} message={messages[index]} remove={remove} read={read} key={index} />
+      return (
+        <Notification
+          key={index}
+          style={style}
+          onPick={onPick}
+          message={messages[index]}
+          remove={remove}
+          read={read}
+        />
+      )
     }
     return <div style={style}></div>
   }, [read, remove, isItemLoaded, messages, onPick])
@@ -46,9 +63,9 @@ export const InboxContent: FC<InboxContentProps> = ({ loading = false, hasMore, 
                 <List
                   ref={ref}
                   onItemsRendered={onItemsRendered}
-                  height={400}
-                  width={360}
-                  itemSize={100}
+                  height={size.height || HEIGHT}
+                  width={size.width || WIDTH}
+                  itemSize={ITEM_HEIGHT}
                   itemCount={itemCount}
                 >
                   {Item}
@@ -60,10 +77,10 @@ export const InboxContent: FC<InboxContentProps> = ({ loading = false, hasMore, 
         {isEmpty ? <div style={{ paddingTop: '60px', }}><Empty description="没发现消息通知" /></div> : null}
       </React.Fragment>
     );
-  }, [isEmpty, isItemLoaded, itemCount, loadMoreItems, Item]);
+  }, [isEmpty, isItemLoaded, itemCount, loadMoreItems, size.height, size.width, Item]);
 
   return (
-    <div className="tbox-inbox-content">
+    <div className="tbox-inbox-content" ref={ref} >
       {messageList}
     </div>
   );

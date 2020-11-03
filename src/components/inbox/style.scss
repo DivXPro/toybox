@@ -1,11 +1,13 @@
 @import '../../styles/theme.scss';
 
+$panel-height: 48px;
+
 .tbox-inbox {
   width: 360px;
   .tbox-inbox-panel {
     display: flex;
     padding: 20px 10px;
-    height: 48px;
+    height: $panel-height;
     border-bottom: 1px solid $gray-4;
     align-items: center;
     .inbox-panel--tab {
@@ -24,7 +26,8 @@
     }
   }
   .tbox-inbox-content {
-    height: 420px;
+    height: calc(100% - $panel-height);
+    min-height: 420px;
     .tbox-notification {
       padding: 15px 16px;
       border-bottom: 1px solid $gray-4;
@@ -65,7 +68,12 @@
       .notification-body {
         color: $gray-7;
         P {
+          line-height: 20px;
+          height: 40px;
+          overflow: hidden;
+          font-size: 14px;;
           margin-bottom: 4px;
+          word-break: break-word;
         }
         .tbox-time_mavx {
           font-size: 12px;

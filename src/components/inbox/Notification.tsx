@@ -42,7 +42,6 @@ export const Notification: FC<NotificationProps> = ({ message, remove, read, onP
     if (message?.link == null) {
       return;
     }
-    console.log('isAbsolute ?', isAbsolute, message.link);
     if (isAbsolute) {
       window.open(message.link, '_target');
     } else {

@@ -38,11 +38,22 @@ export const InboxButton: FC<InboxButtonProps> = ({ remove, read, loadMore, relo
     reLoadBadge();
   }, [reLoadBadge, read]);
 
+
   return (
-    <Popover placement={placement}
+    <Popover
+      placement={placement}
       destroyTooltipOnHide={true}
       overlayClassName="popover-no-padding popover-no-arrow"
-      content={<Inbox read={handleRead} remove={remove} onPick={() => undefined} loadMore={loadMore} reload={reload} bundle={bundle} />}
+      content={
+        <Inbox
+          read={handleRead}
+          remove={remove}
+          onPick={() => undefined}
+          loadMore={loadMore}
+          reload={reload}
+          bundle={bundle}
+        />
+      }
       trigger="click"
     >
       <div className={classNames('inbox-button', className)} style={style}>

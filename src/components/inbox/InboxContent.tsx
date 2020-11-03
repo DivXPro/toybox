@@ -11,7 +11,7 @@ const HEIGHT = 400;
 const ITEM_HEIGHT = 120;
 
 export interface InboxContentProps {
-  onPick: () => void;
+  onPick: (message?: NotificationMessage) => void;
   loading?: boolean;
   hasMore: boolean;
   messages: NotificationMessage[];

@@ -48,6 +48,8 @@ export const InboxButton: FC<InboxButtonProps> = ({ remove, read, loadMore, relo
       trigger="click"
     >
       <InboxBadge
+        icon={icon}
+        intervalTime={intervalTime}
         className={classNames('inbox-button', className)}
         style={style}
         loadBadge={loadBadge}

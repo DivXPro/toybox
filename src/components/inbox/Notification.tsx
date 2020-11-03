@@ -2,6 +2,7 @@ import React, { FC, useCallback, useMemo } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Icon } from '../icon';
 import { Time } from '../time';
+import { Badge } from 'antd';
 
 export interface NotificationMessage {
   id: string;
@@ -22,6 +23,7 @@ export interface NotificationMessage {
   haveRead: boolean;
   mode: 'link' | 'view';
   viewProps?: any;
+  badge?: number;
 }
 
 export interface NotificationProps {
@@ -41,7 +43,7 @@ export const Notification: FC<NotificationProps> = ({ message, remove, read, onP
   const isAbsolute = useMemo(() => isAbsolutePath(message?.link), [message]);
   const handleClick = useCallback(() => {
     onPick(message);
-    if (message?.link == null) {
+    if (message?.link == null || message.mode !== 'link') {
       return;
     }
     if (isAbsolute) {
@@ -71,22 +73,32 @@ export const Notification: FC<NotificationProps> = ({ message, remove, read, onP
             ? null
             :
             <div className="notification-operate--item" onClick={handleRead} key="read">
-              <Icon name="ri-check-double-line" />
+              <Icon name="ri-check-double-line" size="medium" />
             </div>
         }
         <div className="notification-operate--item" onClick={handleRemove} key="remove">
-          <Icon name="ri-close-line" />
+          <Icon name="ri-close-line" size="medium" />
         </div>
       </div>
     )
   }, [handleRead, handleRemove, message.haveRead]);
+
+  const badgeItem = useMemo(() => {
+    if (message.haveRead) {
+      return null;
+    }
+    if (message.badge != null && message.badge > 0) {
+      return <Badge count={message.badge} />
+    }
+    return <div className="notification-not-read" />;
+  }, [message.badge, message.haveRead]);
 
   return (
     <div className="tbox-notification" style={style}>
       <div className="notification-header">
         <div className="notification-type">{message.type}</div>
         { operate }
-        { message.haveRead ? null : <div className="notification-not-read" /> }
+        { badgeItem }
       </div>
       <div className="notification-body" onClick={handleClick}>
         <p>{message.content}</p>

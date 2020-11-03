@@ -1,5 +1,6 @@
 import { OptionItem } from "../../dist/components/tablePage/TableSearch";
 import { ReactText } from "react";
+import { NotificationMessage } from "../../dist";
 
 export const objectMeta = {
   key: 'bill',
@@ -143,6 +144,7 @@ export const msgs = [
     createdAt: new Date(),
     updatedAt: new Date(),
     haveRead: false,
+    mode: 'link',
   },
   {
     id: '1233452',
@@ -161,6 +163,7 @@ export const msgs = [
     createdAt: new Date(),
     updatedAt: new Date(),
     haveRead: false,
+    mode: 'link',
   },
   {
     id: '1233453',
@@ -179,6 +182,7 @@ export const msgs = [
     createdAt: new Date(),
     updatedAt: new Date(),
     haveRead: false,
+    mode: 'link',
   },
   {
     id: '1233454',
@@ -197,6 +201,7 @@ export const msgs = [
     createdAt: new Date(),
     updatedAt: new Date(),
     haveRead: false,
+    mode: 'link',
   },
   {
     id: '1233455',
@@ -215,6 +220,7 @@ export const msgs = [
     createdAt: new Date(),
     updatedAt: new Date(),
     haveRead: false,
+    mode: 'link',
   },
   {
     id: '1233456',
@@ -233,8 +239,9 @@ export const msgs = [
     createdAt: new Date(),
     updatedAt: new Date(),
     haveRead: false,
+    mode: 'link',
   }
-];
+] as NotificationMessage[];
 
 export const visibleColumns = [
   {

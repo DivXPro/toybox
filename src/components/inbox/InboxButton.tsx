@@ -1,9 +1,9 @@
 import React, { FC, ReactNode, useState, useEffect, useCallback } from 'react';
 import classNames from 'classnames';
-import { Badge, Popover } from 'antd';
+import { Popover } from 'antd';
 import { TooltipPlacement } from 'antd/lib/tooltip';
 import { Inbox, InboxProps } from './Inbox';
-import { Icon } from '../icon';
+import { InboxBadge } from './InboxBadge';
 
 export type InboxButtonProps = InboxProps & {
   placement?: TooltipPlacement;
@@ -25,19 +25,10 @@ export const InboxButton: FC<InboxButtonProps> = ({ remove, read, loadMore, relo
     }
   }, [loadBadge]);
 
-  useEffect(() => {
-    reLoadBadge();
-    const interval = setInterval(reLoadBadge, intervalTime);
-    return () => {
-      clearInterval(interval);
-    }
-  }, [reLoadBadge, intervalTime]);
-
   const handleRead = useCallback(async (id: string) => {
     await read(id);
     reLoadBadge();
   }, [reLoadBadge, read]);
-
 
   return (
     <Popover
@@ -56,11 +47,12 @@ export const InboxButton: FC<InboxButtonProps> = ({ remove, read, loadMore, relo
       }
       trigger="click"
     >
-      <div className={classNames('inbox-button', className)} style={style}>
-        <Badge count={unreadCount}>
-          { icon || <Icon name="ri-notification-4-line" size="large" />}
-        </Badge>
-      </div>
+      <InboxBadge
+        className={classNames('inbox-button', className)}
+        style={style}
+        loadBadge={loadBadge}
+        value={unreadCount}
+      />
     </Popover>
   );
 }

@@ -1,4 +1,4 @@
-import React, { FC, ReactNode, useState, useEffect, useCallback } from 'react';
+import React, { FC, ReactNode, useState, useCallback } from 'react';
 import classNames from 'classnames';
 import { Popover } from 'antd';
 import { TooltipPlacement } from 'antd/lib/tooltip';

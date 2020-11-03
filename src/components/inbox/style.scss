@@ -1,13 +1,13 @@
 @import '../../styles/theme.scss';
 
-$panel-height: 48px;
+$inbox-panel-height: 48px;
 
 .tbox-inbox {
   width: 360px;
   .tbox-inbox-panel {
     display: flex;
     padding: 20px 10px;
-    height: $panel-height;
+    height: $inbox-panel-height;
     border-bottom: 1px solid $gray-4;
     align-items: center;
     .inbox-panel--tab {
@@ -26,7 +26,7 @@ $panel-height: 48px;
     }
   }
   .tbox-inbox-content {
-    height: calc(100% - $panel-height);
+    height: calc(100% - #{$inbox-panel-height});
     min-height: 420px;
     .tbox-notification {
       padding: 15px 16px;

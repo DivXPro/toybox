@@ -27,7 +27,9 @@
 }
 
 [class^="ri-"], [class*=" ri-"] {
-  vertical-align: -4px;
+  &::before {
+    vertical-align: -2px;
+  }
 }
 
 .botton-wapper {

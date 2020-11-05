@@ -4,11 +4,27 @@
   color: $icon-color;
   &.tbox-small {
     font-size: 14px;
+    
   }
   &.tbox-medium {
     font-size: 16px;
   }
   &.tbox-large {
     font-size: 20px;
+  }
+  &[class^="ri-"], &[class*=" ri-"] {
+    &::before {
+      vertical-align: -2px;
+    }
+    &.tbox-medium {
+      &::before {
+        vertical-align: -3px;
+      }
+    }
+    &.tbox-large {
+      &::before {
+        vertical-align: -4px;
+      }
+    }
   }
 }

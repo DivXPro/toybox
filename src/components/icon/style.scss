@@ -14,16 +14,16 @@
   }
   &[class^="ri-"], &[class*=" ri-"] {
     &::before {
-      vertical-align: -2px;
+      vertical-align: -1px;
     }
     &.tbox-medium {
       &::before {
-        vertical-align: -3px;
+        vertical-align: -2px;
       }
     }
     &.tbox-large {
       &::before {
-        vertical-align: -4px;
+        vertical-align: -2px;
       }
     }
   }

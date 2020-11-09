@@ -24,13 +24,14 @@ export interface NotificationMessage {
   mode: 'link' | 'view';
   viewProps?: any;
   badge?: number;
+  appId?: string;
 }
 
 export interface NotificationProps {
   message: NotificationMessage;
   remove: (id: string) => void;
   read: (id: string) => void;
-  onPick: (message?: NotificationMessage) => void;
+  onPick: (message: NotificationMessage) => void;
   style?: any;
 }
 

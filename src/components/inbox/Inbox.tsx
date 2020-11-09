@@ -6,7 +6,7 @@ import { NotificationMessage } from './Notification';
 
 export interface InboxProps {
   bundle?: number;
-  onPick: (message?: NotificationMessage) => void;
+  onPick: (message: NotificationMessage) => void;
   read: (id: string) => Promise<void>;
   remove: (id: string) => Promise<void>;
   loadMore: (unread: boolean, offset: number, limit: number, timestamp: number, type?: string) => Promise<NotificationMessage[]>;

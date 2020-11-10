@@ -44,7 +44,7 @@ export const Notification: FC<NotificationProps> = ({ message, remove, read, onP
   const isAbsolute = useMemo(() => isAbsolutePath(message?.link), [message]);
   const handleClick = useCallback(() => {
     onPick(message);
-    if (message?.link == null || message.mode !== 'link') {
+    if (message?.props != null || message.link == null) {
       return;
     }
     if (isAbsolute) {

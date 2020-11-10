@@ -22,7 +22,7 @@ export interface NotificationMessage {
   updatedAt: Date | string | number;
   haveRead: boolean;
   mode: 'link' | 'view';
-  viewProps?: any;
+  props?: Record<string, any>;
   badge?: number;
   appId?: string;
 }

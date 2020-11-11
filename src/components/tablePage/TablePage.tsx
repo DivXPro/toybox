@@ -1,4 +1,4 @@
-import React, { useMemo, useImperativeHandle, Ref } from 'react';
+import React, { useMemo, useImperativeHandle, Ref, useState } from 'react';
 import { Form } from 'antd';
 import useAntdTable from './useTable';
 import { MetaTable } from '../metaTable';
@@ -31,11 +31,25 @@ export interface ColumnVisible {
 
 const TablePage = ({ title, objectMeta, panel, operateItems, visibleColumns, loadData, searchOption, viewLink }: TablePageProps, ref: Ref<any>) => {
   const [form] = Form.useForm();
+  const [selectedRowKeys, setSelectedRowKeys] = useState<(string | number)[]>([]);
+  const [selectionType, setSelectionType] = useState<'checkbox' | 'radio'>('checkbox');
+
   const { tableProps, search } = useAntdTable(loadData, {
     defaultPageSize: 10,
     form,
   });
   const { submit } = search;
+
+  const rowSelection = useMemo(
+    () => selectionType != null
+      ? ({
+        selectedRowKeys,
+        selectionType,
+        onChange: (keys: (string | number)[]) => setSelectedRowKeys(keys),
+      })
+      : undefined,
+    [selectedRowKeys, selectionType, setSelectedRowKeys]
+  )
 
   useImperativeHandle(
     ref,
@@ -80,7 +94,13 @@ const TablePage = ({ title, objectMeta, panel, operateItems, visibleColumns, loa
     <div className='tbox-page'>
       <MetaPageHeader title={title} footer={tablePanel} />
       <ContentWrapper>
-        <MetaTable rowKey="id" operateItems={operateItems} columnMetas={columnMetas} {...tableProps} />
+        <MetaTable
+          rowKey="id"
+          operateItems={operateItems}
+          columnMetas={columnMetas}
+          rowSelection={rowSelection}
+          {...tableProps}
+        />
       </ContentWrapper>
     </div>
   )

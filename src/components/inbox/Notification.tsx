@@ -1,5 +1,4 @@
 import React, { FC, useCallback, useMemo } from 'react';
-import { useHistory } from 'react-router-dom';
 import { Icon } from '../icon';
 import { Time } from '../time';
 import { Badge } from 'antd';
@@ -35,24 +34,24 @@ export interface NotificationProps {
   style?: any;
 }
 
-function isAbsolutePath(path: string) {
-  return /^([a-zA-Z]*):\/\/[^\s]+/.test(path);
-}
+// function isAbsolutePath(path: string) {
+//   return /^([a-zA-Z]*):\/\/[^\s]+/.test(path);
+// }
 
 export const Notification: FC<NotificationProps> = ({ message, remove, read, onPick, style }) => {
-  const history = useHistory();
-  const isAbsolute = useMemo(() => isAbsolutePath(message?.link), [message]);
+  // const history = useHistory();
+  // const isAbsolute = useMemo(() => isAbsolutePath(message?.link), [message]);
   const handleClick = useCallback(() => {
     onPick(message);
-    if (message?.props != null || message.link == null) {
-      return;
-    }
-    if (isAbsolute) {
-      window.open(message.link, '_target');
-    } else {
-      history.push(message.link);
-    }
-  }, [history, isAbsolute, message, onPick]);
+    // if (message?.props != null || message.link == null) {
+    //   return;
+    // }
+    // if (isAbsolute) {
+    //   window.open(message.link, '_target');
+    // } else {
+    //   history.push(message.link);
+    // }
+  }, [message, onPick]);
 
   const handleRemove = useCallback(() => {
     if (typeof remove === 'function') {

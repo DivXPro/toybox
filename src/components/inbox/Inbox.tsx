@@ -21,6 +21,7 @@ export const Inbox: FC<InboxProps> = ({ bundle = DEFAULT_BUNDLE, onPick, reload,
   const [messages, setMessages] = useState<NotificationMessage[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [hasMore, setHasMore] = useState<boolean>(true);
+  const [selectedId, setSelectedId] = useState<string | number>();
 
   const reloadMsgs = useCallback((isUnread: boolean) => {
     setLoading(true);
@@ -66,6 +67,11 @@ export const Inbox: FC<InboxProps> = ({ bundle = DEFAULT_BUNDLE, onPick, reload,
     }
   }, [messages, read, unRead]);
 
+  const handlePick = useCallback((message: NotificationMessage) => {
+    onPick(message);
+    setSelectedId(message.id);
+  }, [onPick]);
+
   const InBoxPanel = () => {
     return <div className="tbox-inbox-panel">
       <div className={classNames('inbox-panel--tab', { active: !unRead })} onClick={() => reloadMsgs(false)}>全部</div>
@@ -77,12 +83,13 @@ export const Inbox: FC<InboxProps> = ({ bundle = DEFAULT_BUNDLE, onPick, reload,
     <div className="tbox-inbox">
       <InBoxPanel />
       <InboxContent
-        onPick={onPick}
+        onPick={handlePick}
         messages={messages}
         loadMore={handleLoadMore}
         hasMore={hasMore}
         loading={loading}
         remove={handleRemove}
+        selectedId={selectedId}
         read={handleRead}
       />
     </div>

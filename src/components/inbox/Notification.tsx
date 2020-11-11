@@ -1,4 +1,5 @@
 import React, { FC, useCallback, useMemo } from 'react';
+import classNames from 'classnames';
 import { Icon } from '../icon';
 import { Time } from '../time';
 import { Badge } from 'antd';
@@ -31,26 +32,13 @@ export interface NotificationProps {
   remove: (id: string) => void;
   read: (id: string) => void;
   onPick: (message: NotificationMessage) => void;
+  selected?: boolean;
   style?: any;
 }
 
-// function isAbsolutePath(path: string) {
-//   return /^([a-zA-Z]*):\/\/[^\s]+/.test(path);
-// }
-
-export const Notification: FC<NotificationProps> = ({ message, remove, read, onPick, style }) => {
-  // const history = useHistory();
-  // const isAbsolute = useMemo(() => isAbsolutePath(message?.link), [message]);
+export const Notification: FC<NotificationProps> = ({ message, remove, read, onPick, style, selected = false }) => {
   const handleClick = useCallback(() => {
     onPick(message);
-    // if (message?.props != null || message.link == null) {
-    //   return;
-    // }
-    // if (isAbsolute) {
-    //   window.open(message.link, '_target');
-    // } else {
-    //   history.push(message.link);
-    // }
   }, [message, onPick]);
 
   const handleRemove = useCallback(() => {
@@ -94,7 +82,7 @@ export const Notification: FC<NotificationProps> = ({ message, remove, read, onP
   }, [message.badge, message.haveRead]);
 
   return (
-    <div className="tbox-notification" style={style}>
+    <div className={classNames('tbox-notification', { selected })} style={style}>
       <div className="notification-header">
         <div className="notification-type">{message.type}</div>
         { operate }

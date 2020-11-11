@@ -15,12 +15,13 @@ export interface InboxContentProps {
   loading?: boolean;
   hasMore: boolean;
   messages: NotificationMessage[];
+  selectedId?: string | number;
   loadMore: (offset: number, limit: number) => Promise<any>;
   remove: (id: string) => void;
   read: (id: string) => void;
 }
 
-export const InboxContent: FC<InboxContentProps> = ({ loading = false, hasMore, onPick, messages = [], loadMore, read, remove }) => {
+export const InboxContent: FC<InboxContentProps> = ({ loading = false, hasMore, onPick, messages = [], selectedId, loadMore, read, remove }) => {
   const ref = useRef<any>();
   const size = useSize(ref);
   const isItemLoaded = useCallback((index: number) => !hasMore || index < messages.length, [hasMore, messages.length]);
@@ -33,6 +34,7 @@ export const InboxContent: FC<InboxContentProps> = ({ loading = false, hasMore, 
           key={index}
           style={style}
           onPick={onPick}
+          selected={messages[index].id === selectedId}
           message={messages[index]}
           remove={remove}
           read={read}
@@ -40,7 +42,7 @@ export const InboxContent: FC<InboxContentProps> = ({ loading = false, hasMore, 
       )
     }
     return <div style={style}></div>
-  }, [read, remove, isItemLoaded, messages, onPick])
+  }, [isItemLoaded, onPick, messages, selectedId, remove, read])
 
   const loadMoreItems = useCallback((start: number, stop: number) => {
     if (!loading) {

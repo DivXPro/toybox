@@ -88,6 +88,9 @@ $inbox-panel-height: 48px;
           border-bottom: none;
         }
       }
+      &.selected {
+        background-color: $gray-3;
+      }
       &:hover {
         cursor: pointer;
         background-color: $gray-3;

@@ -68,9 +68,10 @@ export const Inbox: FC<InboxProps> = ({ bundle = DEFAULT_BUNDLE, onPick, reload,
   }, [messages, read, unRead]);
 
   const handlePick = useCallback((message: NotificationMessage) => {
-    onPick(message);
     setSelectedId(message.id);
-  }, [onPick]);
+    onPick(message);
+    handleRead(message.id);
+  }, [handleRead, onPick]);
 
   const InBoxPanel = () => {
     return <div className="tbox-inbox-panel">

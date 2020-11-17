@@ -47,7 +47,7 @@ export interface PanelOperateItem extends ButtonItem {
   selection?: boolean;
 }
 
-const TablePage = ({title, objectMeta, panel, operateItems, visibleColumns, panelItems, loadData, searchOption, viewLink }: TablePageProps, ref: Ref<any>) => {
+const TablePage = ({title, objectMeta, operateItems, visibleColumns, panelItems, loadData, searchOption, viewLink }: TablePageProps, ref: Ref<any>) => {
   const [form] = Form.useForm();
   const [selectedRowKeys, setSelectedRowKeys] = useState<(string | number)[]>([]);
   const [selectionType, setSelectionType] = useState<'checkbox' | 'radio'>();
@@ -59,7 +59,7 @@ const TablePage = ({title, objectMeta, panel, operateItems, visibleColumns, pane
   const { submit } = search;
 
   const toggleSelection = useCallback(() => {
-    if (selectionType != null) {
+    if (selectionType == null) {
       setSelectionType('checkbox');
     } else {
       setSelectionType(undefined);

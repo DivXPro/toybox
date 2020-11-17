@@ -1,6 +1,7 @@
-import React, { FC } from 'react';
-import { Button } from 'antd';
+import React, { FC, useMemo } from 'react';
+import { Button, Dropdown, Menu } from 'antd';
 import { ButtonProps } from 'antd/lib/button';
+import { Icon } from '../icon';
 
 export interface OperateColumnProps {
   text: { [key: string]: any };
@@ -11,6 +12,8 @@ export interface OperateColumnProps {
 
 export type OperateItem = ButtonProps & {
   text?: string;
+  icon?: string;
+  color?: string;
   callback?: (record: Record<string, any> , index: number) => void;
   disabled?: (text: any, record: Record<string, any>, index: number) => boolean | boolean;
 }
@@ -41,4 +44,31 @@ export const OperateColumn: FC<OperateColumnProps> = ({ text, record, index, ope
       })
     }
   </div>
+}
+
+export const OperateDropdown: FC<OperateColumnProps> = ({ text, record, index, operateItems }) => {
+  const menu = useMemo(() => {
+    return <Menu>
+      {
+        operateItems.map((item, idx) => {
+          const doDisabled = typeof item.disabled === 'function'
+            ? item.disabled(text, record, index)
+            : item.disabled;
+          return <Menu.Item key={idx}>
+            <Button
+              disabled={doDisabled}
+              onClick={() => item.callback && item.callback(record, index)}
+              {...item}
+            >
+              {item.text}
+            </Button>
+          </Menu.Item>
+        })
+      }
+    </Menu>
+  }, [index, operateItems, record, text]);
+
+  return <Dropdown overlay={menu} placement="bottomCenter">
+    <Button type="text" icon={<Icon name="ri-more-fill" size="medium" />}></Button>
+  </Dropdown>
 }

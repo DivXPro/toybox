@@ -1,14 +1,15 @@
-import React, { useMemo, useImperativeHandle, Ref, useState } from 'react';
+import React, { useMemo, useImperativeHandle, Ref, useState, useCallback } from 'react';
 import { Form, Button } from 'antd';
 import useAntdTable from './useTable';
 import { MetaTable } from '../metaTable';
-import { Panel, PanelProps } from '../panel';
+import { Panel, PanelProps, PanelItem } from '../panel';
 import { BusinessObjectMeta } from '../../types/interface';
 import { OperateItem } from '../metaTable/OperateColumn';
 import { TableSearch, SearchFindParam } from './TableSearch';
 import { MetaPageHeader } from '../metaPageHeader';
 import { ContentWrapper } from './ContentWrapper';
 import { Icon } from '../icon';
+import { ButtonGroup, ButtonItem } from '../buttonGroup';
 
 
 export interface PageResult {
@@ -32,6 +33,7 @@ export interface TablePageProps {
     findParams: SearchFindParam[];
   }
   viewLink?: (...arg: any) => string;
+  panelItems?: PanelOperateItem[];
 }
 
 export interface ColumnVisible {
@@ -41,7 +43,11 @@ export interface ColumnVisible {
   component?: string;
 }
 
-const TablePage = ({ title, objectMeta, panel, operateItems, visibleColumns, loadData, searchOption, viewLink }: TablePageProps, ref: Ref<any>) => {
+export interface PanelOperateItem extends ButtonItem {
+  selection?: boolean;
+}
+
+const TablePage = ({title, objectMeta, panel, operateItems, visibleColumns, panelItems, loadData, searchOption, viewLink }: TablePageProps, ref: Ref<any>) => {
   const [form] = Form.useForm();
   const [selectedRowKeys, setSelectedRowKeys] = useState<(string | number)[]>([]);
   const [selectionType, setSelectionType] = useState<'checkbox' | 'radio'>();
@@ -51,6 +57,14 @@ const TablePage = ({ title, objectMeta, panel, operateItems, visibleColumns, loa
     form,
   });
   const { submit } = search;
+
+  const toggleSelection = useCallback(() => {
+    if (selectionType != null) {
+      setSelectionType('checkbox');
+    } else {
+      setSelectionType(undefined);
+    }
+  }, [selectionType]);
 
   const rowSelection = useMemo(
     () => selectionType != null
@@ -93,16 +107,26 @@ const TablePage = ({ title, objectMeta, panel, operateItems, visibleColumns, loa
   const leftPanel = useMemo(() => {
     return searchOption
       ? <React.Fragment>
-          <Button type="text" onClick={() => setSelectionType('checkbox')} icon={<Icon name="ri-checkbox-line" />} />
+          <Button type="text" onClick={toggleSelection} icon={<Icon name="ri-checkbox-line" />} />
           <TableSearch form={form} submit={submit} findParams={searchOption.findParams} />
         </React.Fragment>
-      : <Button type="text" onClick={() => setSelectionType('checkbox')} icon={<Icon name="ri-checkbox-line" />}/>;
-  }, [form, searchOption, submit]);
+      : <Button type="text" onClick={toggleSelection} icon={<Icon name="ri-checkbox-line" />}/>;
+  }, [form, searchOption, submit, toggleSelection]);
 
-  const tablePanel = useMemo(() => panel
-    ? <Panel leftRender={leftPanel} rightRender={panel.rightRender} />
+  const rightPanel = useMemo(() => {
+    const buttonItems = (panelItems || []).map(item => ({
+      text: item.text,
+      icon: item.icon,
+      color: item.color,
+      callback: item.selection ? () => item.callback(selectedRowKeys) : item.callback,
+    }));
+    return buttonItems.length > 0 ? <ButtonGroup buttonItems={buttonItems} /> : null;
+  }, [panelItems, selectedRowKeys]);
+
+  const tablePanel = useMemo(() => (rightPanel != null || leftPanel != null)
+    ? <Panel leftRender={leftPanel} rightRender={rightPanel} />
     : null,
-    [panel, leftPanel]
+    [rightPanel, leftPanel]
   );
 
   return (

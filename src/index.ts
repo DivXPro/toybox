@@ -18,6 +18,7 @@ export { MetaDescriptons, MetaDescriptonsProps } from './components/metaDescript
 export { MetaObjectPage, MetaObjectPageProps } from './components/metaObjectPage';
 export { MetaPageHeader, MetaPageHeaderProps } from './components/metaPageHeader';
 export { MetaForm, MetaFormProps } from './components/metaForm';
+export { CloseIcon, LoadingWrapper } from './components/utils'
 export * as Field from './components/field';
 
 export { useFetchData, useBusinessObjectMeta, useFormModal } from './hooks';

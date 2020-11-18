@@ -41,17 +41,17 @@ const defaultRemote = () => new Promise<OptionItem[]>((resolve) => {
 const FieldSelect = ({
   defaultValue,
   value,
-  onChange,
   mode,
   fieldProps,
-  remote,
-  remoteByValue,
   options,
   placeholder,
   params,
-  onClick,
   multiple,
   disabled,
+  onChange,
+  onClick,
+  remote,
+  remoteByValue,
 }: FieldSelectProps, ref: Ref<any>) => {
   const [loading, remoteOptions, fetchData] = useFetchOptions(remote || defaultRemote, params);
   const [initOptions, setInitOptions] = useState<OptionItem[]>([]);
@@ -118,22 +118,24 @@ const FieldSelect = ({
     return <span onClick={onClick}>{current?.label}</span>;
   }
   if (mode === 'edit') {
-    return <Select
-            value={innerValue}
-            onChange={debounce(handleChange, 500)}
-            defaultValue={defaultValue}
-            showSearch={remote != null}
-            size={size}
-            onSearch={fetchData}
-            loading={loading}
-            placeholder={placeholder}
-            ref={inputRef}
-            options={mergeOptions}
-            filterOption={false}
-            mode={ multiple ? 'multiple' : undefined }
-            disabled={disabled}
-            {...fieldProps}
-          />
+    return (
+      <Select
+        value={innerValue}
+        onChange={debounce(handleChange, 500)}
+        defaultValue={defaultValue}
+        showSearch={remote != null}
+        size={size}
+        onSearch={fetchData}
+        loading={loading}
+        placeholder={placeholder}
+        ref={inputRef}
+        options={mergeOptions}
+        filterOption={false}
+        mode={ multiple ? 'multiple' : undefined }
+        disabled={disabled}
+        {...fieldProps}
+      />
+    );
   }
   return null;
 }

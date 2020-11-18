@@ -8,6 +8,7 @@ export { ListPage, ListPageProps } from './components/listPage';
 export { ImpInput, ImpInputProps } from './components/impInput';
 export { Search, SearchProps, IconSearchProps } from './components/search';
 export { Icon, IconProps } from './components/icon';
+export { Svg, SvgProps } from './components/svg';
 export { Inbox, InboxButton, InboxBadge, InboxProps, InboxButtonProps, InboxBadgeProps, NotificationMessage } from './components/inbox';
 export { ProHeader, HeaderProps } from './components/header';
 export { default as Avatar, AvatarProps } from './components/avatar';

@@ -144,7 +144,7 @@ const App: FC = () => {
                 { text: 'remove', type: 'text', size: 'small', danger: true }
               ]}
               panel={{ rightRender }}
-              panelItems={[{ text: 'add', callback: () => undefined }]}
+              panelItems={[{ text: 'add', icon: 'ri-user-add-line', callback: () => undefined }]}
             />
             <ListPage
               title="Example List Page"

@@ -4,6 +4,7 @@ import { useSize } from 'ahooks';
 import { FixedSizeList as List } from 'react-window';
 import InfiniteLoader from 'react-window-infinite-loader';
 import { Notification, NotificationMessage } from './Notification';
+import { LoadingWrapper } from '../utils';
 
 
 const WIDTH = 360;
@@ -57,7 +58,7 @@ export const InboxContent: FC<InboxContentProps> = ({ loading = false, hasMore, 
 
   const messageList = useMemo(() => {
     return (
-      <React.Fragment>
+      <LoadingWrapper loading={loading && isEmpty}>
         <div style={isEmpty ? {display: 'none'} : undefined}>
           <InfiniteLoader isItemLoaded={isItemLoaded} itemCount={itemCount} loadMoreItems={loadMoreItems}>
             {
@@ -77,9 +78,9 @@ export const InboxContent: FC<InboxContentProps> = ({ loading = false, hasMore, 
           </InfiniteLoader>
         </div>
         {isEmpty ? <div style={{ paddingTop: '60px', }}><Empty description="没发现消息通知" /></div> : null}
-      </React.Fragment>
+      </LoadingWrapper>
     );
-  }, [isEmpty, isItemLoaded, itemCount, loadMoreItems, size.height, size.width, Item]);
+  }, [loading, isEmpty, isItemLoaded, itemCount, loadMoreItems, size.height, size.width, Item]);
 
   return (
     <div className="tbox-inbox-content" ref={ref} >

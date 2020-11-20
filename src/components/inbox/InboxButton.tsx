@@ -1,4 +1,4 @@
-import React, { FC, ReactNode, useState, useCallback } from 'react';
+import React, { FC, ReactNode, useCallback } from 'react';
 import classNames from 'classnames';
 import { Popover } from 'antd';
 import { TooltipPlacement } from 'antd/lib/tooltip';
@@ -9,26 +9,27 @@ export type InboxButtonProps = InboxProps & {
   placement?: TooltipPlacement;
   className?: string;
   style?: Record<string, any>;
-  loadBadge: () => Promise<number>;
+  badge: number;
   icon?: ReactNode;
   intervalTime?: number;
 };
 
-export const InboxButton: FC<InboxButtonProps> = ({ remove, read, loadMore, reload, loadBadge, style, className, placement, bundle, icon, intervalTime = 10000 }) => {
-  const [unreadCount, setUnreadCount] = useState(0);
-  const reLoadBadge = useCallback(async () => {
-    try {
-      const count = await loadBadge();
-      setUnreadCount(count);
-    } catch (error) {
-      reLoadBadge();
-    }
-  }, [loadBadge]);
-
+export const InboxButton: FC<InboxButtonProps> = ({
+  remove,
+  read,
+  loadMore,
+  reload,
+  badge,
+  style,
+  className,
+  placement,
+  bundle,
+  icon,
+  intervalTime = 10000
+}) => {
   const handleRead = useCallback(async (id: string) => {
     await read(id);
-    reLoadBadge();
-  }, [reLoadBadge, read]);
+  }, [read]);
 
   return (
     <Popover
@@ -52,8 +53,7 @@ export const InboxButton: FC<InboxButtonProps> = ({ remove, read, loadMore, relo
         intervalTime={intervalTime}
         className={classNames('inbox-button', className)}
         style={style}
-        loadBadge={loadBadge}
-        value={unreadCount}
+        badge={badge}
       />
     </Popover>
   );

@@ -1,71 +1,55 @@
 import React, { FC, useState, useCallback } from 'react';
 import classNames from 'classnames';
-import update from 'immutability-helper';
 import { InboxContent } from './InboxContent';
 import { NotificationMessage } from './Notification';
+import { Badge } from 'antd';
 
 export interface InboxProps {
-  bundle?: number;
+  badge: number;
   onPick: (message: NotificationMessage) => void;
   read: (id: string) => Promise<void>;
   remove: (id: string) => Promise<void>;
-  loadMore: (unread: boolean, offset: number, limit: number, timestamp: number, type?: string) => Promise<NotificationMessage[]>;
-  reload: (unread: boolean, limit: number, type?: string) => Promise<NotificationMessage[]>;
+  messages: NotificationMessage[];
+  hasMore: boolean;
+  loadMore: (unread: boolean, offset: number, timestamp: number, type?: string) => void;
+  reload: (unread: boolean, type?: string) => void;
 }
 
-const DEFAULT_BUNDLE = 10;
-
-export const Inbox: FC<InboxProps> = ({ bundle = DEFAULT_BUNDLE, onPick, reload, loadMore, remove, read }) => {
+export const Inbox: FC<InboxProps> = ({ badge, messages, hasMore, onPick, reload, loadMore, remove, read }) => {
   const [currentTimestamp, setCurrentTimestamp] = useState<number>(new Date().getTime());
   const [unRead, setUnread] = useState(false);
-  const [messages, setMessages] = useState<NotificationMessage[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
-  const [hasMore, setHasMore] = useState<boolean>(true);
   const [selectedId, setSelectedId] = useState<string | number>();
 
   const reloadMsgs = useCallback((isUnread: boolean) => {
     setLoading(true);
-    setMessages([]);
     setUnread(isUnread);
-    reload(isUnread, bundle).then((msgs) => {
-      setHasMore(msgs.length == bundle);
-      setLoading(false);
-      setMessages(msgs);
-    });
-  }, [bundle, reload]); 
+    reload(isUnread);
+  }, [reload]); 
 
-  const handleLoadMore = useCallback(async (offset: number, limit = bundle) => {
+  const handleLoadMore = useCallback(async (offset: number) => {
     if (messages.length === 0) {
       setLoading(true);
-      const msgs = await reload(unRead, bundle);
-      setHasMore(msgs.length == bundle);
+      reload(unRead);
       setLoading(false);
-      setMessages(msgs);
     } else {
       setCurrentTimestamp(new Date().getTime());
       setLoading(true);
-      const msgs = await loadMore(unRead, offset, limit, currentTimestamp);
-      setHasMore(msgs.length == bundle);
+      loadMore(unRead, offset, currentTimestamp);
       setLoading(false);
-      setMessages([...messages].concat(msgs));
     }
-  }, [bundle, messages, reload, unRead, loadMore, currentTimestamp]);
+  }, [messages.length, reload, unRead, loadMore, currentTimestamp]);
 
   const handleRemove = useCallback((id: string) => {
-    setMessages(messages.filter(msg => msg.id !== id))
     remove(id);
-  }, [messages, remove]);
+  }, [remove]);
 
   const handleRead = useCallback((id: string) => {
     const idx = messages.findIndex(msg => msg.id === id);
     if (idx > -1) {
-      setMessages(update(messages, { [idx]: { haveRead: { $set: true } }}));
-      if (unRead) {
-        setMessages(messages.filter(msg => msg.id !== id))
-      }
       read(id);
     }
-  }, [messages, read, unRead]);
+  }, [messages, read]);
 
   const handlePick = useCallback((message: NotificationMessage) => {
     setSelectedId(message.id);
@@ -75,8 +59,13 @@ export const Inbox: FC<InboxProps> = ({ bundle = DEFAULT_BUNDLE, onPick, reload,
 
   const InBoxPanel = () => {
     return <div className="tbox-inbox-panel">
-      <div className={classNames('inbox-panel--tab', { active: !unRead })} onClick={() => reloadMsgs(false)}>全部</div>
-      <div className={classNames('inbox-panel--tab', { active: unRead })} onClick={() => reloadMsgs(true)}>未读</div>
+      <div className={classNames('inbox-panel--tab', { active: !unRead })} onClick={() => reloadMsgs(false)}>
+        <span>全部</span>
+        <Badge count={badge} />
+      </div>
+      <div className={classNames('inbox-panel--tab', { active: unRead })} onClick={() => reloadMsgs(true)}>
+        <span>未读</span>
+      </div>
     </div>;
   };
 

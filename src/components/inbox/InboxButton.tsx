@@ -51,7 +51,7 @@ export const InboxButton: FC<InboxButtonProps> = ({
     >
       <InboxBadge
         icon={icon}
-        className={classNames('inbox-button', className)}
+        className={classNames('tbox-inbox-button', className)}
         style={style}
         count={badge}
       />

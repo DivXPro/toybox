@@ -1,5 +1,6 @@
 import React, { FC, ReactNode } from 'react';
 import { Badge } from 'antd';
+import classNames from 'classnames';
 import { Icon } from '../icon';
 
 
@@ -12,7 +13,7 @@ export type InboxBadgeProps = {
 
 export const InboxBadge: FC<InboxBadgeProps> = ({ count, style, className, icon }) => {
   return (
-    <div className={className} style={style}>
+    <div className={classNames('tbox-inbox-badge', className)} style={style}>
       <Badge count={count}>
         {icon || <Icon name="ri-notification-4-line" size="large" />}
       </Badge>

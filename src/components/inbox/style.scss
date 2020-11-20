@@ -27,11 +27,6 @@ $inbox-panel-height: 48px;
       }
       .ant-badge-count {
         margin-left: 6px;
-        height: 18px;
-        line-height: 18px;
-      }
-      .ant-badge-multiple-words {
-        padding: 0 4px;
       }
       + .inbox-panel--tab {
         margin-left: 8px;
@@ -118,7 +113,18 @@ $inbox-panel-height: 48px;
   }
 }
 
-.inbox-button {
+.tbox-inbox, .tbox-inbox-badge {
+  .ant-badge-count {
+    height: 18px;
+    line-height: 18px;
+    background-color: $primary-color;
+  }
+  .ant-badge-multiple-words {
+    padding: 0 4px;
+  }
+}
+
+.tbox-inbox-button {
   width: 32px;
   height: 32px;
   border-radius: 4px;

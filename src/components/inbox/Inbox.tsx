@@ -9,43 +9,38 @@ export interface InboxProps {
   onPick: (message: NotificationMessage) => void;
   read: (id: string) => Promise<void>;
   remove: (id: string) => Promise<void>;
-  messages: NotificationMessage[];
+  messages?: NotificationMessage[];
+  loading?: boolean;
   hasMore: boolean;
   loadMore: (unread: boolean, offset: number, timestamp: number, type?: string) => void;
   reload: (unread: boolean, type?: string) => void;
 }
 
-export const Inbox: FC<InboxProps> = ({ badge, messages, hasMore, onPick, reload, loadMore, remove, read }) => {
+export const Inbox: FC<InboxProps> = ({ badge, messages, loading, hasMore, onPick, reload, loadMore, remove, read }) => {
   const [currentTimestamp, setCurrentTimestamp] = useState<number>(new Date().getTime());
   const [unRead, setUnread] = useState(false);
-  const [loading, setLoading] = useState<boolean>(true);
   const [selectedId, setSelectedId] = useState<string | number>();
 
   const reloadMsgs = useCallback((isUnread: boolean) => {
-    setLoading(true);
     setUnread(isUnread);
     reload(isUnread);
   }, [reload]); 
 
   const handleLoadMore = useCallback(async (offset: number) => {
-    if (messages.length === 0) {
-      setLoading(true);
+    if (messages == null  || messages.length === 0) {
       reload(unRead);
-      setLoading(false);
     } else {
       setCurrentTimestamp(new Date().getTime());
-      setLoading(true);
       loadMore(unRead, offset, currentTimestamp);
-      setLoading(false);
     }
-  }, [messages.length, reload, unRead, loadMore, currentTimestamp]);
+  }, [messages, reload, unRead, loadMore, currentTimestamp]);
 
   const handleRemove = useCallback((id: string) => {
     remove(id);
   }, [remove]);
 
   const handleRead = useCallback((id: string) => {
-    const idx = messages.findIndex(msg => msg.id === id);
+    const idx = messages?.findIndex(msg => msg.id === id) || -1;
     if (idx > -1) {
       read(id);
     }

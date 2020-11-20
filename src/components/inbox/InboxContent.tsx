@@ -1,4 +1,4 @@
-import React, { FC, useMemo, useCallback, useRef } from 'react';
+import React, { FC, useMemo, useCallback, useRef, useState, useEffect } from 'react';
 import { Empty } from 'antd';
 import { useSize } from 'ahooks';
 import { FixedSizeList as List } from 'react-window';
@@ -15,14 +15,14 @@ export interface InboxContentProps {
   onPick: (message?: NotificationMessage) => void;
   loading?: boolean;
   hasMore: boolean;
-  messages: NotificationMessage[];
+  messages?: NotificationMessage[];
   selectedId?: string | number;
   loadMore: (offset: number, limit: number) => Promise<any>;
   remove: (id: string) => void;
   read: (id: string) => void;
 }
 
-export const InboxContent: FC<InboxContentProps> = ({ loading = false, hasMore, onPick, messages = [], selectedId, loadMore, read, remove }) => {
+export const InboxContent: FC<InboxContentProps> = ({ loading, hasMore, onPick, messages = [], selectedId, loadMore, read, remove }) => {
   const ref = useRef<any>();
   const size = useSize(ref);
   const isItemLoaded = useCallback((index: number) => !hasMore || index < messages.length, [hasMore, messages.length]);
@@ -58,7 +58,7 @@ export const InboxContent: FC<InboxContentProps> = ({ loading = false, hasMore, 
 
   const messageList = useMemo(() => {
     return (
-      <LoadingWrapper loading={loading && isEmpty}>
+      <LoadingWrapper loading={messages == null}>
         <div style={isEmpty ? {display: 'none'} : undefined}>
           <InfiniteLoader isItemLoaded={isItemLoaded} itemCount={itemCount} loadMoreItems={loadMoreItems}>
             {

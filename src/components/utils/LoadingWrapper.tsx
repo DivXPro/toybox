@@ -4,7 +4,7 @@ import { Spin } from 'antd';
 
 export interface LoadingWrapperProps {
   size?: 'small' | 'default' | 'large';
-  loading: boolean;
+  loading?: boolean;
 }
 
 export const LoadingWrapper: FC<LoadingWrapperProps> = ({ size, loading, children }) => {

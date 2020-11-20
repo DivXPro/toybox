@@ -7,7 +7,6 @@ export type InboxBadgeProps = {
   className?: string;
   style?: Record<string, any>;
   icon?: ReactNode;
-  intervalTime?: number;
   count: number;
 };
 

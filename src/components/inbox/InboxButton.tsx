@@ -11,7 +11,6 @@ export type InboxButtonProps = InboxProps & {
   style?: Record<string, any>;
   badge: number;
   icon?: ReactNode;
-  intervalTime?: number;
 };
 
 export const InboxButton: FC<InboxButtonProps> = ({
@@ -19,13 +18,13 @@ export const InboxButton: FC<InboxButtonProps> = ({
   read,
   loadMore,
   reload,
+  messages,
   badge,
   style,
   className,
   placement,
-  bundle,
   icon,
-  intervalTime = 10000
+  hasMore,
 }) => {
   const handleRead = useCallback(async (id: string) => {
     await read(id);
@@ -43,17 +42,18 @@ export const InboxButton: FC<InboxButtonProps> = ({
           onPick={() => undefined}
           loadMore={loadMore}
           reload={reload}
-          bundle={bundle}
+          messages={messages}
+          badge={badge}
+          hasMore={hasMore}
         />
       }
       trigger="click"
     >
       <InboxBadge
         icon={icon}
-        intervalTime={intervalTime}
         className={classNames('inbox-button', className)}
         style={style}
-        badge={badge}
+        count={badge}
       />
     </Popover>
   );

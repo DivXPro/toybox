@@ -18,7 +18,7 @@ export interface InboxProps {
 export const Inbox: FC<InboxProps> = ({ badge, messages, hasMore, onPick, reload, loadMore, remove, read }) => {
   const [currentTimestamp, setCurrentTimestamp] = useState<number>(new Date().getTime());
   const [unRead, setUnread] = useState(false);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
   const [selectedId, setSelectedId] = useState<string | number>();
 
   const reloadMsgs = useCallback((isUnread: boolean) => {

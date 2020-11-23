@@ -1,4 +1,4 @@
-import React, { FC, useState, useCallback } from 'react';
+import React, { FC, useState, useCallback, useMemo } from 'react';
 import classNames from 'classnames';
 import { InboxContent } from './InboxContent';
 import { NotificationMessage } from './Notification';
@@ -52,6 +52,8 @@ export const Inbox: FC<InboxProps> = ({ badge, messages, loading, hasMore, onPic
     handleRead(message.id);
   }, [handleRead, onPick]);
 
+  const showMessages = useMemo(() => unRead ? messages?.filter(msg => !msg.haveRead) : messages, [messages, unRead])
+
   const InBoxPanel = () => {
     return <div className="tbox-inbox-panel">
       <div className={classNames('inbox-panel--tab', { active: !unRead })} onClick={() => reloadMsgs(false)}>
@@ -69,7 +71,7 @@ export const Inbox: FC<InboxProps> = ({ badge, messages, loading, hasMore, onPic
       <InBoxPanel />
       <InboxContent
         onPick={handlePick}
-        messages={messages}
+        messages={showMessages}
         loadMore={handleLoadMore}
         hasMore={hasMore}
         loading={loading}

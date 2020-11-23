@@ -80,7 +80,7 @@ export const InboxContent: FC<InboxContentProps> = ({ loading, hasMore, onPick, 
         {isEmpty ? <div style={{ paddingTop: '60px', }}><Empty description="没发现消息通知" /></div> : null}
       </LoadingWrapper>
     );
-  }, [loading, isEmpty, isItemLoaded, itemCount, loadMoreItems, size.height, size.width, Item]);
+  }, [messages, isEmpty, isItemLoaded, itemCount, loadMoreItems, size.height, size.width, Item]);
 
   return (
     <div className="tbox-inbox-content" ref={ref} >

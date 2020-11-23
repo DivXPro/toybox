@@ -48,10 +48,10 @@ export const Notification: FC<NotificationProps> = ({ message, remove, read, onP
   }, [message.id, remove]);
 
   const handleRead = useCallback(() => {
-    if (typeof read === 'function') {
+    if (!message.haveRead && typeof read === 'function') {
       read(message.id);
     }
-  }, [message.id, read]);
+  }, [message.haveRead, message.id, read]);
 
   const operate = useMemo(() => {
     return (

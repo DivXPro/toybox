@@ -40,7 +40,7 @@ export const Inbox: FC<InboxProps> = ({ badge, messages, loading, hasMore, onPic
   }, [remove]);
 
   const handleRead = useCallback((id: string) => {
-    const idx = messages?.findIndex(msg => msg.id === id) || -1;
+    const idx = (messages || []).findIndex(msg => msg.id === id) || -1;
     if (idx > -1) {
       read(id);
     }
@@ -52,7 +52,7 @@ export const Inbox: FC<InboxProps> = ({ badge, messages, loading, hasMore, onPic
     handleRead(message.id);
   }, [handleRead, onPick]);
 
-  const showMessages = useMemo(() => unRead ? messages?.filter(msg => !msg.haveRead) : messages, [messages, unRead])
+  const showMessages = useMemo(() => unRead ? (messages || []).filter(msg => !msg.haveRead) : messages, [messages, unRead])
 
   const InBoxPanel = () => {
     return <div className="tbox-inbox-panel">

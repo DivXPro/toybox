@@ -40,7 +40,7 @@ export const Inbox: FC<InboxProps> = ({ badge, messages, loading, hasMore, onPic
   }, [remove]);
 
   const handleRead = useCallback((id: string) => {
-    const idx = (messages || []).findIndex(msg => msg.id === id) || -1;
+    const idx = (messages || []).findIndex(msg => msg.id === id && !msg.haveRead);
     if (idx > -1) {
       read(id);
     }

@@ -1,6 +1,6 @@
 import React, { FC, useCallback, useMemo } from 'react';
 import classNames from 'classnames';
-import { Icon } from '../icon';
+import { CloseLine, CheckDoubleLine } from '@airclass/icons';
 import { Time } from '../time';
 import { Badge } from 'antd';
 
@@ -61,11 +61,11 @@ export const Notification: FC<NotificationProps> = ({ message, remove, read, onP
             ? null
             :
             <div className="notification-operate--item" onClick={handleRead} key="read">
-              <Icon name="ri-check-double-line" size="medium" />
+              <CheckDoubleLine />
             </div>
         }
         <div className="notification-operate--item" onClick={handleRemove} key="remove">
-          <Icon name="ri-close-line" size="medium" />
+          <CloseLine />
         </div>
       </div>
     )

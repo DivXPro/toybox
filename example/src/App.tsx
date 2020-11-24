@@ -1,10 +1,9 @@
 import React, { FC, useMemo, useRef } from 'react';
-import { useBusinessObjectMeta, useFormModal, TablePage, ListPage, PanelItem, ProHeader, Avatar, InboxButton, NotificationMessage, MetaDescriptons, FieldString, FieldDate, FieldSelect } from 'toybox';
+import { useBusinessObjectMeta, useFormModal, TablePage, ListPage, PanelItem, ProHeader, Avatar, MetaDescriptons, FieldString, FieldDate, FieldSelect } from 'toybox';
 import { Button, Layout, Menu } from 'antd';
-import { objectMeta, list, msgs, visibleColumns, options } from './data';
+import { objectMeta, list, visibleColumns, options } from './data';
 import 'antd/dist/antd.css';
 import 'toybox/dist/index.css';
-import 'remixicon/fonts/remixicon.css';
 
 const { Content, Sider } = Layout;
 
@@ -17,32 +16,32 @@ const loadData = () => {
   return promise;
 }
 
-const loadMore: (unread: boolean, offset: number, limit: number, timestamp: number, type?: string) => Promise<NotificationMessage[]> = () => {
-  const promise = new Promise<NotificationMessage[]>(function (resolve) {
-    setTimeout(function () {
-      resolve(msgs);
-    }, 1000);
-  });
-  return promise;
-}
+// const loadMore: (unread: boolean, offset: number, limit: number, timestamp: number, type?: string) => Promise<NotificationMessage[]> = () => {
+//   const promise = new Promise<NotificationMessage[]>(function (resolve) {
+//     setTimeout(function () {
+//       resolve(msgs);
+//     }, 1000);
+//   });
+//   return promise;
+// }
 
-const loadMessages: (unread: boolean, limit: number, type?: string) => Promise<NotificationMessage[]> = (): Promise<NotificationMessage[]> => {
-  const promise = new Promise<NotificationMessage[]>(function (resolve) {
-    setTimeout(function () {
-      resolve(msgs);
-    }, 1000);
-  });
-  return promise;
-}
+// const loadMessages: (unread: boolean, limit: number, type?: string) => Promise<NotificationMessage[]> = (): Promise<NotificationMessage[]> => {
+//   const promise = new Promise<NotificationMessage[]>(function (resolve) {
+//     setTimeout(function () {
+//       resolve(msgs);
+//     }, 1000);
+//   });
+//   return promise;
+// }
 
-const loadBadge: () => Promise<number> = () => {
-  const promise = new Promise<number>(function (resolve) {
-    setTimeout(function () {
-      resolve(20);
-    }, 1000);
-  });
-  return promise;
-}
+// const loadBadge: () => Promise<number> = () => {
+//   const promise = new Promise<number>(function (resolve) {
+//     setTimeout(function () {
+//       resolve(20);
+//     }, 1000);
+//   });
+//   return promise;
+// }
 
 const panel = {
   right: [
@@ -100,16 +99,6 @@ const App: FC = () => {
         brand="DEMO"
         rightRender={
           <React.Fragment>
-            <InboxButton
-              placement="bottomLeft"
-              loadBadge={loadBadge}
-              onPick={() => undefined}
-              loadMore={loadMore}
-              reload={loadMessages}
-              remove={async () => undefined}
-              read={async () => undefined}
-              bundle={6}
-            />
             <Avatar.AvatarWithName name="小林" img="https://teambition-file.alibaba-inc.com/thumbnail/011he036f61ebeb2f1e09c0e586b4788a195/w/200/h/200" />
           </React.Fragment>
         }
@@ -144,7 +133,7 @@ const App: FC = () => {
                 { text: 'remove', type: 'text', size: 'small', danger: true }
               ]}
               panel={{ rightRender }}
-              panelItems={[{ text: 'add', icon: 'ri-user-add-line', callback: () => undefined }]}
+              panelItems={[{ text: 'add', callback: () => undefined }]}
             />
             <ListPage
               title="Example List Page"

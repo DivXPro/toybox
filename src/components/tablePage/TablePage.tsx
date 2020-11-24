@@ -1,16 +1,15 @@
 import React, { useMemo, useImperativeHandle, Ref, useState, useCallback } from 'react';
 import { Form, Button } from 'antd';
+import { CheckboxMultipleLine, CheckboxMultipleFill } from '@airclass/icons';
 import useAntdTable from './useTable';
 import { MetaTable } from '../metaTable';
-import { Panel, PanelProps, PanelItem } from '../panel';
+import { Panel, PanelProps } from '../panel';
 import { BusinessObjectMeta } from '../../types/interface';
 import { OperateItem } from '../metaTable/OperateColumn';
 import { TableSearch, SearchFindParam } from './TableSearch';
 import { MetaPageHeader } from '../metaPageHeader';
 import { ContentWrapper } from './ContentWrapper';
-import { Icon } from '../icon';
 import { ButtonGroup, ButtonItem } from '../buttonGroup';
-
 
 export interface PageResult {
   list: Record<string, any>[];
@@ -107,11 +106,23 @@ const TablePage = ({title, objectMeta, operateItems, visibleColumns, panelItems,
   const leftPanel = useMemo(() => {
     return searchOption
       ? <React.Fragment>
-          <Button type="text" onClick={toggleSelection} icon={<Icon name="ri-checkbox-line" />} />
-          <TableSearch form={form} submit={submit} findParams={searchOption.findParams} />
+          <Button
+            type="text"
+            onClick={toggleSelection}
+            icon={selectionType == null ? <CheckboxMultipleLine /> : <CheckboxMultipleFill />}
+          />
+          <TableSearch
+            form={form}
+            submit={submit}
+            findParams={searchOption.findParams}
+          />
         </React.Fragment>
-      : <Button type="text" onClick={toggleSelection} icon={<Icon name="ri-checkbox-line" />}/>;
-  }, [form, searchOption, submit, toggleSelection]);
+      : <Button
+          type="text"
+          onClick={toggleSelection}
+          icon={selectionType == null ? <CheckboxMultipleLine /> : <CheckboxMultipleFill />}
+        />;
+  }, [form, searchOption, selectionType, submit, toggleSelection]);
 
   const rightPanel = useMemo(() => {
     const buttonItems = (panelItems || []).map(item => ({

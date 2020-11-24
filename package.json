@@ -1,6 +1,6 @@
 {
   "name": "@airclass/toybox",
-  "version": "0.1.87",
+  "version": "0.1.88",
   "description": "React components library extend antd",
   "author": "DivXPro",
   "license": "MIT",
@@ -9,7 +9,7 @@
   "module": "dist/index.modern.js",
   "source": "src/index.ts",
   "engines": {
-    "node": ">=10" 
+    "node": ">=10"
   },
   "scripts": {
     "build": "microbundle-crl --no-compress --css-modules false --format modern,cjs",
@@ -81,6 +81,7 @@
     "dist"
   ],
   "dependencies": {
+    "@airclass/icons": "^4.3.4",
     "ahooks": "^2.6.1",
     "antd": "^4.6.5",
     "classnames": "^2.2.6",

@@ -1,7 +1,7 @@
 import React, { FC, useMemo } from 'react';
 import { Button, Dropdown, Menu } from 'antd';
 import { ButtonProps } from 'antd/lib/button';
-import { Icon } from '../icon';
+import { MoreFill } from '@airclass/icons';
 
 export interface OperateColumnProps {
   text: { [key: string]: any };
@@ -69,6 +69,6 @@ export const OperateDropdown: FC<OperateColumnProps> = ({ text, record, index, o
   }, [index, operateItems, record, text]);
 
   return <Dropdown overlay={menu} placement="bottomCenter">
-    <Button type="text" icon={<Icon name="ri-more-fill" size="medium" />}></Button>
+    <Button type="text" icon={<MoreFill />}></Button>
   </Dropdown>
 }

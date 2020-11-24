@@ -1,10 +1,8 @@
 import React, { FC, useState, useRef, useEffect, useCallback, useMemo } from 'react';
-import { SearchProps } from './Search';
+import { Search2Line } from '@airclass/icons';
 import { Button, Input } from 'antd';
-import { Icon } from '../icon';
-import classNames from 'classnames'
-
-const SEARCH_ICON_NAME = 'ri-search-2-line';
+import classNames from 'classnames';
+import { SearchProps } from './Search';
 
 export interface IconSearchProps extends SearchProps {
   searchClassName?: string;
@@ -12,7 +10,17 @@ export interface IconSearchProps extends SearchProps {
   triggerTooltipProps?: string;
 }
 
-export const IconSearch: FC<IconSearchProps> = ({ addonAfter, autoFocus = false, defaultValue, value, onChange, onSearch, placeholder, allowClear = true, disabled = false }) => {
+export const IconSearch: FC<IconSearchProps> = ({
+  addonAfter,
+  autoFocus = false,
+  defaultValue,
+  value,
+  onChange,
+  onSearch,
+  placeholder,
+  allowClear = true,
+  disabled = false
+}) => {
   const [focus, setFocus] = useState(autoFocus);
   const inputRef = useRef<Input>(null);
 
@@ -30,7 +38,7 @@ export const IconSearch: FC<IconSearchProps> = ({ addonAfter, autoFocus = false,
 
 
   const prefix = useMemo(() => {
-    return <Icon name={SEARCH_ICON_NAME} />
+    return <Search2Line />
   }, []);
 
   const handleFocus = useCallback(() => {
@@ -46,7 +54,16 @@ export const IconSearch: FC<IconSearchProps> = ({ addonAfter, autoFocus = false,
 
   return (
     <div className="tbox-icon-search">
-      {holdInput ? null : <Button className="tbox-icon-search-icon" type="text" onClick={() => inputRef.current?.focus()} icon={<i className={SEARCH_ICON_NAME} />} />}
+      {
+        holdInput
+          ? null
+          : <Button
+              className="tbox-icon-search-icon"
+              type="text"
+              onClick={() => inputRef.current?.focus()}
+              icon={<Search2Line />}
+            />
+      }
       <div className={classNames('tbox-search', holdInput ? 'tbox-search-hold' : 'tbox-search-fold')}>
         <Input
           className='tbox-search-input'

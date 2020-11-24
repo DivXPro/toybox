@@ -1,6 +1,5 @@
-import React, { FC } from 'react';
+import React, { FC, ReactNode } from 'react';
 import { Button } from 'antd';
-import { Icon } from '../icon';
 
 export interface ButtonGroupProps {
   buttonItems: ButtonItem[];
@@ -8,7 +7,7 @@ export interface ButtonGroupProps {
 
 export interface ButtonItem {
   text: string;
-  icon?: string;
+  icon?: ReactNode;
   color?: string;
   callback: (...args: any) => void;
 }
@@ -16,7 +15,16 @@ export interface ButtonItem {
 export const ButtonGroup: FC<ButtonGroupProps> = ({ buttonItems }) => {
   return <React.Fragment>
     {
-      buttonItems.map((item, idx) => <Button key={idx} onClick={item.callback} icon={ item.icon != null ? <Icon name={item.icon} /> : undefined}>{item.text}</Button>)
+      buttonItems.map(
+        (item, idx) =>
+          <Button
+            key={idx}
+            onClick={item.callback}
+            icon={item.icon}
+          >
+            {item.text}
+          </Button>
+      )
     }
   </React.Fragment>
 }

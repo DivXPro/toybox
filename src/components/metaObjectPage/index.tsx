@@ -1,5 +1,6 @@
 import React, { FC, useMemo, ReactNode } from 'react';
 import { Tabs } from 'antd';
+import classNames from 'classnames';
 import { MetaPageHeader } from '../metaPageHeader';
 import { BusinessObjectMeta } from '../../types/interface';
 import { MetaDescriptons } from '../metaDescriptions';
@@ -13,6 +14,7 @@ export interface MetaObjectPageProps {
   data: Record<string, any>;
   onBack?: () => void;
   extend?: ExtendRender[];
+  className?: string;
 }
 
 
@@ -27,7 +29,13 @@ const ExtendContent: FC<{views: { name: string, node: ReactNode }[]}> = ({views}
   </Tabs>
 };
 
-export const MetaObjectPage: FC<MetaObjectPageProps> = ({ businessObjectMeta, data, onBack, extend }) => {
+export const MetaObjectPage: FC<MetaObjectPageProps> = ({
+  businessObjectMeta,
+  data,
+  onBack,
+  extend,
+  className,
+}) => {
   const title = useMemo(() => data[businessObjectMeta.titleKey], [businessObjectMeta.titleKey, data]);
   const fieldItemsMeta = useObjectMeta(businessObjectMeta);
   const extendContent = useMemo(() => {
@@ -43,7 +51,7 @@ export const MetaObjectPage: FC<MetaObjectPageProps> = ({ businessObjectMeta, da
     return <MetaDescriptons fieldItemMetas={fieldItemsMeta} mode="read" data={data} />
   }, [businessObjectMeta, data, extend, fieldItemsMeta]);
   return (
-    <div className='tbox-page'>
+    <div className={classNames('tbox-page', className)}>
       <MetaPageHeader title={title} onBack={onBack} />
       <ContentWrapper>
         { extendContent }

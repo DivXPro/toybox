@@ -1,5 +1,4 @@
 import React, { FC, useMemo } from 'react';
-import { Descriptions } from 'antd';
 import { FieldMeta } from '../../types/interface';
 import { FieldMode, FieldDate, FieldString, FieldText, FieldNumber, FieldSelect } from '../field';
 
@@ -19,6 +18,8 @@ export const FieldItem: FC<{ field: FieldMeta, mode: FieldMode, value: any }> = 
         return <FieldDate mode={mode} value={value} format="YYYY-MM-DD HH:mm:ss" />
       case 'singleOption':
         return <FieldSelect mode={mode} value={value} options={field.options} />
+      case 'businessObject':
+        return <FieldString mode={mode} value={value[field.titleKey || 'id']} />
       default:
         return null;
     }

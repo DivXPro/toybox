@@ -6,8 +6,8 @@
   align-items: center;
   .tbox-panel--left, .tbox-panel--right {
     display: flex;
-    button {
-      + button {
+    button, form {
+      + button, + form {
         margin-left: 10px;
       }
     }

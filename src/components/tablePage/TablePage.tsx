@@ -1,5 +1,6 @@
 import React, { useMemo, useImperativeHandle, Ref, useState, useCallback } from 'react';
 import { Form, Button } from 'antd';
+import classNames from 'classnames';
 import { CheckboxMultipleLine, CheckboxMultipleFill } from '@airclass/icons';
 import useAntdTable from './useTable';
 import { MetaTable } from '../metaTable';
@@ -33,6 +34,7 @@ export interface TablePageProps {
   }
   viewLink?: (...arg: any) => string;
   panelItems?: PanelOperateItem[];
+  className?: string;
 }
 
 export interface ColumnVisible {
@@ -46,7 +48,7 @@ export interface PanelOperateItem extends ButtonItem {
   selection?: boolean;
 }
 
-const TablePage = ({title, objectMeta, operateItems, visibleColumns, panelItems, loadData, searchOption, viewLink }: TablePageProps, ref: Ref<any>) => {
+const TablePage = ({title, objectMeta, operateItems, visibleColumns, panelItems, loadData, searchOption, viewLink, className }: TablePageProps, ref: Ref<any>) => {
   const [form] = Form.useForm();
   const [selectedRowKeys, setSelectedRowKeys] = useState<(string | number)[]>([]);
   const [selectionType, setSelectionType] = useState<'checkbox' | 'radio'>();
@@ -141,7 +143,7 @@ const TablePage = ({title, objectMeta, operateItems, visibleColumns, panelItems,
   );
 
   return (
-    <div className='tbox-page'>
+    <div className={classNames('tbox-page', className)}>
       <MetaPageHeader title={title} footer={tablePanel} />
       <ContentWrapper>
         <MetaTable

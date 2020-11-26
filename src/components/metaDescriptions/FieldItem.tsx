@@ -3,7 +3,7 @@ import { FieldMeta } from '../../types/interface';
 import { FieldMode, FieldDate, FieldString, FieldText, FieldNumber, FieldSelect } from '../field';
 
 
-export const FieldItem: FC<{ field: FieldMeta, mode: FieldMode, value: any }> = ({ field, mode = 'read', value }) => {
+export const FieldItem: FC<{ field: FieldMeta, mode: FieldMode, value?: any }> = ({ field, mode = 'read', value }) => {
   const fieldItem = useMemo(() => {
     switch (field.type) {
       case 'string':
@@ -19,7 +19,7 @@ export const FieldItem: FC<{ field: FieldMeta, mode: FieldMode, value: any }> = 
       case 'singleOption':
         return <FieldSelect mode={mode} value={value} options={field.options} />
       case 'businessObject':
-        return <FieldString mode={mode} value={value[field.titleKey || 'id']} />
+        return <FieldString mode={mode} value={value != null ? value[field.titleKey || 'id'] : null } />
       default:
         return null;
     }

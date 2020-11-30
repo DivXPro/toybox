@@ -11,6 +11,7 @@ export interface ButtonItem {
   icon?: ReactNode;
   color?: string;
   type?: ButtonType;
+  danger?: boolean;
   size?: ButtonSize;
   disabled?: boolean;
   callback: (...args: any) => void;
@@ -28,6 +29,7 @@ export const ButtonGroup: FC<ButtonGroupProps> = ({ buttonItems }) => {
             icon={item.icon}
             size={item.size}
             disabled={item.disabled}
+            danger={item.danger}
           >
             {item.text}
           </Button>

@@ -132,7 +132,9 @@ const TablePage = ({title, objectMeta, operateItems, visibleColumns, panelItems,
       .map(item => ({
         text: item.text,
         icon: item.icon,
-        color: item.color,
+        type: item.type,
+        disabled: item.disabled,
+        danger: item.danger,
         callback: item.selection ? () => item.callback(selectedRowKeys) : item.callback,
       }));
     return buttonItems.length > 0 ? <ButtonGroup buttonItems={buttonItems} /> : null;

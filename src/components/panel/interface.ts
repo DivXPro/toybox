@@ -9,6 +9,6 @@ export type ItemProps = {
 
 
 export interface PanelProps {
-  leftRender?: ReactNode;
-  rightRender?: ReactNode;
+  left?: ReactNode;
+  right?: ReactNode;
 }

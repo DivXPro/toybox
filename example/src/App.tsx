@@ -132,14 +132,14 @@ const App: FC = () => {
                 { text: 'edit', type: 'dashed', size: 'small' },
                 { text: 'remove', type: 'text', size: 'small', danger: true }
               ]}
-              panel={{ rightRender }}
+              panel={{ right: rightRender }}
               panelItems={[{ text: 'add', callback: () => undefined }]}
             />
             <ListPage
               title="Example List Page"
               objectMeta={objectMeta}
               loadData={loadData}
-              panel={{ rightRender }}
+              panel={{ left: rightRender }}
             />
             <MetaDescriptons fieldItemMetas={fieldMetas} data={list[0]} mode="read" />
             <FormModal />

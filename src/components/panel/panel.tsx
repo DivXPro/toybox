@@ -1,17 +1,15 @@
 import React, { FC, ReactNode } from 'react'
 
 export interface PanelProps {
-  leftRender?: ReactNode;
-  rightRender?: ReactNode;
+  left?: ReactNode;
+  right?: ReactNode;
 }
 
-export const Panel: FC<PanelProps> = ({ leftRender, rightRender }) => {
+export const Panel: FC<PanelProps> = ({ left, right }) => {
   return (
     <div className='tbox-panel'>
-      <div className='tbox-panel--left'>{leftRender}</div>
-      <div className='tbox-panel--right'>
-        {rightRender}
-      </div>
+      <div className='tbox-panel--left'>{left}</div>
+      <div className='tbox-panel--right'>{right}</div>
     </div>
   )
 }

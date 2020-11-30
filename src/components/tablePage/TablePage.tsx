@@ -127,17 +127,19 @@ const TablePage = ({title, objectMeta, operateItems, visibleColumns, panelItems,
   }, [form, searchOption, selectionType, submit, toggleSelection]);
 
   const rightPanel = useMemo(() => {
-    const buttonItems = (panelItems || []).map(item => ({
-      text: item.text,
-      icon: item.icon,
-      color: item.color,
-      callback: item.selection ? () => item.callback(selectedRowKeys) : item.callback,
-    }));
+    const buttonItems = (panelItems || [])
+      .filter(item => (!item.selection) === (selectionType == null) )
+      .map(item => ({
+        text: item.text,
+        icon: item.icon,
+        color: item.color,
+        callback: item.selection ? () => item.callback(selectedRowKeys) : item.callback,
+      }));
     return buttonItems.length > 0 ? <ButtonGroup buttonItems={buttonItems} /> : null;
-  }, [panelItems, selectedRowKeys]);
+  }, [panelItems, selectedRowKeys, selectionType]);
 
   const tablePanel = useMemo(() => (rightPanel != null || leftPanel != null)
-    ? <Panel leftRender={leftPanel} rightRender={rightPanel} />
+    ? <Panel left={leftPanel} right={rightPanel} />
     : null,
     [rightPanel, leftPanel]
   );

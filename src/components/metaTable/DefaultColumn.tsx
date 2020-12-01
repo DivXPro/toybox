@@ -5,7 +5,8 @@ import useColumnLink from './hooks/columnLink';
 export type DefaultColumnProps = ColumnFCProps;
 
 export const DefaultColumn: FC<DefaultColumnProps> = ({ text, record, columnMeta }) => {
-  const linkHandle = useColumnLink(record, columnMeta.link);
+  const { link } = columnMeta;
+  const linkHandle = useColumnLink(record, link);
   if (columnMeta.link) {
     return <div className="tbox-column-link" onClick={linkHandle}>{text}</div>;
   }

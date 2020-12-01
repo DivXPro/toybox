@@ -1,16 +1,24 @@
 import { Input } from 'antd';
-import React, { useRef, useImperativeHandle, Ref } from 'react';
+import React, { useRef, useImperativeHandle, Ref, ForwardRefRenderFunction } from 'react';
 
 import { FieldProps } from '../interface';
 
 export interface FieldStringProps extends FieldProps {
   value?: string;
-  defaultValue?: string;
   placeholder?: string;
   onChange?: (value: string) => void;
 }
 
-const FieldString = ({ mode, value, onChange, defaultValue, placeholder, fieldProps, disabled, onClick }: FieldStringProps, ref: Ref<any>) => {
+const FieldString: ForwardRefRenderFunction<any, FieldStringProps> = ({
+  field,
+  mode,
+  value,
+  placeholder,
+  fieldProps,
+  disabled,
+  onClick,
+  onChange,
+}, ref: Ref<any>) => {
   const inputRef = useRef();
   useImperativeHandle(
     ref,
@@ -25,6 +33,7 @@ const FieldString = ({ mode, value, onChange, defaultValue, placeholder, fieldPr
     return <span onClick={onClick}>{dom}</span>
   }
   if (mode === 'edit' || mode === 'update') {
+    const { defaultValue } = field;
     return <Input
       ref={inputRef}
       value={value}

@@ -1,4 +1,4 @@
-import React, { FC, useMemo } from 'react';
+import React, { ForwardRefRenderFunction, useMemo, useRef, useImperativeHandle, Ref } from 'react';
 import { Switch } from 'antd';
 import { FieldProps } from '../interface';
 
@@ -10,7 +10,15 @@ export type FieldBooleanProps = FieldProps & {
   onChange?: (value: boolean) => void;
 }
 
-export const FieldBoolean: FC<FieldBooleanProps> = ({ onChange, value, textValues, defaultValue, mode, fieldProps, onClick }) => {
+const FieldBoolean: ForwardRefRenderFunction<any, FieldBooleanProps> = ({ onChange, value, textValues, defaultValue, mode, fieldProps, onClick }, ref: Ref<any>) => {
+  const inputRef = useRef();
+  useImperativeHandle(
+    ref,
+    () => ({
+      ...(inputRef.current || {}),
+    }),
+    [],
+  );
   const innerTextValues = useMemo(() => {
     return textValues ? textValues : ['否', '是'];
   }, [textValues]);
@@ -27,8 +35,18 @@ export const FieldBoolean: FC<FieldBooleanProps> = ({ onChange, value, textValue
       return <div onClick={onClick}>{textValue}</div>;
     case 'edit':
     case 'update':
-      return <Switch onChange={onChange} checkedChildren={innerTextValues[1]} unCheckedChildren={innerTextValues[0]} checked={value} defaultChecked={defaultValue} {...fieldProps} />
+      return <Switch
+        ref={inputRef}
+        onChange={onChange}
+        checkedChildren={innerTextValues[1]}
+        unCheckedChildren={innerTextValues[0]}
+        checked={value}
+        defaultChecked={defaultValue}
+        {...fieldProps}
+      />
     default:
       return null;
   }
 }
+
+export default React.forwardRef(FieldBoolean);

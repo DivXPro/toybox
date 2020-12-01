@@ -26,11 +26,11 @@ export interface FieldSelectProps extends FieldProps {
   value?: SelectValue;
   defaultValue?: SelectValue;
   multiple?: boolean;
-  remote?: (key: string, params?: any) => Promise<OptionItem[]>;
-  remoteByValue?: (value: SelectValue, params?: any) => Promise<OptionItem | OptionItem[]>;
   options?: OptionItem[];
   placeholder?: string;
   params?: any;
+  remote?: (key: string, params?: any) => Promise<OptionItem[]>;
+  remoteByValue?: (value: SelectValue, params?: any) => Promise<OptionItem | OptionItem[]>;
   onChange?: (value: SelectValue, options?: OptionItem | OptionItem[]) => void;
 }
 
@@ -141,4 +141,3 @@ const FieldSelect = ({
 }
 
 export default React.forwardRef(FieldSelect);
- 

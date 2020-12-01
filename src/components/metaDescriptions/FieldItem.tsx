@@ -1,28 +1,19 @@
 import React, { FC, useMemo } from 'react';
 import { FieldMeta } from '../../types/interface';
-import { FieldMode, FieldDate, FieldString, FieldText, FieldNumber, FieldSelect } from '../field';
+import { FieldProps } from '../field/interface';
 
+export type FieldMap = Record<string, React.FC<FieldProps> | React.ForwardRefExoticComponent<FieldProps & any>>;
 
-export const FieldItem: FC<{ field: FieldMeta, mode: FieldMode, value?: any }> = ({ field, mode = 'read', value }) => {
+export interface FieldItemProps extends FieldProps {
+  field: FieldMeta;
+  fieldMap: FieldMap;
+  component?: string;
+}
+
+export const FieldItem: FC<FieldItemProps> = ({ field, fieldMap, mode = 'read', value, component, ...other }) => {
   const fieldItem = useMemo(() => {
-    switch (field.type) {
-      case 'string':
-        return <FieldString mode={mode} value={value} />
-      case 'text':
-        return <FieldText mode={mode} value={value} />
-      case 'number':
-        return <FieldNumber mode={mode} value={value} />
-      case 'date':
-        return <FieldDate mode={mode} value={value} />
-      case 'datetime':
-        return <FieldDate mode={mode} value={value} format="YYYY-MM-DD HH:mm:ss" />
-      case 'singleOption':
-        return <FieldSelect mode={mode} value={value} options={field.options} />
-      case 'businessObject':
-        return <FieldString mode={mode} value={value != null ? value[field.titleKey || 'id'] : null } />
-      default:
-        return null;
-    }
-  }, [field, mode, value]);
+    const FieldComponent = fieldMap[component || field.type];
+    return FieldComponent != null ? <FieldComponent field={field} mode={mode} value={value} {...other} /> : null;
+  }, [component, fieldMap, mode, other, value, field]);
   return fieldItem;
 }

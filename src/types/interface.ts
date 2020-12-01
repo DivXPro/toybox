@@ -1,4 +1,5 @@
 import { OptionItem } from "../components/field/select";
+import { FieldType } from "../components/field/interface";
 
 export interface BusinessObjectMeta {
   key: string;
@@ -29,11 +30,15 @@ export interface FieldMeta {
   titleKey?: string;
   properties?: { [key: string]: FieldMeta };
   index?: number;
+  defaultValue?: any;
 }
 
 export interface FieldMetaProfile extends FieldMeta {
   disabled?: boolean;
   mode?: 'read' | 'update' | 'edit';
+}
+
+export interface RemoteSelectMetaProfile extends FieldMetaProfile {
   remote?: (key: string, params?: any) => Promise<OptionItem[]>;
   remoteByValue?: (value: string | number, params?: any) => Promise<OptionItem>;
 }
@@ -49,22 +54,6 @@ export type ColumnMeta = {
   align?: 'left' | 'right' | 'center';
   link?: (...args: any) => string | string;
 } & FieldMeta
-
-export enum FieldType {
-  INTEGER = 'integer',
-  NUMBER = 'number',
-  STRING = 'string',
-  TEXT = 'text',
-  DATE = 'date',
-  DATETIME = 'datetime',
-  BOOLEAN = 'boolean',
-  ARRAY = 'array',
-  OBJECT_ID = 'objectId',
-  BUSINESS_OBJECT = 'businessObject',
-  SINGLE_OPTION = 'singleOption',
-  MULTI_OPTION = 'multiOption',
-  DOCUMENT = 'document',
-}
 
 export type MetaPageMode = 'list' | 'view';
 

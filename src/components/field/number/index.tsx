@@ -1,5 +1,5 @@
 import { InputNumber } from 'antd';
-import React, { useRef, useImperativeHandle, Ref } from 'react';
+import React, { useRef, useImperativeHandle, Ref, ForwardRefRenderFunction } from 'react';
 
 import { FieldProps } from '../interface';
 
@@ -10,7 +10,16 @@ export interface FieldNumberProps extends FieldProps {
   onChange?: (value: number) => void;
 }
 
-const FieldNumber = ({ mode, value, defaultValue, placeholder, fieldProps, disabled, onChange, onClick }: FieldNumberProps, ref: Ref<any>) => {
+const FieldNumber: ForwardRefRenderFunction<any, FieldNumberProps> = ({
+  mode,
+  value,
+  defaultValue,
+  placeholder,
+  fieldProps,
+  disabled,
+  onChange,
+  onClick
+}, ref: Ref<any>) => {
   const inputRef = useRef();
   useImperativeHandle(
     ref,

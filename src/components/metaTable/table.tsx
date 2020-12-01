@@ -15,26 +15,26 @@ export type RowData = Record<string, any>;
 
 export interface MetaTableProps {
   rowKey?: string | ((record: RowData, index: number) => string);
-  rowClassName?: (record: RowData, index: number) => string; 
   size?:  'middle' | 'small';
   columnMetas: ColumnMeta[];
   columnComponents?: Record<string, React.FunctionComponent>;
   dataSource: RowData[];
   loading: boolean;
-  onChange: (pagination: TablePaginationConfig, filters?: any, sorter?: any) => void;
   pagination?: TablePaginationConfig | false;
   operateItems?: OperateItem[];
-  summary?: (dataSource: RowData[]) => ReactNode;
-  title?: (dataSource: RowData[]) => ReactNode;
   showHeader?: boolean;
   expandable?: ExpandableConfig<RowData>;
   bordered?: boolean;
   rowSelection?: TableRowSelection<RowData>;
+  onChange: (pagination: TablePaginationConfig, filters?: any, sorter?: any) => void;
+  rowClassName?: (record: RowData, index: number) => string;
+  title?: (dataSource: RowData[]) => ReactNode;
+  summary?: (dataSource: RowData[]) => ReactNode;
 }
 
-export const columnFactory = (columnMeta: ColumnMeta, fc: FC<ColumnFCProps>) => {
+export const columnFactory = (columnMeta: ColumnMeta, render: FC<ColumnFCProps>) => {
   return (text: any, record: { [key: string]: any }, index: number) => {
-    return fc({ text, record, index, columnMeta });
+    return render({ text, record, index, columnMeta });
   };
 }
 
@@ -52,20 +52,20 @@ const defaultColumnsComponents: Record<string, React.FunctionComponent> = {
 
 export const MetaTable: FC<MetaTableProps> = ({
   rowKey,
-  rowClassName,
   size,
   columnMetas,
   dataSource,
   columnComponents = {},
-  onChange,
   pagination,
   operateItems,
-  summary,
-  title,
   showHeader,
   expandable,
   bordered,
-  rowSelection
+  rowSelection,
+  summary,
+  title,
+  onChange,
+  rowClassName,
 }) => {
 
   const mergeColumnComponents = useMemo(() => {
@@ -76,19 +76,25 @@ export const MetaTable: FC<MetaTableProps> = ({
     if (columnMeta.component != null) {
       return columnFactory(columnMeta, mergeColumnComponents[columnMeta.component])
     }
-    if (columnMeta.type === 'businessObject' || columnMeta.type === 'object' || columnMeta.type === 'document') {
+    if (
+      columnMeta.type === 'businessObject'
+      || columnMeta.type === 'object'
+      || columnMeta.type === 'document'
+    ) {
       return columnFactory(columnMeta, mergeColumnComponents[columnMeta.key] || mergeColumnComponents['businessObject']);
     }
     return columnFactory(columnMeta, mergeColumnComponents[columnMeta.type] || DefaultColumn);
   }, [mergeColumnComponents]);
 
   const makeColumns = useCallback((columnMetas: ColumnMeta[]) => {
-    const columns = columnMetas.map(columnMeta => ({
-      key: columnMeta.key,
-      title: columnMeta.name,
-      dataIndex: columnMeta.key,
-      render: pickComponent(columnMeta),
-    }));
+    const columns = columnMetas.map(columnMeta => {
+      return {
+        key: columnMeta.key,
+        title: columnMeta.name,
+        dataIndex: columnMeta.key,
+        render: pickComponent(columnMeta),
+      };
+    });
     if (operateItems != null && operateItems.length > 0) {
       columns.push({
         key: 'meta-table-operate',

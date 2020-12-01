@@ -1,5 +1,5 @@
 import { DatePicker } from 'antd';
-import React, { Ref, useCallback, useMemo } from 'react';
+import React, { Ref, ForwardRefRenderFunction, useCallback, useMemo } from 'react';
 import moment from 'moment';
 
 import { FieldProps } from '../interface';
@@ -19,8 +19,24 @@ export interface FieldDateProps extends FieldProps {
   bordered?: boolean;
 }
 
+const defaultFormat = 'YYYY-MM-DD';
 
-const FieldDate = ({ disabled, value, defaultValue, placeholder, mode, format = 'YYYY-MM-DD', fieldProps, picker, onChange, onOpenChange, open, onClick, bordered, showTime }: FieldDateProps, ref: Ref<any>) => {
+const FieldDate: ForwardRefRenderFunction<any, FieldDateProps> = ({
+  disabled,
+  value,
+  defaultValue,
+  placeholder,
+  mode,
+  format = defaultFormat,
+  fieldProps,
+  picker,
+  open,
+  bordered,
+  showTime,
+  onChange,
+  onClick,
+  onOpenChange,
+}, ref: Ref<any>) => {
   const innerOnChange = useCallback((date: moment.Moment) => {
     onChange && onChange(date.format(format));
   }, [format, onChange]);

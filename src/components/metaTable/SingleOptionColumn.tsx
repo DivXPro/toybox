@@ -8,6 +8,7 @@ interface SingleOptionColumnProps extends ColumnFCProps {
 }
 
 export const SingleOptionColumn: FC<SingleOptionColumnProps> = ({ text, record, columnMeta }) => {
+  const { align, component, fixed, link, ...field } = columnMeta;
   const linkHandle = useColumnLink(record, columnMeta.link);
-  return <FieldSelect onClick={linkHandle} value={text} options={columnMeta.options} mode="read" />;
+  return <FieldSelect field={field} onClick={linkHandle} value={text} options={columnMeta.options} mode="read" />;
 }

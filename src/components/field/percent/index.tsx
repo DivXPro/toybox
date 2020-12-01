@@ -1,6 +1,5 @@
 import { InputNumber } from 'antd';
-import React, { useRef, useImperativeHandle, Fragment, Ref, ReactNode } from 'react';
-
+import React, { useRef, useImperativeHandle, Fragment, Ref, ReactNode, ForwardRefRenderFunction } from 'react';
 import { FieldProps } from '../interface';
 import { getColorByRealValue, getSymbolByRealValue, getRealTextWithPrecision } from './util';
 
@@ -16,7 +15,7 @@ export interface FieldPercentProps extends FieldProps {
   precision?: number;
 }
 
-const FieldPercent = ({
+const FieldPercent: ForwardRefRenderFunction<any, FieldPercentProps> = ({
   mode, 
   value, 
   defaultValue, 

@@ -1,6 +1,8 @@
 import { FieldString, FieldText, FieldNumber, FieldDate, FieldSelect, FieldBoolean } from ".";
 import { FieldBusinessObject } from "./businessObject";
 import { FieldMeta } from "../../types/interface";
+import { OptionItem } from "./select";
+import { ReactText } from "react";
 
 export type FieldMode = 'read' | 'edit' | 'update';
 
@@ -12,6 +14,8 @@ export interface FieldProps {
   value?: any;
   onClick?: () => void;
   onChange?: (...args: any) => void;
+  remote?: (key: string, params?: any) => Promise<OptionItem[]>;
+  remoteByValue?: (value: ReactText | ReactText[], params?: any) => Promise<OptionItem>;
 }
 
 export type FieldMap = Record<string, React.FC<FieldProps> | React.ForwardRefExoticComponent<FieldProps & any>>;

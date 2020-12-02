@@ -21,9 +21,16 @@ export const MetaForm: FC<MetaFormProps> = ({ fieldMetaProfiles, fieldMap, onFin
   const mergeFieldMap = useMemo(() => Object.assign({}, defaultFormFieldMap, fieldMap), [fieldMap]);
   const formItems = useMemo(() => {
     return fieldMetaProfiles.map((fieldProfile, idx) => {
-      const { mode = 'edit', disabled, ...field } = fieldProfile;
+      const { mode = 'edit', disabled, remote, remoteByValue, ...field } = fieldProfile;
       return <Form.Item key={idx} name={field.key} label={field.name}>
-        <FieldItem field={field} mode={mode} disabled={disabled} fieldMap={mergeFieldMap} />
+        <FieldItem
+          field={field}
+          mode={mode}
+          disabled={disabled}
+          fieldMap={mergeFieldMap}
+          remote={remote}
+          remoteByValue={remoteByValue}
+        />
       </Form.Item>
     });
   }, [fieldMetaProfiles, mergeFieldMap]);

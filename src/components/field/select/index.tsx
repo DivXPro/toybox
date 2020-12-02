@@ -29,8 +29,6 @@ export interface FieldSelectProps extends FieldProps {
   options?: OptionItem[];
   placeholder?: string;
   params?: any;
-  remote?: (key: string, params?: any) => Promise<OptionItem[]>;
-  remoteByValue?: (value: SelectValue, params?: any) => Promise<OptionItem | OptionItem[]>;
   onChange?: (value: SelectValue, options?: OptionItem | OptionItem[]) => void;
 }
 

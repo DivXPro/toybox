@@ -1,5 +1,6 @@
 import { OptionItem } from "../components/field/select";
 import { FieldType } from "../components/field/interface";
+import { ReactText } from "react";
 
 export interface BusinessObjectMeta {
   key: string;
@@ -36,12 +37,14 @@ export interface FieldMeta {
 export interface FieldMetaProfile extends FieldMeta {
   disabled?: boolean;
   mode?: 'read' | 'update' | 'edit';
+  remote?: (key: string, params?: any) => Promise<OptionItem[]>;
+  remoteByValue?: (value: ReactText | ReactText[], params?: any) => Promise<OptionItem>;
 }
 
-export interface RemoteSelectMetaProfile extends FieldMetaProfile {
-  remote?: (key: string, params?: any) => Promise<OptionItem[]>;
-  remoteByValue?: (value: string | number, params?: any) => Promise<OptionItem>;
-}
+// export interface RemoteSelectMetaProfile extends FieldMetaProfile {
+//   remote?: (key: string, params?: any) => Promise<OptionItem[]>;
+//   remoteByValue?: (value: string | number, params?: any) => Promise<OptionItem>;
+// }
 
 export interface FieldOption {
   label: string;

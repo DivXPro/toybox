@@ -9,5 +9,5 @@ export type FieldBusinessObjectProps = FieldProps & {
 
 // TODO: edit 模式需要考虑
 export const FieldBusinessObject: FC<FieldBusinessObjectProps> = ({ value, titleKey = 'id', onClick }) => {
-  return <span onClick={onClick}>{value[titleKey]}</span>;
+  return <span onClick={onClick}>{value ? value[titleKey] : null}</span>;
 }

@@ -1,11 +1,9 @@
 import React, { FC, useMemo } from 'react';
-import { FieldMeta } from '../../types/interface';
 import { FieldProps } from '../field/interface';
 
 export type FieldMap = Record<string, React.FC<FieldProps> | React.ForwardRefExoticComponent<FieldProps & any>>;
 
 export interface FieldItemProps extends FieldProps {
-  field: FieldMeta;
   fieldMap: FieldMap;
   component?: string;
 }

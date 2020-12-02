@@ -3,7 +3,7 @@ import { Form } from 'antd';
 import { FormProps, FormInstance } from 'antd/lib/form';
 import { Store } from 'antd/lib/form/interface';
 import { FieldMetaProfile } from '../../types/interface';
-import { defaultFieldMap } from '../field';
+import { defaultFormFieldMap } from '../field'
 import { FieldMap, FieldItem, FieldItemProps } from '../metaDescriptions/FieldItem';
 
 export interface MetaFormProps extends FormProps {
@@ -15,9 +15,10 @@ export interface MetaFormProps extends FormProps {
 
 export type FormItemProps = FieldItemProps;
 
+
 export const MetaForm: FC<MetaFormProps> = ({ fieldMetaProfiles, fieldMap, onFinish, userForm, ...formProps }) => {
   const [form] = Form.useForm();
-  const mergeFieldMap = useMemo(() => Object.assign({}, defaultFieldMap, fieldMap), [fieldMap]);
+  const mergeFieldMap = useMemo(() => Object.assign({}, defaultFormFieldMap, fieldMap), [fieldMap]);
   const formItems = useMemo(() => {
     return fieldMetaProfiles.map((fieldProfile, idx) => {
       const { mode = 'edit', disabled, ...field } = fieldProfile;

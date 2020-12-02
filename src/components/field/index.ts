@@ -9,4 +9,4 @@ export { default as FieldPercent, FieldPercentProps } from './percent';
 export { default as FieldBoolean, FieldBooleanProps } from './boolean';
 export { FieldBusinessObject, FieldBusinessObjectProps } from './businessObject';
 
-export { FieldMode, FieldMap, defaultFieldMap } from './interface';
+export { FieldMode, FieldMap, defaultFieldMap, defaultFormFieldMap } from './interface';

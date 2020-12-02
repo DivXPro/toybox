@@ -43,3 +43,14 @@ export const defaultFieldMap: FieldMap = {
   boolean: FieldBoolean,
   businessObject: FieldBusinessObject,
 };
+
+export const defaultFormFieldMap: FieldMap = {
+  string: FieldString,
+  text: FieldText,
+  number: FieldNumber,
+  date: FieldDate,
+  datetime: FieldDate,
+  singleOption: FieldSelect,
+  boolean: FieldBoolean,
+  businessObject: FieldSelect,
+}

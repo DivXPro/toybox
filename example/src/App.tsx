@@ -1,7 +1,7 @@
 import React, { FC, useMemo, useRef } from 'react';
-import { useBusinessObjectMeta, useFormModal, TablePage, ListPage, PanelItem, ProHeader, Avatar, MetaDescriptons, FieldString, FieldDate, FieldSelect } from 'toybox';
+import { useBusinessObjectMeta, useFormModal, TablePage, ListPage, PanelItem, ProHeader, Avatar, MetaDescriptons } from 'toybox';
 import { Button, Layout, Menu } from 'antd';
-import { objectMeta, list, visibleColumns, options } from './data';
+import { objectMeta, list, visibleColumns } from './data';
 import 'antd/dist/antd.css';
 import 'toybox/dist/index.css';
 
@@ -69,7 +69,6 @@ const viewLink = ({ id }: { id: string }) => {
 }
 
 const App: FC = () => {
-  const inputRef = useRef<any>();
   const tableRef = useRef<any>();
   const rightRender = useMemo(() =>
   (panel.right).map((item, idx) => {
@@ -81,7 +80,7 @@ const App: FC = () => {
     title: 'FormModal',
     modalProps: {},
     formProps: {
-      fieldMetas: fieldMetas,
+      fieldMetaProfiles: fieldMetas,
       labelCol: { span: 8 },
       wrapperCol: { span: 16 },
       labelAlign: 'left',
@@ -99,6 +98,7 @@ const App: FC = () => {
         brand="DEMO"
         rightRender={
           <React.Fragment>
+            <Avatar name="小林光" size="xs" />
             <Avatar.AvatarWithName name="小林" img="https://teambition-file.alibaba-inc.com/thumbnail/011he036f61ebeb2f1e09c0e586b4788a195/w/200/h/200" />
           </React.Fragment>
         }
@@ -113,13 +113,6 @@ const App: FC = () => {
         </Sider>
         <Layout>
           <Content>
-            <FieldString mode="read" value="abcText" />
-            <FieldString fieldProps={{ style: { width: '300px' } }} mode="edit" value="abcText" />
-            <FieldDate mode="read" value="2020-12-1" format="YYYY-MM-DD" />
-            <FieldDate mode="edit" value="2020-12-1" format="YYYY-MM-DD" />
-            <FieldDate mode="edit" value="2020-12-1 12:30:00" format="YYYY-MM-DD HH:mm:ss" showTime />
-            <FieldSelect mode="edit" value="a" options={options} />
-            <FieldString ref={inputRef} mode="edit" value="s" />
             <TablePage
               ref={tableRef}
               title="Example Table Page"

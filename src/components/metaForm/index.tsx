@@ -3,9 +3,19 @@ import { Form } from 'antd';
 import { FormProps, FormInstance } from 'antd/lib/form';
 import { Store } from 'antd/lib/form/interface';
 import { FieldMetaProfile } from '../../types/interface';
-import { defaultFormFieldMap } from '../field'
+import { FieldString, FieldText, FieldNumber, FieldDate, FieldSelect, FieldBoolean } from '../field';
 import { FieldMap, FieldItem, FieldItemProps } from '../metaDescriptions/FieldItem';
 
+const defaultFormFieldMap = {
+  string: FieldString,
+  text: FieldText,
+  number: FieldNumber,
+  date: FieldDate,
+  datetime: FieldDate,
+  singleOption: FieldSelect,
+  boolean: FieldBoolean,
+  businessObject: FieldSelect,
+}
 export interface MetaFormProps extends FormProps {
   fieldMetaProfiles: FieldMetaProfile[];
   fieldMap?: FieldMap;

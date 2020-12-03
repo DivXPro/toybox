@@ -1,5 +1,4 @@
-import { FieldString, FieldText, FieldNumber, FieldDate, FieldSelect, FieldBoolean } from ".";
-import { FieldBusinessObject } from "./businessObject";
+import { FieldBusinessObject, FieldString, FieldText, FieldNumber, FieldDate, FieldSelect, FieldBoolean } from "./fields";
 import { FieldMeta } from "../../types/interface";
 import { OptionItem } from "./select";
 import { ReactText } from "react";
@@ -47,14 +46,3 @@ export const defaultFieldMap: FieldMap = {
   boolean: FieldBoolean,
   businessObject: FieldBusinessObject,
 };
-
-export const defaultFormFieldMap: FieldMap = {
-  string: FieldString,
-  text: FieldText,
-  number: FieldNumber,
-  date: FieldDate,
-  datetime: FieldDate,
-  singleOption: FieldSelect,
-  boolean: FieldBoolean,
-  businessObject: FieldSelect,
-}

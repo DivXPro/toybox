@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react';
+import { Avatar as AntAvatar } from 'antd';
 import classNames from 'classnames';
 
 export interface AvatarProps {
@@ -32,24 +33,47 @@ function AvatarWithName({ name, className, style, img, colorSets = DEFAULT_COLOR
 
 function Avatar({ name, img, className, style, size = DEFAULT_SIZE, colorSets = DEFAULT_COLOR_SETS }: ImageAvatarProps) {
   const background = useMemo(() => {
-    let code = 0;
-    for (let i = 0; i < name.length; i += 1) {
-      code += name.charCodeAt(i);
+    return colorSets[Math.random() % colorSets.length];
+  }, [colorSets]);
+
+  const showSize = useMemo(() => {
+    switch(size) {
+      case 'xs':
+        return 24;
+      case 'small':
+        return 28;
+      case 'medium':
+        return 36;
+      case 'large':
+        return 48;
+      case 'xl':
+        return 64;
+      default:
+        return 36;
     }
-    return colorSets[code % colorSets.length];
-  }, [colorSets, name]);
+  }, [size]);
+
+  const showName = useMemo(() => {
+    const cnReg = new RegExp('[\u4E00-\u9FA5]+');
+    // 汉字则返回后2位字符
+    if (cnReg.test(name)) {
+      if (name.length < 2) {
+        return name;
+      }
+      return name.substr(name.length-2, 2);
+    }
+    const spacePos = name.indexOf('_');
+    if (spacePos > 0) {
+      return name[0] + name[spacePos];
+    }
+    return name.substr(0,2);
+  }, [name]);
 
   return (
     <div className={classNames('tbox-avatar-image', className, `tbox-avatar-image-${size}`)} style={style}>
-      {
-        img
-          ? <img className="tbox-avatar-img" src={img} />
-          : <div style={{ background }}
-              className="tbox-avatar-name"
-            >
-              {name}
-            </div>
-      }
+      <AntAvatar size={showSize} src={img} style={{ background }}>
+        {showName}
+      </AntAvatar>
     </div>
   )
 }

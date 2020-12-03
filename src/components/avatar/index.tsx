@@ -5,7 +5,7 @@ import classNames from 'classnames';
 export interface AvatarProps {
   name: string;
   className?: string;
-  style?: Record<string, any>;
+  style?: any;
   colorSets?: string[];
   img?: string;
   onClick?: (...args: any) => void;
@@ -15,7 +15,7 @@ export interface ImageAvatarProps {
   name: string;
   img?: string;
   className?: string;
-  style?: Record<string, any>;
+  style?: any;
   size?: 'xs' | 'small' | 'medium' | 'large' | 'xl';
   colorSets?: string[];
 }
@@ -70,11 +70,9 @@ function Avatar({ name, img, className, style, size = DEFAULT_SIZE, colorSets = 
   }, [name]);
 
   return (
-    <div className={classNames('tbox-avatar-image', className, `tbox-avatar-image-${size}`)} style={style}>
-      <AntAvatar size={showSize} src={img} style={{ background }}>
-        {showName}
-      </AntAvatar>
-    </div>
+    <AntAvatar className={className} size={showSize} src={img} style={{ background, ...style }}>
+      {showName}
+    </AntAvatar>
   )
 }
 

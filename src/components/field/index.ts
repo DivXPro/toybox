@@ -10,4 +10,4 @@ export {
   FieldSelect,
   FieldText
 } from './fields';
-export { FieldMode, FieldMap, defaultFieldMap, defaultFormFieldMap } from './interface';
+export { FieldMode, FieldMap, defaultFieldMap } from './interface';

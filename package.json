@@ -1,6 +1,6 @@
 {
   "name": "@airclass/toybox",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "React components library extend antd",
   "author": "DivXPro",
   "license": "MIT",
@@ -29,7 +29,7 @@
   "peerDependencies": {
     "react": "^16.0.0",
     "ahooks": "^2.6.1",
-    "antd": "^4.6.5",
+    "antd": "^4.9.1",
     "moment": "^2.29.0",
     "react-router-dom": "^5.2.0"
   },
@@ -83,7 +83,7 @@
   "dependencies": {
     "@airclass/icons": "^4.3.4",
     "ahooks": "^2.6.1",
-    "antd": "^4.6.5",
+    "antd": "^4.9.1",
     "classnames": "^2.2.6",
     "dayjs": "^1.8.36",
     "immutability-helper": "^3.1.1",

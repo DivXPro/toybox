@@ -1,8 +1,9 @@
 import React, { FC, useCallback, useMemo } from 'react';
 import classNames from 'classnames';
 import { CloseLine, CheckDoubleLine } from '@airclass/icons';
-import { Time } from '../time';
 import { Badge } from 'antd';
+import { Time } from '../time';
+import Avatar from '../avatar';
 
 export interface NotificationMessage {
   id: string;
@@ -86,8 +87,11 @@ export const Notification: FC<NotificationProps> = ({ message, remove, read, onP
         { badgeItem }
       </div>
       <div className="notification-body" onClick={handleClick}>
-        <p>{message.content}</p>
-        <Time time={message.createdAt} />
+        <Avatar name={message.creator.name} size="xs" img={message.creator.avatarUrl} />
+        <div>
+          <p>{message.content}</p>
+          <Time time={message.createdAt} />
+        </div>
       </div>
     </div>
   )

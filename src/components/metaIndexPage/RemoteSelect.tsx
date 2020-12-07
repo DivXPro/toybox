@@ -1,6 +1,6 @@
 import React, { FC, useCallback, useState } from 'react';
 import { Select } from 'antd';
-import { OptionItem } from './TableSearch';
+import { OptionItem } from './IndexSearch';
 
 export interface RemoteSelectProps {
   placeholder?: string;

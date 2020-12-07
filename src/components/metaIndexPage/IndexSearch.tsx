@@ -4,7 +4,7 @@ import { FormInstance } from 'antd/lib/form';
 import { RemoteSelect } from './RemoteSelect';
 import { Search } from '../search';
 
-export interface TableSearchProps {
+export interface IndexSearchProps {
   form: FormInstance<any>;
   findParams: SearchFindParam[];
   submit: () => void;
@@ -23,7 +23,7 @@ export interface SearchFindParam {
   remote?: (query: string) => Promise<OptionItem[]>;
 }
 
-export const TableSearch: FC<TableSearchProps> = ({ form, findParams, submit }) => {
+export const IndexSearch: FC<IndexSearchProps> = ({ form, findParams, submit }) => {
   const handleSearch = useCallback(() => {
     submit();
   }, [submit]);

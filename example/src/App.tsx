@@ -1,5 +1,5 @@
 import React, { FC, useMemo, useRef } from 'react';
-import { useBusinessObjectMeta, useFormModal, TablePage, ListPage, PanelItem, ProHeader, Avatar, MetaDescriptons } from 'toybox';
+import { useBusinessObjectMeta, useFormModal, IndexPage, ListPage, PanelItem, ProHeader, Avatar, MetaDescriptons } from 'toybox';
 import { Button, Layout, Menu } from 'antd';
 import { objectMeta, list, visibleColumns } from './data';
 import 'antd/dist/antd.css';
@@ -113,13 +113,16 @@ const App: FC = () => {
         </Sider>
         <Layout>
           <Content>
-            <TablePage
+            <IndexPage
               ref={tableRef}
               title="Example Table Page"
               objectMeta={objectMeta}
               loadData={loadData}
               visibleColumns={visibleColumns}
               viewLink={viewLink}
+              mode="table"
+              renderContent={() => <div>item</div>}
+              viewMode={['table', 'list']}
               operateItems={[
                 { text: 'view', type: 'primary', size: 'small' },
                 { text: 'edit', type: 'dashed', size: 'small' },

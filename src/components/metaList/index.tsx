@@ -10,12 +10,20 @@ export interface MetaListProps {
   loading?: boolean;
   itemMata?: ListItemMetaProps;
   grid?: ListGridType
-  content?: (item: Record<string, any>) => ReactNode;
+  renderContent?: (item: any) => ReactNode;
   onChange?: (pagination: PaginationConfig) => void;
   pagination?: PaginationConfig | false;
 }
 
-export const MetaList: FC<MetaListProps> = ({ dataSource, loading, itemMata, content, grid, onChange, pagination }) => {
+export const MetaList: FC<MetaListProps> = ({
+  dataSource,
+  loading,
+  itemMata,
+  grid,
+  pagination,
+  renderContent,
+  onChange
+}) => {
   const onPaginationChange = useCallback((current: number, pageSize: number) => {
     onChange && onChange({current, pageSize});
   }, [onChange]);
@@ -28,8 +36,14 @@ export const MetaList: FC<MetaListProps> = ({ dataSource, loading, itemMata, con
   const renderItem = useCallback((item: Record<string, any>) => {
     return <List.Item>
       { (grid || !itemMata) ? null : <List.Item.Meta {...itemMata} />}
-      { content ? content(item) : null }
+      { renderContent ? renderContent(item) : null }
     </List.Item>
-  }, [content, grid, itemMata]);
-  return <List dataSource={dataSource} loading={loading} renderItem={renderItem} grid={grid} pagination={mergedPagination} />
+  }, [grid, itemMata, renderContent]);
+  return <List
+    dataSource={dataSource}
+    loading={loading}
+    renderItem={renderItem}
+    grid={grid}
+    pagination={mergedPagination}
+  />;
 }

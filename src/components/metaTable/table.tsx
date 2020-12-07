@@ -17,7 +17,7 @@ export interface MetaTableProps {
   rowKey?: string | ((record: RowData, index: number) => string);
   size?:  'middle' | 'small';
   columnMetas: ColumnMeta[];
-  columnComponents?: Record<string, React.FunctionComponent>;
+  columnComponents?: Record<string, (...args: any) => React.ReactNode>;
   dataSource: RowData[];
   loading: boolean;
   pagination?: TablePaginationConfig | false;

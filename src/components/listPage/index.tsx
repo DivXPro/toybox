@@ -23,7 +23,7 @@ export const ListPage: FC<ListPageProps> = ({ title, panel, loadData }) => {
     <div className='tbox-page'>
       <h1>{title}</h1>
       {panel ? <Panel {...panel} /> : undefined}
-      <MetaList content={() => <div>123</div>} {...tableProps} />
+      <MetaList renderContent={() => <div>list item</div>} {...tableProps} />
     </div>
   )
 }

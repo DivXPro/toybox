@@ -5,7 +5,7 @@ import { MetaPageHeader } from '../metaPageHeader';
 import { BusinessObjectMeta } from '../../types/interface';
 import { MetaDescriptons } from '../metaDescriptions';
 import useObjectMeta from '../../hooks/useBusinessObjectMeta';
-import { ContentWrapper } from '../tablePage/ContentWrapper';
+import { ContentWrapper } from '../metaIndexPage/ContentWrapper';
 
 const { TabPane } = Tabs;
 

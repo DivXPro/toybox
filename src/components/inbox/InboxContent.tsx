@@ -25,33 +25,13 @@ export interface InboxContentProps {
 
 export const InboxContent: FC<InboxContentProps> = ({ loading, hasMore, onPick, messages = [], selectedId, loadMore, read, remove }) => {
   const ref = useRef<any>();
+  const contentRef = useRef<any>();
   const size = useSize(ref);
-  const scroll = useScroll(ref);
-  // const isItemLoaded = useCallback((index: number) => !hasMore || index < messages.length, [hasMore, messages.length]);
-  // const itemCount = useMemo(() => hasMore ? messages.length + 1 : messages.length, [hasMore, messages.length]);
+  const scroll = useScroll(contentRef);
 
   const isTouchButton = useMemo(() => {
     return scroll.top >= (size.height || 0);
   }, [scroll.top, size.height]);
-
-  
-  // const Item = useCallback(({index, style} : { index: number, style: any}) => {
-  //   if (isItemLoaded(index)) {
-  //     return (
-  //       <Notification
-  //         key={index}
-  //         style={style}
-  //         onPick={onPick}
-  //         selected={messages[index].id === selectedId}
-  //         message={messages[index]}
-  //         remove={remove}
-  //         read={read}
-  //       />
-  //     )
-  //   }
-  //   return <div style={style}></div>
-  // }, [isItemLoaded, onPick, messages, selectedId, remove, read])
-
 
   const loadMoreItems = useCallback((start: number, stop: number) => {
     if (!loading) {
@@ -115,7 +95,7 @@ export const InboxContent: FC<InboxContentProps> = ({ loading, hasMore, onPick, 
   }, [messages, isEmpty, onPick, selectedId, remove, read]);
 
   return (
-    <div className="tbox-inbox-content">
+    <div className="tbox-inbox-content" ref={contentRef}>
       {messageList}
     </div>
   );

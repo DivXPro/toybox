@@ -7,7 +7,7 @@ import { DefaultColumn } from './DefaultColumn';
 import { BooleanColumn } from './BooleanColumn';
 import { SingleOptionColumn } from './SingleOptionColumn';
 import { OperateItem, OperateDropdown, operateFactory } from './OperateColumn';
-import { ExpandableConfig, TableRowSelection } from 'antd/lib/table/interface';
+import { ExpandableConfig, TableRowSelection, ColumnType, ColumnsType } from 'antd/lib/table/interface';
 import { ColumnFCProps } from './interface';
 import { ColumnMeta } from '../../types/interface';
 
@@ -87,7 +87,7 @@ export const MetaTable: FC<MetaTableProps> = ({
   }, [mergeColumnComponents]);
 
   const makeColumns = useCallback((columnMetas: ColumnMeta[]) => {
-    const columns = columnMetas.map(columnMeta => {
+    const columns: ColumnsType<Record<string, any>> = columnMetas.map(columnMeta => {
       return {
         key: columnMeta.key,
         title: columnMeta.name,
@@ -100,6 +100,7 @@ export const MetaTable: FC<MetaTableProps> = ({
         key: 'meta-table-operate',
         title: '',
         dataIndex: 'meta-table-operate',
+        align: 'right',
         render: operateFactory(operateItems, OperateDropdown),
       });
     } 

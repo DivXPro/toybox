@@ -87,7 +87,7 @@ export const Notification: FC<NotificationProps> = ({ message, remove, read, onP
         { badgeItem }
       </div>
       <div className="notification-body" onClick={handleClick}>
-        <Avatar name={message.creator.name} size="xs" img={message.creator.avatarUrl} />
+        <Avatar style={{flex: 'none'}} name={message.creator.name} size="xs" img={message.creator.avatarUrl} />
         <div className="notification-content">
           <p>{message.content}</p>
           <Time time={message.createdAt} />

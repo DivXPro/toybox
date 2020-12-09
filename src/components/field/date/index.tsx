@@ -4,7 +4,7 @@ import moment from 'moment';
 
 import { FieldProps } from '../interface';
 import { DatePickerProps } from 'antd/lib/date-picker';
-import { parseValueToMoment } from '../../../utls';
+import { parseValueToMoment } from '../../../utils';
 
 export interface FieldDateProps extends FieldProps {
   placeholder?: string;

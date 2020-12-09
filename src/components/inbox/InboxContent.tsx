@@ -1,17 +1,8 @@
 import React, { FC, useMemo, useCallback, useRef, useEffect } from 'react';
 import { Empty } from 'antd';
 import { useSize, useScroll, useThrottleFn } from 'ahooks';
-// import { FixedSizeList as List } from 'react-window';
-// import InfiniteLoader from 'react-window-infinite-loader';
 import { Notification, NotificationMessage } from './Notification';
 import { LoadingWrapper } from '../utils';
-// import Item from 'antd/lib/list/Item';
-
-
-// const WIDTH = 360;
-// const HEIGHT = 400;
-// const ITEM_HEIGHT = 124;
-
 export interface InboxContentProps {
   onPick: (message?: NotificationMessage) => void;
   loading?: boolean;
@@ -28,10 +19,11 @@ export const InboxContent: FC<InboxContentProps> = ({ loading, hasMore, onPick, 
   const contentRef = useRef<any>();
   const size = useSize(ref);
   const scroll = useScroll(contentRef);
+  const contentSize = useSize(contentRef);
 
   const isTouchButton = useMemo(() => {
-    return scroll.top >= (size.height || 0);
-  }, [scroll.top, size.height]);
+    return scroll.top + (contentSize.height || 0) >= (size.height || 0);
+  }, [contentSize.height, scroll.top, size.height]);
 
   const loadMoreItems = useCallback((start: number, stop: number) => {
     if (!loading) {
@@ -71,23 +63,6 @@ export const InboxContent: FC<InboxContentProps> = ({ loading, hasMore, onPick, 
               />
             ))
           }
-
-          {/* <InfiniteLoader isItemLoaded={isItemLoaded} itemCount={itemCount} loadMoreItems={loadMoreItems}>
-            {
-              ({ onItemsRendered, ref }) => (
-                <List
-                  ref={ref}
-                  onItemsRendered={onItemsRendered}
-                  height={size.height || HEIGHT}
-                  width={size.width || WIDTH}
-                  itemSize={ITEM_HEIGHT}
-                  itemCount={itemCount}
-                >
-                  {Item}
-                </List>
-              )
-            }
-          </InfiniteLoader> */}
         </div>
         {isEmpty ? <div style={{ paddingTop: '60px', }}><Empty description="没发现消息通知" /></div> : null}
       </LoadingWrapper>

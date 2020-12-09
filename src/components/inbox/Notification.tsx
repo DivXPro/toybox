@@ -38,17 +38,20 @@ export interface NotificationProps {
 }
 
 export const Notification: FC<NotificationProps> = ({ message, remove, read, onPick, style, selected = false }) => {
-  const handleClick = useCallback(() => {
+  const handleClick = useCallback((event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    event.stopPropagation();
     onPick(message);
   }, [message, onPick]);
 
-  const handleRemove = useCallback(() => {
+  const handleRemove = useCallback((event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    event.stopPropagation();
     if (typeof remove === 'function') {
       remove(message.id);
     }
   }, [message.id, remove]);
 
-  const handleRead = useCallback(() => {
+  const handleRead = useCallback((event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    event.stopPropagation();
     if (!message.haveRead && typeof read === 'function') {
       read(message.id);
     }

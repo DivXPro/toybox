@@ -80,13 +80,13 @@ export const Notification: FC<NotificationProps> = ({ message, remove, read, onP
   }, [message.badge, message.haveRead]);
 
   return (
-    <div className={classNames('tbox-notification', { selected })} style={style}>
+    <div className={classNames('tbox-notification', { selected })} onClick={handleClick} style={style}>
       <div className="notification-header">
         <div className="notification-type">{message.type}</div>
         { operate }
         { badgeItem }
       </div>
-      <div className="notification-body" onClick={handleClick}>
+      <div className="notification-body">
         <Avatar style={{flex: 'none'}} name={message.creator.name} size="xs" img={message.creator.avatarUrl} />
         <div className="notification-content">
           <p>{message.content}</p>

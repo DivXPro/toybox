@@ -62,7 +62,7 @@ export const IndexSearch: FC<IndexSearchProps> = ({ form, findParams, showAdvanc
   return (
     <React.Fragment>
       <Form form={form} layout="inline">
-        {showAdvance && findItems}
+        {!showAdvance && findItems}
         {hasAdvance && <Form.Item><Button type="text" onClick={triggerAdvance}>高级搜索</Button></Form.Item>}
       </Form>
     </React.Fragment>

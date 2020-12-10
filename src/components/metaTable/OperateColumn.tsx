@@ -54,14 +54,13 @@ export const OperateDropdown: FC<OperateColumnProps> = ({ text, record, index, o
           const doDisabled = typeof item.disabled === 'function'
             ? item.disabled(text, record, index)
             : item.disabled;
-          return <Menu.Item key={idx}>
-            <Button
-              disabled={doDisabled}
-              onClick={() => item.callback && item.callback(record, index)}
-              {...item}
-            >
-              {item.text}
-            </Button>
+          return <Menu.Item
+            key={idx}
+            onClick={() => item.callback && item.callback(record, index)}
+            danger={item.danger}
+            disabled={doDisabled}
+          >
+            {item.text}
           </Menu.Item>
         })
       }

@@ -41,11 +41,6 @@ export interface FieldMetaProfile extends FieldMeta {
   remoteByValue?: (value: ReactText | ReactText[], params?: any) => Promise<OptionItem>;
 }
 
-// export interface RemoteSelectMetaProfile extends FieldMetaProfile {
-//   remote?: (key: string, params?: any) => Promise<OptionItem[]>;
-//   remoteByValue?: (value: string | number, params?: any) => Promise<OptionItem>;
-// }
-
 export interface FieldOption {
   label: string;
   value: string;

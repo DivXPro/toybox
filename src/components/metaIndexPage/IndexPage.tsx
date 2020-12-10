@@ -5,12 +5,11 @@ import { CheckboxMultipleLine, CheckboxMultipleFill, ListUnordered, TableLine, A
 import useAntdTable from './hooks/useTable';
 import { ContentWrapper } from './ContentWrapper';
 import { MetaTable } from '../metaTable';
-import { Panel, PanelProps } from '../panel';
+import { Panel, PanelItem, PanelItemProps } from '../panel';
 import { BusinessObjectMeta } from '../../types/interface';
 import { OperateItem } from '../metaTable/OperateColumn';
 import { IndexSearch, SearchFindParam } from './IndexSearch';
 import { MetaPageHeader } from '../metaPageHeader';
-import { ButtonGroup, ButtonItem } from '../buttonGroup';
 import { FieldType } from '../field/interface';
 
 const LIST_RENDER = 'listRender';
@@ -30,13 +29,12 @@ export type IndexMode = 'table' | 'list' | 'card';
 export interface IndexPageProps {
   title: string;
   objectMeta: BusinessObjectMeta;
-  panel?: PanelProps;
   operateItems?: OperateItem[];
   visibleColumns?: ColumnVisible[];
   searchOption?: {
     findParams: SearchFindParam[];
   }
-  panelItems?: PanelOperateItem[];
+  panelItems?: IndexPagePanelItemProps[];
   mode?: IndexMode;
   viewMode?: IndexMode[];
   className?: string;
@@ -53,7 +51,7 @@ export interface ColumnVisible {
   component?: string;
 }
 
-export interface PanelOperateItem extends ButtonItem {
+export type IndexPagePanelItemProps = PanelItemProps & {
   selection?: boolean;
 }
 
@@ -195,18 +193,12 @@ const IndexPage: ForwardRefRenderFunction<any, IndexPageProps>  = ({
   }, [form, modeMenu, searchOption, selectionType, submit, toggleSelection, viewMode]);
 
   const rightPanel = useMemo(() => {
-    const buttonItems = (panelItems || [])
-      .filter(item => (!item.selection) === (selectionType == null) )
-      .map(item => ({
-        text: item.text,
-        icon: item.icon,
-        type: item.type,
-        disabled: item.disabled,
-        danger: item.danger,
-        callback: item.selection ? () => item.callback(selectedRowKeys) : item.callback,
-      }));
-    return buttonItems.length > 0 ? <ButtonGroup buttonItems={buttonItems} /> : null;
-  }, [panelItems, selectedRowKeys, selectionType]);
+    return (panelItems || [])
+      .filter(item => !item.selection || selectionType != null)
+      .map((item, index) => (
+        <PanelItem key={index} {...item} />
+      ));
+  }, [panelItems, selectionType]);
 
   const tablePanel = useMemo(() => (rightPanel != null || leftPanel != null)
     ? <Panel left={leftPanel} right={rightPanel} />

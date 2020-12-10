@@ -1,12 +1,15 @@
-import { ReactNode } from "react";
+import { ReactNode } from 'react';
+import { ButtonGroupProps } from '../buttonGroup';
+import { DropdownMenuProps } from '../dropdownMenu';
 
-export type ItemProps = {
-  type: string;
-  content: ReactNode;
-  props?: { [key: string]: any };
-  callback?: () => void;
+
+export type PanelItemType = 'button' | 'dropdownMenu' | undefined;
+
+export type PanelItemProps = {
+  type?: PanelItemType;
+  content?: ReactNode;
+  props?: ButtonGroupProps | DropdownMenuProps | Record<string, any>;
 }
-
 
 export interface PanelProps {
   left?: ReactNode;

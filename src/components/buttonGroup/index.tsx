@@ -1,9 +1,11 @@
 import React, { FC, ReactNode } from 'react';
-import { Button } from 'antd';
 import { ButtonType, ButtonSize } from 'antd/lib/button';
+import { Button } from '../button';
 
+
+export type ButtonGroupType = 'button' | 'dropdown';
 export interface ButtonGroupProps {
-  buttonItems: ButtonItem[];
+  items: ButtonItem[];  
 }
 
 export interface ButtonItem {
@@ -14,13 +16,14 @@ export interface ButtonItem {
   danger?: boolean;
   size?: ButtonSize;
   disabled?: boolean;
+  tooltip?: boolean;
   callback: (...args: any) => void;
 }
 
-export const ButtonGroup: FC<ButtonGroupProps> = ({ buttonItems }) => {
+export const ButtonGroup: FC<ButtonGroupProps> = ({ items }) => {
   return <React.Fragment>
     {
-      buttonItems.map(
+      items.map(
         (item, idx) =>
           <Button
             key={idx}
@@ -30,6 +33,7 @@ export const ButtonGroup: FC<ButtonGroupProps> = ({ buttonItems }) => {
             size={item.size}
             disabled={item.disabled}
             danger={item.danger}
+            tooltip={item.tooltip}
           >
             {item.text}
           </Button>

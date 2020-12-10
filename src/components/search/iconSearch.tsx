@@ -17,6 +17,7 @@ export const IconSearch: FC<IconSearchProps> = ({
   value,
   onChange,
   onSearch,
+  onClear,
   placeholder,
   allowClear = true,
   disabled = false
@@ -29,8 +30,11 @@ export const IconSearch: FC<IconSearchProps> = ({
   }, [autoFocus])
 
   const innerOnChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.type === 'click' && (event.target.value === '' || event.target.value == null)) {
+      onClear && onClear();
+    }
     onChange && onChange(event.target.value);
-  }, [onChange]);
+  }, [onChange, onClear]);
 
   const innerOnSearch = useCallback((event: any) => {
     onSearch && onSearch(event.target.value);

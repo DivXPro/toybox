@@ -6,7 +6,7 @@ import { DropdownMenuProps } from '../dropdownMenu';
 export type PanelItemType = 'button' | 'dropdownMenu' | undefined;
 
 export type PanelItemProps = {
-  type?: PanelItemType;
+  type?: string;
   content?: ReactNode;
   props?: ButtonGroupProps | DropdownMenuProps | Record<string, any>;
 }

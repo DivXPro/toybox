@@ -3,7 +3,6 @@ import { ButtonType, ButtonSize } from 'antd/lib/button';
 import { Button } from '../button';
 
 
-export type ButtonGroupType = 'button' | 'dropdown';
 export interface ButtonGroupProps {
   items: ButtonItem[];  
 }

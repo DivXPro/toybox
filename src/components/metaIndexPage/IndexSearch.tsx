@@ -32,7 +32,7 @@ export const IndexSearch: FC<IndexSearchProps> = ({ form, findParams, showAdvanc
     submit();
   }, [submit]);
 
-  const hasAdvance = useMemo(() => triggerAdvance && findParams.filter(param => param.advance).length > 0, [findParams]);
+  const hasAdvance = useMemo(() => triggerAdvance && findParams.filter(param => param.advance).length > 0, [findParams, triggerAdvance]);
 
   const findItem = useCallback((findParam: SearchFindParam) => {
     switch (findParam.type) {

@@ -5,7 +5,7 @@ import { OptionItem } from './IndexSearch';
 export interface RemoteSelectProps {
   placeholder?: string;
   remote: (query: string) => Promise<OptionItem[]>;
-  onChange: (value: string | number) => void;
+  onChange?: (value: string | number) => void;
 }
 
 export const RemoteSelect: FC<RemoteSelectProps> = ({ placeholder, remote, onChange }) => {

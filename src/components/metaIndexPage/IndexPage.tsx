@@ -11,6 +11,7 @@ import { OperateItem } from '../metaTable/OperateColumn';
 import { IndexSearch, SearchFindParam } from './IndexSearch';
 import { MetaPageHeader } from '../metaPageHeader';
 import { FieldType } from '../field/interface';
+import { AdvanceSearch } from './advanceSearch';
 
 const LIST_RENDER = 'listRender';
 
@@ -74,11 +75,11 @@ const IndexPage: ForwardRefRenderFunction<any, IndexPageProps>  = ({
   const [selectedRowKeys, setSelectedRowKeys] = useState<(string | number)[]>([]);
   const [selectionType, setSelectionType] = useState<'checkbox' | 'radio'>();
   const [currentMode, setCurrentMode] = useState<IndexMode>(mode);
+  const [showAdvanceSearch, setShowAdvanceSearch] = useState(false);
   const { tableProps, search } = useAntdTable(loadData, {
     defaultPageSize: 10,
     form,
   });
-  const { submit } = search;
 
   const toggleSelection = useCallback(() => {
     if (selectionType == null) {
@@ -102,9 +103,9 @@ const IndexPage: ForwardRefRenderFunction<any, IndexPageProps>  = ({
   useImperativeHandle(
     ref,
     () => ({
-      reload: () => submit(),
+      reload: () => search.submit(),
     }),
-    [submit],
+    [search],
   );
 
   const columnMetas = useMemo(() => {
@@ -183,14 +184,22 @@ const IndexPage: ForwardRefRenderFunction<any, IndexPageProps>  = ({
       {
         searchOption
           ? <IndexSearch
-            form={form}
-            submit={submit}
-            findParams={searchOption.findParams}
-          />
+              form={form}
+              submit={search.submit}
+              findParams={searchOption.findParams}
+              showAdvance={showAdvanceSearch}
+              triggerAdvance={() => setShowAdvanceSearch(!showAdvanceSearch)}
+            />
           : null
       }
     </React.Fragment>
-  }, [form, modeMenu, searchOption, selectionType, submit, toggleSelection, viewMode]);
+  }, [form, modeMenu, showAdvanceSearch, setShowAdvanceSearch, searchOption, selectionType, search.submit, toggleSelection, viewMode]);
+
+  const advanceSearch = useMemo(() => {
+    return searchOption
+      ? <AdvanceSearch className={classNames('advance-search', { active: showAdvanceSearch})} form={form} submit={search.submit} findParams={searchOption.findParams} />
+      : null
+  }, [searchOption, showAdvanceSearch, search.submit, form]);
 
   const rightPanel = useMemo(() => {
     return (panelItems || [])
@@ -201,9 +210,12 @@ const IndexPage: ForwardRefRenderFunction<any, IndexPageProps>  = ({
   }, [panelItems, selectionType]);
 
   const tablePanel = useMemo(() => (rightPanel != null || leftPanel != null)
-    ? <Panel left={leftPanel} right={rightPanel} />
+    ? <React.Fragment>
+        {advanceSearch}
+        <Panel left={leftPanel} right={rightPanel} />
+      </React.Fragment>
     : null,
-    [rightPanel, leftPanel]
+    [rightPanel, leftPanel, advanceSearch]
   );
 
   const IndexContent = useCallback(() => {

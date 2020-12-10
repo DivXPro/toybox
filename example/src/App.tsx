@@ -1,5 +1,5 @@
 import React, { FC, useRef } from 'react';
-import { useBusinessObjectMeta, useFormModal, IndexPage, ProHeader, ListPage, Avatar, MetaDescriptons } from 'toybox';
+import { useBusinessObjectMeta, useFormModal, IndexPage, ProHeader, ListPage, Avatar, MetaDescriptons, SearchFindParam } from 'toybox';
 import { Button, Layout, Menu } from 'antd';
 import { objectMeta, list, visibleColumns } from './data';
 import 'antd/dist/antd.css';
@@ -16,10 +16,22 @@ const loadData = () => {
   return promise;
 }
 
-
 const viewLink = ({ id }: { id: string }) => {
   return `talents/${id}`;
 }
+
+const findParams: SearchFindParam[] = [
+  {
+    name: '名称',
+    type: 'string',
+    key: 'name',
+  }, {
+    name: '名称2',
+    type: 'string',
+    key: 'name2',
+    advance: true,
+  }
+];
 
 const App: FC = () => {
   const tableRef = useRef<any>();
@@ -106,6 +118,7 @@ const App: FC = () => {
                   },
                 }
               ]}
+              searchOption={{ findParams }}
             />
             <ListPage
               title="Example List Page"

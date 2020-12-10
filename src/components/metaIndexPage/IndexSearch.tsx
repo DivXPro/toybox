@@ -3,11 +3,14 @@ import { Form, Select } from 'antd';
 import { FormInstance } from 'antd/lib/form';
 import { RemoteSelect } from './RemoteSelect';
 import { Search } from '../search';
+import { Button } from '../button';
 
 export interface IndexSearchProps {
   form: FormInstance<any>;
   findParams: SearchFindParam[];
   submit: () => void;
+  showAdvance?: boolean;
+  triggerAdvance?: () => void;
 }
 
 export interface OptionItem {
@@ -20,42 +23,48 @@ export interface SearchFindParam {
   type: 'singleOption' | 'remoteSingleOption' | 'string';
   key: string;
   options?: OptionItem[];
+  advance?: boolean;
   remote?: (query: string) => Promise<OptionItem[]>;
 }
 
-export const IndexSearch: FC<IndexSearchProps> = ({ form, findParams, submit }) => {
+export const IndexSearch: FC<IndexSearchProps> = ({ form, findParams, showAdvance, submit, triggerAdvance }) => {
   const handleSearch = useCallback(() => {
     submit();
   }, [submit]);
 
-  const findItems = useMemo(() => {
-    return findParams.map((param, index) => {
-      let search;
-      switch(param.type) {
-        case 'string':
-          search = <Search placeholder={param.name} onSearch={handleSearch} onClear={handleSearch} />
-          break;
-        case 'singleOption':
-          search = <Select placeholder={param.name} options={param.options} onChange={handleSearch} />
-          break;
-        case 'remoteSingleOption':
-          search = <RemoteSelect placeholder={param.name} remote={param.remote as (query: string) => Promise<OptionItem[]>} onChange={handleSearch} />;
-          break;
-        default:
-          search = <Select placeholder={param.name} options={param.options} onChange={handleSearch} />
-          break;
-      }
-      return (
-        <Form.Item key={index} name={param.key}>
-          {search}
-        </Form.Item>
-      );
-    });
-  }, [findParams, handleSearch]);
+  const hasAdvance = useMemo(() => triggerAdvance && findParams.filter(param => param.advance).length > 0, [findParams]);
 
+  const findItem = useCallback((findParam: SearchFindParam) => {
+    switch (findParam.type) {
+      case 'string':
+        return <Search.IconSearch placeholder={findParam.name} onSearch={handleSearch} onClear={handleSearch} />
+      case 'singleOption':
+        return <Select placeholder={findParam.name} options={findParam.options} onChange={handleSearch} />
+      case 'remoteSingleOption':
+        return <RemoteSelect placeholder={findParam.name} remote={findParam.remote as (query: string) => Promise<OptionItem[]>} onChange={handleSearch} />;
+      default:
+        return <Select placeholder={findParam.name} options={findParam.options} onChange={handleSearch} />
+    }
+  }, [handleSearch]);
+  
+  const findItems = useMemo(() => {
+    return findParams
+      .filter(param => !param.advance)
+      .map((param, index) => {
+        return (
+          <Form.Item key={index} name={param.key}>
+            {findItem(param)}
+          </Form.Item>
+        );
+      });
+  }, [findItem, findParams]);
+  
   return (
-    <Form form={form} layout="inline">
-      {findItems}
-    </Form>
+    <React.Fragment>
+      <Form form={form} layout="inline">
+        {showAdvance && findItems}
+        {hasAdvance && <Form.Item><Button type="text" onClick={triggerAdvance}>高级搜索</Button></Form.Item>}
+      </Form>
+    </React.Fragment>
   );
 }

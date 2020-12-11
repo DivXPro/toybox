@@ -32,7 +32,7 @@ export const MetaForm: FC<MetaFormProps> = ({ fieldMetaProfiles, fieldMap, onFin
   const formItems = useMemo(() => {
     return fieldMetaProfiles.map((fieldProfile, idx) => {
       const { mode = 'edit', disabled, remote, remoteByValue, ...field } = fieldProfile;
-      return <Form.Item key={idx} name={field.key} label={field.name}>
+      return <Form.Item key={idx} name={field.key} label={field.name} required={field.required}>
         <FieldItem
           field={field}
           mode={mode}

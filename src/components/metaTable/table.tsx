@@ -44,7 +44,7 @@ const defaultColumnsComponents: Record<string, React.FunctionComponent> = {
   datetime: DateColumn,
   document: ObjectColumn,
   object: ObjectColumn,
-  singleOptionColumn: SingleOptionColumn,
+  singleOption: SingleOptionColumn,
   boolean: BooleanColumn,
   string: DefaultColumn,
   number: DefaultColumn

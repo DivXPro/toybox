@@ -6,14 +6,15 @@ export interface RemoteSelectProps {
   placeholder?: string;
   remote: (query: string) => Promise<OptionItem[]>;
   onChange?: (value: string | number) => void;
+  style?: any;
 }
 
-export const RemoteSelect: FC<RemoteSelectProps> = ({ placeholder, remote, onChange }) => {
+export const RemoteSelect: FC<RemoteSelectProps> = ({ placeholder, style, remote, onChange }) => {
   const [options, setOptions] = useState<OptionItem[]>();
   const handleSearch = useCallback((query: string) => {
     remote(query).then((data) => {
       setOptions(data);
     });
   }, [remote]);
-  return <Select placeholder={placeholder} options={options} onSearch={handleSearch} onChange={onChange}></Select>
+  return <Select style={style} placeholder={placeholder} options={options} onSearch={handleSearch} onChange={onChange}></Select>
 }

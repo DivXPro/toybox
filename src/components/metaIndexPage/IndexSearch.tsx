@@ -39,11 +39,11 @@ export const IndexSearch: FC<IndexSearchProps> = ({ form, findParams, showAdvanc
       case 'string':
         return <Search.IconSearch placeholder={findParam.name} onSearch={handleSearch} onClear={handleSearch} />
       case 'singleOption':
-        return <Select placeholder={findParam.name} options={findParam.options} onChange={handleSearch} />
+        return <Select style={{ minWidth: 160 }} placeholder={findParam.name} options={findParam.options} onChange={handleSearch} />
       case 'remoteSingleOption':
-        return <RemoteSelect placeholder={findParam.name} remote={findParam.remote as (query: string) => Promise<OptionItem[]>} onChange={handleSearch} />;
+        return <RemoteSelect style={{ minWidth: 160 }} placeholder={findParam.name} remote={findParam.remote as (query: string) => Promise<OptionItem[]>} onChange={handleSearch} />;
       default:
-        return <Select placeholder={findParam.name} options={findParam.options} onChange={handleSearch} />
+        return <Select style={{ minWidth: 160 }} placeholder={findParam.name} options={findParam.options} onChange={handleSearch} />
     }
   }, [handleSearch]);
   

@@ -27,7 +27,6 @@ export interface FieldSelectProps extends FieldProps {
   value?: SelectValue;
   defaultValue?: SelectValue;
   multiple?: boolean;
-  options?: OptionItem[];
   placeholder?: string;
   params?: any;
   onChange?: (value: SelectValue, options?: OptionItem | OptionItem[]) => void;
@@ -42,7 +41,7 @@ const FieldSelect: ForwardRefRenderFunction<any, FieldSelectProps> = ({
   value,
   mode,
   fieldProps,
-  options,
+  field,
   placeholder,
   params,
   multiple,
@@ -65,7 +64,7 @@ const FieldSelect: ForwardRefRenderFunction<any, FieldSelectProps> = ({
 
   const mergeOptions = useMemo(() => {
     if (remote == null) {
-      return options;
+      return field.options;
     }
     if (intersection(remoteOptions.map(o => o.value), (initOptions || []).map(io => io.value)).length === initOptions.length) {
       return remoteOptions;
@@ -74,7 +73,7 @@ const FieldSelect: ForwardRefRenderFunction<any, FieldSelectProps> = ({
       return ([...initOptions]).concat(...remoteOptions);
     }
     return remoteOptions;
-  }, [initOptions, options, remote, remoteOptions])
+  }, [initOptions, field.options, remote, remoteOptions])
 
   const innerValue = useMemo(() => {
     if (remote && !initial) {
@@ -82,7 +81,6 @@ const FieldSelect: ForwardRefRenderFunction<any, FieldSelectProps> = ({
     }
     return value;
   }, [initial, remote, value]);
-
 
   const current = useMemo(
     () => mergeOptions ? mergeOptions.find(opt => opt.value === innerValue) : undefined,

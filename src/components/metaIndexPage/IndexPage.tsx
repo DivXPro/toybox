@@ -29,6 +29,7 @@ export type IndexMode = 'table' | 'list' | 'card';
 
 export interface IndexPageProps {
   title: string;
+  subTitle?: string;
   objectMeta: BusinessObjectMeta;
   operateItems?: OperateItem[];
   visibleColumns?: ColumnVisible[];
@@ -58,6 +59,7 @@ export type IndexPagePanelItemProps = PanelItemProps & {
 
 const IndexPage: ForwardRefRenderFunction<any, IndexPageProps>  = ({
   title,
+  subTitle,
   objectMeta,
   operateItems,
   visibleColumns,
@@ -197,7 +199,12 @@ const IndexPage: ForwardRefRenderFunction<any, IndexPageProps>  = ({
 
   const advanceSearch = useMemo(() => {
     return searchOption
-      ? <AdvanceSearch className={classNames('advance-search', { active: showAdvanceSearch})} form={form} submit={search.submit} findParams={searchOption.findParams} />
+      ? <AdvanceSearch
+          className={classNames('advance-search', { active: showAdvanceSearch})}
+          form={form}
+          submit={search.submit}
+          findParams={searchOption.findParams}
+        />
       : null
   }, [searchOption, showAdvanceSearch, search.submit, form]);
 
@@ -245,7 +252,7 @@ const IndexPage: ForwardRefRenderFunction<any, IndexPageProps>  = ({
 
   return (
     <div className={classNames('tbox-page', className)}>
-      <MetaPageHeader title={title} footer={tablePanel} />
+      <MetaPageHeader title={title} subTitle={subTitle} footer={tablePanel} />
       <ContentWrapper>
         <IndexContent />
       </ContentWrapper>

@@ -10,13 +10,12 @@ import { ContentWrapper } from '../metaIndexPage/ContentWrapper';
 const { TabPane } = Tabs;
 
 export interface MetaObjectPageProps {
-  businessObjectMeta: BusinessObjectMeta;
+  businessObjectMeta: BusinessObjectMeta
   data: Record<string, any>;
   onBack?: () => void;
   extend?: ExtendRender[];
   className?: string;
 }
-
 
 export interface ExtendRender {
   name: string;
@@ -36,7 +35,25 @@ export const MetaObjectPage: FC<MetaObjectPageProps> = ({
   extend,
   className,
 }) => {
-  const title = useMemo(() => data[businessObjectMeta.titleKey], [businessObjectMeta.titleKey, data]);
+  const objectName = useMemo(
+    () => data[businessObjectMeta.titleKey || 'id'],
+    [businessObjectMeta.titleKey, data]
+  );
+
+  const title = useMemo(
+    () => businessObjectMeta.name != null
+      ? businessObjectMeta.name
+      : objectName,
+    [businessObjectMeta.name, objectName]
+  );
+
+  const subTitle = useMemo(
+    () => businessObjectMeta.name != null
+      ? objectName
+      : null,
+    [businessObjectMeta.name, objectName]
+  );
+
   const fieldItemsMeta = useObjectMeta(businessObjectMeta);
   const extendContent = useMemo(() => {
     if (extend != null && extend.length > 0) {
@@ -52,7 +69,7 @@ export const MetaObjectPage: FC<MetaObjectPageProps> = ({
   }, [businessObjectMeta, data, extend, fieldItemsMeta]);
   return (
     <div className={classNames('tbox-page', className)}>
-      <MetaPageHeader title={title} onBack={onBack} />
+      <MetaPageHeader title={title} subTitle={subTitle} onBack={onBack} />
       <ContentWrapper>
         { extendContent }
       </ContentWrapper>

@@ -5,6 +5,7 @@ import { Store } from 'antd/lib/form/interface';
 import { FieldMetaProfile } from '../../types/interface';
 import { FieldString, FieldText, FieldNumber, FieldDate, FieldSelect, FieldBoolean } from '../field';
 import { FieldMap, FieldItem, FieldItemProps } from '../metaDescriptions/FieldItem';
+import { fieldRules } from './rule';
 
 const defaultFormFieldMap = {
   string: FieldString,
@@ -32,7 +33,8 @@ export const MetaForm: FC<MetaFormProps> = ({ fieldMetaProfiles, fieldMap, onFin
   const formItems = useMemo(() => {
     return fieldMetaProfiles.map((fieldProfile, idx) => {
       const { mode = 'edit', disabled, remote, remoteByValue, ...field } = fieldProfile;
-      return <Form.Item key={idx} name={field.key} label={field.name} required={field.required}>
+      const rules = fieldRules(field);
+      return <Form.Item key={idx} name={field.key} label={field.name} rules={rules} required={field.required}>
         <FieldItem
           field={field}
           mode={mode}

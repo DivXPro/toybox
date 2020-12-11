@@ -1,5 +1,6 @@
 import React, {
   Ref,
+  ForwardRefRenderFunction,
   useRef,
   useMemo,
   useContext,
@@ -36,7 +37,7 @@ const defaultRemote = () => new Promise<OptionItem[]>((resolve) => {
   resolve([]);
 });
 
-const FieldSelect = ({
+const FieldSelect: ForwardRefRenderFunction<any, FieldSelectProps> = ({
   defaultValue,
   value,
   mode,
@@ -50,7 +51,7 @@ const FieldSelect = ({
   onClick,
   remote,
   remoteByValue,
-}: FieldSelectProps, ref: Ref<any>) => {
+}, ref) => {
   const [loading, remoteOptions, fetchData] = useFetchOptions(remote || defaultRemote, params);
   const [initOptions, setInitOptions] = useState<OptionItem[]>([]);
   const [initial, setInitial] = useState(false);
@@ -75,17 +76,18 @@ const FieldSelect = ({
     return remoteOptions;
   }, [initOptions, options, remote, remoteOptions])
 
-  const current = useMemo(
-    () => mergeOptions ? mergeOptions.find(opt => opt.value === value) : undefined,
-    [mergeOptions, value]
-  );
-
   const innerValue = useMemo(() => {
     if (remote && !initial) {
       return null;
     }
     return value;
-  }, [initial, remote, value])
+  }, [initial, remote, value]);
+
+
+  const current = useMemo(
+    () => mergeOptions ? mergeOptions.find(opt => opt.value === innerValue) : undefined,
+    [mergeOptions, innerValue]
+  );
 
   useEffect(() => {
     const init = async () => {

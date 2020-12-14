@@ -23,4 +23,4 @@ export { Brand, BrandProps } from './components/brand';
 export { CloseIcon, LoadingWrapper } from './components/utils'
 export * as Field from './components/field';
 
-export { useFetchData, useBusinessObjectMeta, useFormModal } from './hooks';
+export { useFetchData, useBusinessObjectMeta, useFormModal, useFormDrawer } from './hooks';

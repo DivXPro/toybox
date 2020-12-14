@@ -1,4 +1,4 @@
-import React, { FC, useCallback, ReactNode } from 'react';
+import React, { FC, useCallback, ReactNode, useState } from 'react';
 import { Modal } from 'antd';
 import { ModalProps } from 'antd/lib/modal';
 import useModal from './useModal';
@@ -12,20 +12,23 @@ export interface FormModalProps {
   onCancel: () => void;
   modalProps: Omit<Omit<ModalProps, 'title'>, 'visible'>;
   formProps: Omit<MetaFormProps, 'onFinish'>;
-  trigger?: ReactNode;
 }
 
-export default ({ title, modalProps, formProps, onFinish, onCancel, trigger}: FormModalProps) => {
+export default ({ title, modalProps, formProps, onFinish, onCancel}: FormModalProps) => {
   const [visible, toggle] = useModal();
   const { ...other } = formProps;
   const [form] = useForm();
+  const [submitting, setSubmitting] = useState(false);
 
   const handleSubmit = useCallback(async () => {
     try {
       const values = await form.validateFields();
+      setSubmitting(true);
       onFinish && await onFinish(values);
+      setSubmitting(false);
       toggle();
     } catch(e) {
+      setSubmitting(false);
       console.warn(e);
     }
   }, [form, onFinish, toggle]);
@@ -40,18 +43,20 @@ export default ({ title, modalProps, formProps, onFinish, onCancel, trigger}: Fo
     }
   }, [form, formProps.initialValues, onCancel, toggle]);
 
-  const FormModal: FC = () => {
+  const FormModal: FC = ({ children }) => {
     const { closeIcon, ...modalOtherProps } = modalProps;
     const modalCloseIcon = closeIcon || <CloseIcon />
     return (
       <React.Fragment>
-        <Modal title={title} visible={visible} onOk={handleSubmit} onCancel={handleCancel} closeIcon={modalCloseIcon} {...modalOtherProps}>
+        <Modal title={title} visible={visible} onOk={handleSubmit} onCancel={handleCancel} closeIcon={modalCloseIcon} confirmLoading={submitting} {...modalOtherProps}>
           <MetaForm userForm={form} onFinish={handleSubmit} {...other} />
         </Modal>
-        {trigger && <div onClick={toggle}>{trigger}</div>}
+        {
+          children && React.cloneElement(<span>{children}</span>, { onClick: toggle })
+        }
       </React.Fragment>
     )
   }
 
-  return [visible, toggle, FormModal] as [boolean, () => void, FC];
+  return [FormModal, visible, toggle] as [FC, boolean, () => void];
 }

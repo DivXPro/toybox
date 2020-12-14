@@ -1,4 +1,4 @@
-import React, { FC, useCallback, ReactNode, useMemo } from 'react';
+import React, { FC, useCallback, ReactNode, useMemo, useState } from 'react';
 import { Drawer, Button } from 'antd';
 import { DrawerProps } from 'antd/lib/drawer';
 import useModal from './useModal';
@@ -12,20 +12,23 @@ export interface FormDrawerProps {
   onCancel: () => void;
   drawerProps: Omit<Omit<DrawerProps, 'title'>, 'visible'>;
   formProps: Omit<MetaFormProps, 'onFinish'>;
-  trigger?: ReactNode;
 }
 
-export default ({ title, drawerProps, formProps, onFinish, onCancel, trigger }: FormDrawerProps) => {
+export default ({ title, drawerProps, formProps, onFinish, onCancel }: FormDrawerProps) => {
   const [visible, toggle] = useModal();
   const { ...other } = formProps;
   const [form] = useForm();
+  const [submitting, setSubmitting] = useState(false);
 
   const handleSubmit = useCallback(async () => {
     try {
       const values = await form.validateFields();
+      setSubmitting(true);
       onFinish && await onFinish(values);
+      setSubmitting(false);
       toggle();
     } catch (e) {
+      setSubmitting(false);
       console.warn(e);
     }
   }, [form, onFinish, toggle]);
@@ -47,7 +50,7 @@ export default ({ title, drawerProps, formProps, onFinish, onCancel, trigger }: 
           textAlign: 'right',
         }}
       >
-        <Button onClick={handleCancel} style={{ marginRight: 8 }}>
+        <Button onClick={handleCancel} style={{ marginRight: 8 }} loading={submitting}>
           Cancel
               </Button>
         <Button onClick={handleSubmit} type="primary">
@@ -55,9 +58,9 @@ export default ({ title, drawerProps, formProps, onFinish, onCancel, trigger }: 
         </Button>
       </div>
     )
-  }, [handleCancel, handleSubmit]);
+  }, [handleCancel, handleSubmit, submitting]);
 
-  const FormDrawer: FC = () => {
+  const FormDrawer: FC = ({ children }) => {
     const { closeIcon, ...drawerOtherProps } = drawerProps;
     const drawerCloseIcon = closeIcon || <CloseIcon />
     return (
@@ -65,10 +68,12 @@ export default ({ title, drawerProps, formProps, onFinish, onCancel, trigger }: 
         <Drawer title={title} visible={visible} onClose={handleCancel} footer={footer} closeIcon={drawerCloseIcon} {...drawerOtherProps}>
           <MetaForm userForm={form} onFinish={handleSubmit} {...other} />
         </Drawer>
-        {trigger && <div onClick={toggle}>{trigger}</div>}
+        {
+          children && React.cloneElement(<span>{children}</span>, { onClick: toggle })
+        }
       </React.Fragment>
     )
   }
 
-  return [visible, toggle, FormDrawer] as [boolean, () => void, FC];
+  return [FormDrawer, visible, toggle] as [FC, boolean, () => void];
 }

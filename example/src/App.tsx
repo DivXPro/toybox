@@ -36,7 +36,7 @@ const findParams: SearchFindParam[] = [
 const App: FC = () => {
   const tableRef = useRef<any>();
   const fieldMetas = useBusinessObjectMeta(objectMeta);
-  const [,,FormModal] = useFormModal({
+  const [FormModal] = useFormModal({
     title: 'FormModal',
     modalProps: {},
     formProps: {
@@ -49,7 +49,6 @@ const App: FC = () => {
       console.log('data:', data);
     },
     onCancel: () => undefined,
-    trigger: <Button>123</Button>,
   });
 
   return (
@@ -126,7 +125,9 @@ const App: FC = () => {
               loadData={loadData}
             />
             <MetaDescriptons fieldItemMetas={fieldMetas} data={list[0]} mode="read" />
-            <FormModal />
+            <FormModal>
+              <Button>open form</Button>
+            </FormModal>
           </Content>
         </Layout>
       </Layout>

@@ -12,6 +12,7 @@ import { IndexSearch, SearchFindParam } from './IndexSearch';
 import { MetaPageHeader } from '../metaPageHeader';
 import { FieldType } from '../field/interface';
 import { AdvanceSearch } from './advanceSearch';
+import { RowData } from '../metaTable/table';
 
 const LIST_RENDER = 'listRender';
 
@@ -75,6 +76,7 @@ const IndexPage: ForwardRefRenderFunction<any, IndexPageProps>  = ({
 }, ref: Ref<any>) => {
   const [form] = Form.useForm();
   const [selectedRowKeys, setSelectedRowKeys] = useState<(string | number)[]>([]);
+  const [selectedRows, setSelectedRows] = useState<RowData[]>([]);
   const [selectionType, setSelectionType] = useState<'checkbox' | 'radio'>();
   const [currentMode, setCurrentMode] = useState<IndexMode>(mode);
   const [showAdvanceSearch, setShowAdvanceSearch] = useState(false);
@@ -96,7 +98,10 @@ const IndexPage: ForwardRefRenderFunction<any, IndexPageProps>  = ({
       ? ({
         selectedRowKeys,
         selectionType,
-        onChange: (keys: (string | number)[]) => setSelectedRowKeys(keys),
+        onChange: (keys: (string | number)[], rows: RowData[]) => {
+          setSelectedRowKeys(keys),
+          setSelectedRows(rows);
+        }
       })
       : undefined,
     [selectedRowKeys, selectionType, setSelectedRowKeys]
@@ -106,8 +111,10 @@ const IndexPage: ForwardRefRenderFunction<any, IndexPageProps>  = ({
     ref,
     () => ({
       reload: () => search.submit(),
+      selectedRowKeys,
+      selectedRows,
     }),
-    [search],
+    [search, selectedRowKeys, selectedRows],
   );
 
   const columnMetas = useMemo(() => {
@@ -150,6 +157,7 @@ const IndexPage: ForwardRefRenderFunction<any, IndexPageProps>  = ({
     return columnComponents;
   }, [columnComponents, currentMode, renderContent]);
 
+  // 显示模式切换菜单
   const modeMenu = useMemo(() => {
     const currentIcon = currentMode === 'list' ? <ListUnordered /> : <TableLine />;
     const menuItems = (viewMode || []).map((itemMode, idx) => {

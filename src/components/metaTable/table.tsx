@@ -1,4 +1,4 @@
-import React, { FC, useMemo, useCallback, ReactNode } from 'react';
+import React, { FC, useMemo, useCallback, ReactNode, useState } from 'react';
 import { Table } from 'antd';
 import { TablePaginationConfig } from 'antd/lib/table';
 import { DateColumn } from './DateColumn';
@@ -7,7 +7,7 @@ import { DefaultColumn } from './DefaultColumn';
 import { BooleanColumn } from './BooleanColumn';
 import { SingleOptionColumn } from './SingleOptionColumn';
 import { OperateItem, OperateDropdown, operateFactory } from './OperateColumn';
-import { ExpandableConfig, TableRowSelection, ColumnType, ColumnsType } from 'antd/lib/table/interface';
+import { ExpandableConfig, TableRowSelection, ColumnsType, Key } from 'antd/lib/table/interface';
 import { ColumnFCProps } from './interface';
 import { ColumnMeta } from '../../types/interface';
 
@@ -67,7 +67,6 @@ export const MetaTable: FC<MetaTableProps> = ({
   onChange,
   rowClassName,
 }) => {
-
   const mergeColumnComponents = useMemo(() => {
     return Object.assign(defaultColumnsComponents, columnComponents);
   }, [columnComponents]);
@@ -111,6 +110,7 @@ export const MetaTable: FC<MetaTableProps> = ({
     () => makeColumns(columnMetas),
     [columnMetas, makeColumns]
   );
+
   return (
     <Table
       rowKey={rowKey}

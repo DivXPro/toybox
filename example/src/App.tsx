@@ -1,4 +1,4 @@
-import React, { FC, useRef } from 'react';
+import React, { FC, useRef, useCallback } from 'react';
 import { useBusinessObjectMeta, useFormModal, IndexPage, ProHeader, ListPage, Avatar, MetaDescriptons, SearchFindParam } from 'toybox';
 import { Button, Layout, Menu } from 'antd';
 import { objectMeta, list, visibleColumns } from './data';
@@ -50,6 +50,10 @@ const App: FC = () => {
     },
     onCancel: () => undefined,
   });
+
+  const showSelected = useCallback(() => {
+    console.log('rows', tableRef.current.selectedRows);
+  }, [tableRef]);
 
   return (
     <Layout>
@@ -107,11 +111,11 @@ const App: FC = () => {
                       {
                         text: '批量修改',
                         type: 'primary',
-                        onClick: () => console.log('create')
+                        callback: showSelected,
                       }, {
                         text: '批量删除',
                         danger: true,
-                        onClick: () => console.log('delete')
+                        callback: () => console.log('delete')
                       }
                     ]
                   },

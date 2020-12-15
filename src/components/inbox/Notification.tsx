@@ -79,7 +79,9 @@ export const Notification: FC<NotificationProps> = ({ message, remove, read, onP
     if (message.haveRead) {
       return null;
     }
-    return <Badge className="notification-not-read" count={message.badge} dot={message.badge == null || message.badge <= 0} />
+    return (message.badge != null && message.badge > 0)
+      ? <Badge className="notification-not-read" count={message.badge} />
+      : <Badge className="notification-not-read" dot />
   }, [message.badge, message.haveRead]);
 
   return (

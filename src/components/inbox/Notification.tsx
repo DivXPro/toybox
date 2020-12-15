@@ -9,7 +9,7 @@ export interface NotificationMessage {
   id: string;
   title: string;
   content: string;
-  link: string;
+  link?: string;
   userId: string;
   creator: {
     userId: string;
@@ -22,7 +22,7 @@ export interface NotificationMessage {
   createdAt: Date | string | number;
   updatedAt: Date | string | number;
   haveRead: boolean;
-  mode: 'link' | 'view';
+  mode: string;
   props?: Record<string, any>;
   badge?: number;
   appId?: string;

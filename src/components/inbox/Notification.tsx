@@ -79,7 +79,7 @@ export const Notification: FC<NotificationProps> = ({ message, remove, read, onP
     if (message.haveRead) {
       return null;
     }
-    return <Badge className="notification-not-read" count={message.badge} dot={message.badge == null} />
+    return <Badge className="notification-not-read" count={message.badge} dot={message.badge == null || message.badge <= 0} />
   }, [message.badge, message.haveRead]);
 
   return (
@@ -91,8 +91,8 @@ export const Notification: FC<NotificationProps> = ({ message, remove, read, onP
         <span className="notification-title">
           {message.type}
         </span>
-        { operate }
-        { badgeItem }
+        {operate}
+        {badgeItem}
       </div>
       <div className="notification-body">
         <Avatar style={{flex: 'none'}} name={message.creator.name} size="xs" img={message.creator.avatarUrl} />

@@ -1,7 +1,7 @@
 import React, { FC, useState, useCallback, useMemo } from 'react';
 import { Badge, Button } from 'antd';
 import classNames from 'classnames';
-import { More2Fill, CheckDoubleFill, DeleteBinLine } from '@airclass/icons';
+import { MoreFill, CheckDoubleFill, DeleteBinLine } from '@airclass/icons';
 import { InboxContent } from './InboxContent';
 import { NotificationMessage } from './Notification';
 import { DropdownMenu } from '../dropdownMenu';
@@ -75,15 +75,17 @@ export const Inbox: FC<InboxProps> = ({ badge, messages, loading, hasMore, onPic
 
   const InBoxPanel = () => {
     return <div className="tbox-inbox-panel">
-      <div className={classNames('inbox-panel--tab', { active: !unRead })} onClick={() => reloadMsgs(false)}>
-        <span>全部</span>
-        <Badge count={badge} />
-      </div>
-      <div className={classNames('inbox-panel--tab', { active: unRead })} onClick={() => reloadMsgs(true)}>
-        <span>未读</span>
+      <div className="inbox-panel--tabs">
+        <div className={classNames('inbox-panel--tab', { active: !unRead })} onClick={() => reloadMsgs(false)}>
+          <span>全部</span>
+          <Badge count={badge} />
+        </div>
+        <div className={classNames('inbox-panel--tab', { active: unRead })} onClick={() => reloadMsgs(true)}>
+          <span>未读</span>
+        </div>
       </div>
       <DropdownMenu items={menuItems}>
-        <Button type="text" icon={<More2Fill />} />
+        <Button type="text" icon={<MoreFill />} />
       </DropdownMenu>
     </div>;
   };

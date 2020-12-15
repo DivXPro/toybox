@@ -1,8 +1,9 @@
 import React, { FC, ReactNode, useMemo } from 'react';
 import { Button, Dropdown, Menu } from 'antd';
 import { MoreFill } from '@airclass/icons';
+import { DropDownProps } from 'antd/lib/dropdown';
 
-export interface DropdownMenuProps {
+export interface DropdownMenuProps extends Omit<DropDownProps, 'overlay'>{
   items: MenuItem[];
 }
 
@@ -15,7 +16,7 @@ export interface MenuItem {
   callback: (...args: any) => void;
 }
 
-export const DropdownMenu: FC<DropdownMenuProps> = ({ items, children }) => {
+export const DropdownMenu: FC<DropdownMenuProps> = ({ items, children, ...props }) => {
   const menu = useMemo(() => {
     return <Menu>
       {
@@ -33,7 +34,7 @@ export const DropdownMenu: FC<DropdownMenuProps> = ({ items, children }) => {
     </Menu>
   }, [items]);
 
-  return <Dropdown overlay={menu}>
+  return <Dropdown overlay={menu} {...props}>
     {children || <Button type="text"><MoreFill /></Button>}
   </Dropdown>
 }

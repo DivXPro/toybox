@@ -84,7 +84,7 @@ export const Inbox: FC<InboxProps> = ({ badge, messages, loading, hasMore, onPic
           <span>未读</span>
         </div>
       </div>
-      <DropdownMenu items={menuItems}>
+      <DropdownMenu items={menuItems} placement="bottomRight">
         <Button type="text" icon={<MoreFill />} />
       </DropdownMenu>
     </div>;

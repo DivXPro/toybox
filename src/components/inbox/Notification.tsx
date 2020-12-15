@@ -1,6 +1,6 @@
 import React, { FC, useCallback, useMemo } from 'react';
 import classNames from 'classnames';
-import { CloseLine, CheckDoubleLine } from '@airclass/icons';
+import { CloseLine, CheckDoubleLine, InformationLine } from '@airclass/icons';
 import { Badge } from 'antd';
 import { Time } from '../time';
 import Avatar from '../avatar';
@@ -85,7 +85,12 @@ export const Notification: FC<NotificationProps> = ({ message, remove, read, onP
   return (
     <div className={classNames('tbox-notification', { selected })} onClick={handleClick} style={style}>
       <div className="notification-header">
-        <div className="notification-type">{message.type}</div>
+        <span className="notification-type">
+          <InformationLine />
+        </span>
+        <span className="notification-title">
+          {message.type}
+        </span>
         { operate }
         { badgeItem }
       </div>

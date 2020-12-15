@@ -1,22 +1,26 @@
 import React, { FC, useState, useCallback, useMemo } from 'react';
+import { Badge, Button } from 'antd';
 import classNames from 'classnames';
+import { More2Fill, CheckDoubleFill, DeleteBinLine } from '@airclass/icons';
 import { InboxContent } from './InboxContent';
 import { NotificationMessage } from './Notification';
-import { Badge } from 'antd';
+import { DropdownMenu } from '../dropdownMenu';
 
 export interface InboxProps {
   badge: number;
-  onPick: (message: NotificationMessage) => void;
-  read: (id: string) => Promise<void>;
-  remove: (id: string) => Promise<void>;
   messages?: NotificationMessage[];
   loading?: boolean;
   hasMore: boolean;
+  onPick: (message: NotificationMessage) => void;
+  read: (id: string) => Promise<void>;
+  remove: (id: string) => Promise<void>;
   loadMore: (unread: boolean, offset: number, timestamp: number, type?: string) => void;
   reload: (unread: boolean, type?: string) => void;
+  readAll?: () => Promise<void>;
+  removeAll?: () => Promise<void>;
 }
 
-export const Inbox: FC<InboxProps> = ({ badge, messages, loading, hasMore, onPick, reload, loadMore, remove, read }) => {
+export const Inbox: FC<InboxProps> = ({ badge, messages, loading, hasMore, onPick, reload, loadMore, remove, read, readAll, removeAll }) => {
   const [currentTimestamp, setCurrentTimestamp] = useState<number>(new Date().getTime());
   const [unRead, setUnread] = useState(false);
   const [selectedId, setSelectedId] = useState<string | number>();
@@ -53,6 +57,21 @@ export const Inbox: FC<InboxProps> = ({ badge, messages, loading, hasMore, onPic
   }, [handleRead, onPick]);
 
   const showMessages = useMemo(() => unRead ? (messages || []).filter(msg => !msg.haveRead) : messages, [messages, unRead])
+  const menuItems = useMemo(() => (
+    [
+      {
+        text: '标记所有消息为已读',
+        icon: <CheckDoubleFill />,
+        callback: () => readAll && readAll(),
+      },
+      {
+        text: '删除所有已读消息',
+        icon: <DeleteBinLine />,
+        danger: true,
+        callback: () => removeAll && removeAll(),
+      }
+    ]
+  ), [readAll, removeAll]);
 
   const InBoxPanel = () => {
     return <div className="tbox-inbox-panel">
@@ -63,6 +82,9 @@ export const Inbox: FC<InboxProps> = ({ badge, messages, loading, hasMore, onPic
       <div className={classNames('inbox-panel--tab', { active: unRead })} onClick={() => reloadMsgs(true)}>
         <span>未读</span>
       </div>
+      <DropdownMenu items={menuItems}>
+        <Button type="text" icon={<More2Fill />} />
+      </DropdownMenu>
     </div>;
   };
 

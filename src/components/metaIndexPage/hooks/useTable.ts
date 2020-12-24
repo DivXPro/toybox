@@ -61,14 +61,17 @@ export interface OptionsWithFormat<R, Item, U>
 function useAntdTable<R = any, Item = any, U extends Item = any>(
   service: CombineService<R, PaginatedParams>,
   options: OptionsWithFormat<R, Item, U>,
+  setQuery?: (data: any) => void,
 ): Result<Item>;
 function useAntdTable<R = any, Item = any, U extends Item = any>(
   service: CombineService<PaginatedFormatReturn<Item>, PaginatedParams>,
   options: BaseOptions<U>,
+  setQuery?: (data: any) => void,
 ): Result<Item>;
 function useAntdTable<R = any, Item = any, U extends Item = any>(
   service: CombineService<any, any>,
   options: BaseOptions<U> | OptionsWithFormat<R, Item, U>,
+  setQuery?: (data: any) => void,
 ): any {
   const {
     form,
@@ -214,6 +217,7 @@ function useAntdTable<R = any, Item = any, U extends Item = any>(
                 type,
               },
             );
+            setQuery && setQuery(activeFormData);
           })
           .catch((err) => err);
       });

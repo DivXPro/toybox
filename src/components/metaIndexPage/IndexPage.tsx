@@ -1,4 +1,4 @@
-import React, { useMemo, useImperativeHandle, Ref, useState, useCallback, ReactNode, ForwardRefRenderFunction } from 'react';
+import React, { useMemo, useImperativeHandle, Ref, useState, useCallback, ReactNode, ForwardRefRenderFunction, useEffect } from 'react';
 import { Form, Button, Dropdown, Menu } from 'antd';
 import classNames from 'classnames';
 import { CheckboxMultipleLine, CheckboxMultipleFill, ListUnordered, TableLine, ArrowDownSLine } from '@airclass/icons';
@@ -13,6 +13,7 @@ import { MetaPageHeader } from '../metaPageHeader';
 import { FieldType } from '../field/interface';
 import { AdvanceSearch } from './advanceSearch';
 import { RowData } from '../metaTable/table';
+import { useQuery } from '../../hooks';
 
 const LIST_RENDER = 'listRender';
 
@@ -74,17 +75,22 @@ const IndexPage: ForwardRefRenderFunction<any, IndexPageProps>  = ({
   viewLink,
   loadData
 }, ref: Ref<any>) => {
-  const [form] = Form.useForm();
+  const [queryForm] = Form.useForm();
+  const [query, setQuery] = useQuery();
   const [selectedRowKeys, setSelectedRowKeys] = useState<(string | number)[]>([]);
   const [selectedRows, setSelectedRows] = useState<RowData[]>([]);
   const [selectionType, setSelectionType] = useState<'checkbox' | 'radio'>();
   const [currentMode, setCurrentMode] = useState<IndexMode>(mode);
   const [showAdvanceSearch, setShowAdvanceSearch] = useState(false);
-  const { tableProps, search } = useAntdTable(loadData, {
-    defaultPageSize: 10,
-    form,
-  });
-
+  const { tableProps, search } = useAntdTable(
+    loadData,
+    {
+      defaultPageSize: 10,
+      form: queryForm,
+      defaultParams: [{ pageSize: query.pageSize || 20, current: query.current }, query] as any,
+    },
+    setQuery,
+  );
   const toggleSelection = useCallback(() => {
     if (selectionType == null) {
       setSelectionType('checkbox');
@@ -194,7 +200,7 @@ const IndexPage: ForwardRefRenderFunction<any, IndexPageProps>  = ({
       {
         searchOption
           ? <IndexSearch
-              form={form}
+              form={queryForm}
               submit={search.submit}
               findParams={searchOption.findParams}
               showAdvance={showAdvanceSearch}
@@ -203,18 +209,18 @@ const IndexPage: ForwardRefRenderFunction<any, IndexPageProps>  = ({
           : null
       }
     </React.Fragment>
-  }, [form, modeMenu, showAdvanceSearch, setShowAdvanceSearch, searchOption, selectionType, search.submit, toggleSelection, viewMode]);
+  }, [queryForm, modeMenu, showAdvanceSearch, setShowAdvanceSearch, searchOption, selectionType, search.submit, toggleSelection, viewMode]);
 
   const advanceSearch = useMemo(() => {
     return searchOption
       ? <AdvanceSearch
           className={classNames('advance-search', { active: showAdvanceSearch})}
-          form={form}
+          form={queryForm}
           submit={search.submit}
           findParams={searchOption.findParams}
         />
       : null
-  }, [searchOption, showAdvanceSearch, search.submit, form]);
+  }, [searchOption, showAdvanceSearch, search.submit, queryForm]);
 
   const rightPanel = useMemo(() => {
     return (panelItems || [])

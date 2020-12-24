@@ -54,12 +54,14 @@ export const IconSearch: FC<IconSearchProps> = ({
 
   const holdInput = useMemo(() => {
     return focus || (inputRef?.current?.input.value != null && inputRef?.current?.input.value !== '');
-  }, [focus])
+  }, [focus]);
+
+  const showInput = useMemo(() => (value != null || value != '') || holdInput, [holdInput, value]);
 
   return (
     <div className="tbox-icon-search">
       {
-        holdInput
+        showInput
           ? null
           : <Button
               className="tbox-icon-search-icon"
@@ -68,7 +70,7 @@ export const IconSearch: FC<IconSearchProps> = ({
               icon={<Search2Line />}
             />
       }
-      <div className={classNames('tbox-search', holdInput ? 'tbox-search-hold' : 'tbox-search-fold')}>
+      <div className={classNames('tbox-search', showInput ? 'tbox-search-hold' : 'tbox-search-fold')}>
         <Input
           className='tbox-search-input'
           ref={inputRef}

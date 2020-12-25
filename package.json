@@ -1,6 +1,6 @@
 {
   "name": "@airclass/toybox",
-  "version": "0.2.33",
+  "version": "0.2.34",
   "description": "React components library extend antd",
   "author": "DivXPro",
   "license": "MIT",
@@ -93,7 +93,6 @@
     "react-router-dom": "^5.2.0",
     "react-window": "^1.8.5",
     "react-window-infinite-loader": "^1.0.5",
-    "remixicon": "^2.5.0",
     "styled-components": "^5.2.0"
   }
 }

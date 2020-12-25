@@ -8,7 +8,6 @@ import { Playground, Props } from 'docz';
 import { Button } from 'antd';
 import { Search } from './index.ts';
 import 'antd/dist/antd.css';
-import 'remixicon/fonts/remixicon.css';
 import '../../styles/core.scss';
 
 # Search

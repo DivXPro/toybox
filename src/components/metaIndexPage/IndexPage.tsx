@@ -43,6 +43,7 @@ export interface IndexPageProps {
   viewMode?: IndexMode[];
   className?: string;
   columnComponents?: Record<string, (...args: any) => ReactNode>;
+  urlQuery?: boolean,
   renderContent?: (...args: any) => ReactNode;
   loadData: (pageable: Pageable, fieldsValue: Record<string, any>) => Promise<PageResult>;
   viewLink?: (...arg: any) => string;
@@ -73,7 +74,8 @@ const IndexPage: ForwardRefRenderFunction<any, IndexPageProps>  = ({
   columnComponents = {},
   renderContent,
   viewLink,
-  loadData
+  loadData,
+  urlQuery
 }, ref: Ref<any>) => {
   const [queryForm] = Form.useForm();
   const [query, setQuery] = useQuery();
@@ -89,7 +91,7 @@ const IndexPage: ForwardRefRenderFunction<any, IndexPageProps>  = ({
       form: queryForm,
       defaultParams: [{ pageSize: query.pageSize || 20, current: query.current }, query] as any,
     },
-    setQuery,
+    urlQuery ? setQuery : undefined,
   );
   const toggleSelection = useCallback(() => {
     if (selectionType == null) {

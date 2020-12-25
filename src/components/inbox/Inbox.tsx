@@ -62,16 +62,26 @@ export const Inbox: FC<InboxProps> = ({ badge, messages, loading, hasMore, onPic
       {
         text: '标记所有消息为已读',
         icon: <CheckDoubleFill />,
-        callback: () => readAll && readAll(),
+        callback: async () => {
+          if (readAll != null) {
+            await readAll();
+            reloadMsgs(unRead);
+          }
+        },
       },
       {
         text: '删除所有已读消息',
         icon: <DeleteBinLine />,
         danger: true,
-        callback: () => removeAll && removeAll(),
+        callback: async () => {
+          if (removeAll != null) {
+            await removeAll();
+            reloadMsgs(unRead);
+          }
+        },
       }
     ]
-  ), [readAll, removeAll]);
+  ), [readAll, reloadMsgs, removeAll, unRead]);
 
   const InBoxPanel = () => {
     return <div className="tbox-inbox-panel">

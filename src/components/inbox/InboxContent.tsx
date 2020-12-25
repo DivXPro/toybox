@@ -1,4 +1,4 @@
-import React, { FC, useMemo, useCallback, useRef, useEffect } from 'react';
+import React, { FC, useMemo, useCallback, useRef, useEffect, ReactNode } from 'react';
 import { Empty } from 'antd';
 import { useSize, useScroll, useThrottleFn } from 'ahooks';
 import { Notification, NotificationMessage } from './Notification';
@@ -9,12 +9,13 @@ export interface InboxContentProps {
   hasMore: boolean;
   messages?: NotificationMessage[];
   selectedId?: string | number;
+  icons?: Record<string, ReactNode>;
   loadMore: (offset: number, limit: number) => Promise<any>;
   remove: (id: string) => void;
   read: (id: string) => void;
 }
 
-export const InboxContent: FC<InboxContentProps> = ({ loading, hasMore, onPick, messages = [], selectedId, loadMore, read, remove }) => {
+export const InboxContent: FC<InboxContentProps> = ({ loading, hasMore, onPick, messages = [], selectedId, icons, loadMore, read, remove }) => {
   const ref = useRef<any>();
   const contentRef = useRef<any>();
   const size = useSize(ref);
@@ -60,6 +61,7 @@ export const InboxContent: FC<InboxContentProps> = ({ loading, hasMore, onPick, 
                 message={message}
                 remove={remove}
                 read={read}
+                icons={icons}
               />
             ))
           }
@@ -67,7 +69,7 @@ export const InboxContent: FC<InboxContentProps> = ({ loading, hasMore, onPick, 
         {isEmpty ? <div style={{ paddingTop: '60px', }}><Empty description="没发现消息通知" /></div> : null}
       </LoadingWrapper>
     );
-  }, [messages, isEmpty, onPick, selectedId, remove, read]);
+  }, [messages, isEmpty, onPick, selectedId, remove, read, icons]);
 
   return (
     <div className="tbox-inbox-content" ref={contentRef}>

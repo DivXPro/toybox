@@ -1,4 +1,4 @@
-import React, { FC, useState, useCallback, useMemo } from 'react';
+import React, { FC, useState, useCallback, useMemo, ReactNode } from 'react';
 import { Badge, Button } from 'antd';
 import classNames from 'classnames';
 import { MoreFill, CheckDoubleFill, DeleteBinLine } from '@airclass/icons';
@@ -11,6 +11,7 @@ export interface InboxProps {
   messages?: NotificationMessage[];
   loading?: boolean;
   hasMore: boolean;
+  icons?: Record<string, ReactNode>;
   onPick: (message: NotificationMessage) => void;
   read: (id: string) => Promise<void>;
   remove: (id: string) => Promise<void>;
@@ -20,7 +21,7 @@ export interface InboxProps {
   removeAll?: () => Promise<void>;
 }
 
-export const Inbox: FC<InboxProps> = ({ badge, messages, loading, hasMore, onPick, reload, loadMore, remove, read, readAll, removeAll }) => {
+export const Inbox: FC<InboxProps> = ({ badge, messages, loading, hasMore, onPick, reload, loadMore, remove, read, readAll, removeAll, icons }) => {
   const [currentTimestamp, setCurrentTimestamp] = useState<number>(new Date().getTime());
   const [unRead, setUnread] = useState(false);
   const [selectedId, setSelectedId] = useState<string | number>();
@@ -112,6 +113,7 @@ export const Inbox: FC<InboxProps> = ({ badge, messages, loading, hasMore, onPic
         remove={handleRemove}
         selectedId={selectedId}
         read={handleRead}
+        icons={icons}
       />
     </div>
   );

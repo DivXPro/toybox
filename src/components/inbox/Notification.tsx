@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useMemo } from 'react';
+import React, { FC, useCallback, useMemo, ReactNode } from 'react';
 import classNames from 'classnames';
 import { CloseLine, CheckDoubleLine, InformationLine } from '@airclass/icons';
 import { Badge } from 'antd';
@@ -35,9 +35,10 @@ export interface NotificationProps {
   onPick: (message: NotificationMessage) => void;
   selected?: boolean;
   style?: any;
+  icons?: { [key: string]: ReactNode };
 }
 
-export const Notification: FC<NotificationProps> = ({ message, remove, read, onPick, style, selected = false }) => {
+export const Notification: FC<NotificationProps> = ({ message, remove, read, onPick, style, selected = false, icons }) => {
   const handleClick = useCallback((event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     event.stopPropagation();
     onPick(message);
@@ -56,6 +57,12 @@ export const Notification: FC<NotificationProps> = ({ message, remove, read, onP
       read(message.id);
     }
   }, [message.haveRead, message.id, read]);
+
+  const mergeIcons = useMemo(() => Object.assign({
+    default: <InformationLine />,
+  }, icons), [icons]);
+
+  const icon = useMemo(() => mergeIcons['mergeIcons'] || mergeIcons['default'], [mergeIcons]);
 
   const operate = useMemo(() => {
     return (
@@ -88,10 +95,10 @@ export const Notification: FC<NotificationProps> = ({ message, remove, read, onP
     <div className={classNames('tbox-notification', { selected })} onClick={handleClick} style={style}>
       <div className="notification-header">
         <span className="notification-type">
-          <InformationLine />
+          {icon}
         </span>
         <span className="notification-title">
-          {message.type}
+          {message.title}
         </span>
         {operate}
         {badgeItem}

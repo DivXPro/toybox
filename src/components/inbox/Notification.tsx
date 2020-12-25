@@ -62,7 +62,7 @@ export const Notification: FC<NotificationProps> = ({ message, remove, read, onP
     default: <InformationLine />,
   }, icons), [icons]);
 
-  const icon = useMemo(() => mergeIcons['mergeIcons'] || mergeIcons['default'], [mergeIcons]);
+  const icon = useMemo(() => mergeIcons[message.appId || 'default'] || mergeIcons['default'], [mergeIcons]);
 
   const operate = useMemo(() => {
     return (

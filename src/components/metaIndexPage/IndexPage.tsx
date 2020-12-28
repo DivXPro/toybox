@@ -245,7 +245,7 @@ const IndexPage: ForwardRefRenderFunction<any, IndexPageProps>  = ({
     switch (currentMode) {
       case 'table':
         return <MetaTable
-          rowKey="id"
+          rowKey={objectMeta.key}
           operateItems={operateItems}
           columnMetas={columnMetas}
           rowSelection={rowSelection}
@@ -254,7 +254,7 @@ const IndexPage: ForwardRefRenderFunction<any, IndexPageProps>  = ({
         />
       case 'list':
         return <MetaTable
-          rowKey="id"
+          rowKey={objectMeta.key}
           operateItems={operateItems}
           columnMetas={columnMetas}
           rowSelection={rowSelection}
@@ -264,7 +264,7 @@ const IndexPage: ForwardRefRenderFunction<any, IndexPageProps>  = ({
       default:
         return null;
     }
-  }, [components, columnMetas, currentMode, operateItems, rowSelection, tableProps]);
+  }, [currentMode, objectMeta.key, operateItems, columnMetas, rowSelection, components, tableProps]);
 
   return (
     <div className={classNames('tbox-page', className)}>

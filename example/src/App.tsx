@@ -1,4 +1,5 @@
 import React, { FC, useRef, useCallback } from 'react';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { useBusinessObjectMeta, useFormModal, IndexPage, ProHeader, ListPage, Avatar, MetaDescriptons, SearchFindParam } from 'toybox';
 import { Button, Layout, Menu } from 'antd';
 import { objectMeta, list, visibleColumns } from './data';
@@ -56,86 +57,92 @@ const App: FC = () => {
   }, [tableRef]);
 
   return (
-    <Layout>
-      <ProHeader
-        brand="DEMO"
-        rightRender={
-          <React.Fragment>
-            <Avatar name="小林光" size="xs" />
-            <Avatar.AvatarWithName name="小林" img="https://teambition-file.alibaba-inc.com/thumbnail/011he036f61ebeb2f1e09c0e586b4788a195/w/200/h/200" />
-          </React.Fragment>
-        }
-      />
-      <Layout>
-        <Sider theme="light" width={200}>
-          <Menu defaultSelectedKeys={['2']} mode="inline" style={{ marginTop: '12px', height: '100%' }}>
-            <Menu.Item key="1">nav 1</Menu.Item>
-            <Menu.Item key="2">nav 2</Menu.Item>
-            <Menu.Item key="3">nav 3</Menu.Item>
-          </Menu>
-        </Sider>
-        <Layout>
-          <Content>
-            <IndexPage
-              ref={tableRef}
-              title="Example Table Page"
-              objectMeta={objectMeta}
-              loadData={loadData}
-              visibleColumns={visibleColumns}
-              viewLink={viewLink}
-              mode="table"
-              renderContent={() => <div>item</div>}
-              viewMode={['table', 'list']}
-              operateItems={[
-                { text: 'view', type: 'primary', size: 'small' },
-                { text: 'edit', type: 'dashed', size: 'small' },
-                { text: 'remove', type: 'text', size: 'small', danger: true }
-              ]}
-              panelItems={[
-                {
-                  type: 'button',
-                  props: {
-                    items: [
+    <Router>
+      <Switch>
+        <Route>
+          <Layout>
+            <ProHeader
+              brand="DEMO"
+              rightRender={
+                <React.Fragment>
+                  <Avatar name="小林光" size="xs" />
+                  <Avatar.AvatarWithName name="小林" img="https://teambition-file.alibaba-inc.com/thumbnail/011he036f61ebeb2f1e09c0e586b4788a195/w/200/h/200" />
+                </React.Fragment>
+              }
+            />
+            <Layout>
+              <Sider theme="light" width={200}>
+                <Menu defaultSelectedKeys={['2']} mode="inline" style={{ marginTop: '12px', height: '100%' }}>
+                  <Menu.Item key="1">nav 1</Menu.Item>
+                  <Menu.Item key="2">nav 2</Menu.Item>
+                  <Menu.Item key="3">nav 3</Menu.Item>
+                </Menu>
+              </Sider>
+              <Layout>
+                <Content>
+                  <IndexPage
+                    ref={tableRef}
+                    title="Example Table Page"
+                    objectMeta={objectMeta}
+                    loadData={loadData}
+                    visibleColumns={visibleColumns}
+                    viewLink={viewLink}
+                    mode="table"
+                    renderContent={() => <div>item</div>}
+                    viewMode={['table', 'list']}
+                    operateItems={[
+                      { text: 'view', type: 'primary', size: 'small' },
+                      { text: 'edit', type: 'dashed', size: 'small' },
+                      { text: 'remove', type: 'text', size: 'small', danger: true }
+                    ]}
+                    panelItems={[
                       {
-                        text: '新增',
-                        type: 'primary',
-                        onClick: () => console.log('create')
-                      }
-                    ]
-                  },
-                }, {
-                  type: 'dropdownMenu',
-                  selection: true,
-                  props: {
-                    items: [
-                      {
-                        text: '批量修改',
-                        type: 'primary',
-                        callback: showSelected,
+                        type: 'button',
+                        props: {
+                          items: [
+                            {
+                              text: '新增',
+                              type: 'primary',
+                              onClick: () => console.log('create')
+                            }
+                          ]
+                        },
                       }, {
-                        text: '批量删除',
-                        danger: true,
-                        callback: () => console.log('delete')
+                        type: 'dropdownMenu',
+                        selection: true,
+                        props: {
+                          items: [
+                            {
+                              text: '批量修改',
+                              type: 'primary',
+                              callback: showSelected,
+                            }, {
+                              text: '批量删除',
+                              danger: true,
+                              callback: () => console.log('delete')
+                            }
+                          ]
+                        },
                       }
-                    ]
-                  },
-                }
-              ]}
-              searchOption={{ findParams }}
-            />
-            <ListPage
-              title="Example List Page"
-              objectMeta={objectMeta}
-              loadData={loadData}
-            />
-            <MetaDescriptons fieldItemMetas={fieldMetas} data={list[0]} mode="read" />
-            <FormModal>
-              <Button>open form</Button>
-            </FormModal>
-          </Content>
-        </Layout>
-      </Layout>
-    </Layout>
+                    ]}
+                    searchOption={{ findParams }}
+                  />
+                  <ListPage
+                    title="Example List Page"
+                    objectMeta={objectMeta}
+                    loadData={loadData}
+                  />
+                  <MetaDescriptons fieldItemMetas={fieldMetas} data={list[0]} mode="read" />
+                  <FormModal>
+                    <Button>open form</Button>
+                  </FormModal>
+                </Content>
+              </Layout>
+            </Layout>
+          </Layout>
+        </Route>
+      </Switch>
+    </Router>
   )
 }
 

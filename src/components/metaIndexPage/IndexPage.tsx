@@ -1,4 +1,4 @@
-import React, { useMemo, useImperativeHandle, Ref, useState, useCallback, ReactNode, ForwardRefRenderFunction, useEffect } from 'react';
+import React, { useMemo, useImperativeHandle, Ref, useState, useCallback, ReactNode, ForwardRefRenderFunction } from 'react';
 import { Form, Button, Dropdown, Menu } from 'antd';
 import classNames from 'classnames';
 import { CheckboxMultipleLine, CheckboxMultipleFill, ListUnordered, TableLine, ArrowDownSLine } from '@airclass/icons';
@@ -30,7 +30,7 @@ export interface Pageable {
 export type IndexMode = 'table' | 'list' | 'card';
 
 export interface IndexPageProps {
-  title: string;
+  title?: string;
   subTitle?: string;
   objectMeta: BusinessObjectMeta;
   operateItems?: OperateItem[];
@@ -268,7 +268,8 @@ const IndexPage: ForwardRefRenderFunction<any, IndexPageProps>  = ({
 
   return (
     <div className={classNames('tbox-page', className)}>
-      <MetaPageHeader title={title} subTitle={subTitle} footer={tablePanel} />
+      { title && <MetaPageHeader title={title} subTitle={subTitle} />}
+      { tablePanel }
       <ContentWrapper>
         <IndexContent />
       </ContentWrapper>

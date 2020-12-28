@@ -268,7 +268,7 @@ const IndexPage: ForwardRefRenderFunction<any, IndexPageProps>  = ({
 
   return (
     <div className={classNames('tbox-page', className)}>
-      { title && <MetaPageHeader title={title} subTitle={subTitle} />}
+      <MetaPageHeader title={title} subTitle={subTitle} />
       { tablePanel }
       <ContentWrapper>
         <IndexContent />

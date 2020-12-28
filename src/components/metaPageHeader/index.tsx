@@ -8,7 +8,7 @@ export type MetaPageHeaderProps = PageHeaderProps & {
   metaRoutes?: MetaRoute[];
 }
 
-export const MetaPageHeader: FC<MetaPageHeaderProps> = ({ metaRoutes, ...other }) => {
+export const MetaPageHeader: FC<MetaPageHeaderProps> = ({ metaRoutes, title, ...other }) => {
   const routes = useMetaRoute(metaRoutes);
-  return <PageHeader breadcrumb={routes ? { routes } : undefined} {...other} />
+  return title ? <PageHeader breadcrumb={routes ? { routes } : undefined} title={title} {...other} /> : null;
 }

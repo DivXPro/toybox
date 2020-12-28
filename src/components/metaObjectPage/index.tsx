@@ -10,6 +10,7 @@ import { ContentWrapper } from '../metaIndexPage/ContentWrapper';
 const { TabPane } = Tabs;
 
 export interface MetaObjectPageProps {
+  showTitle: boolean;
   businessObjectMeta: BusinessObjectMeta
   data: Record<string, any>;
   onBack?: () => void;
@@ -29,6 +30,7 @@ const ExtendContent: FC<{views: { name: string, node: ReactNode }[]}> = ({views}
 };
 
 export const MetaObjectPage: FC<MetaObjectPageProps> = ({
+  showTitle,
   businessObjectMeta,
   data,
   onBack,
@@ -69,7 +71,7 @@ export const MetaObjectPage: FC<MetaObjectPageProps> = ({
   }, [businessObjectMeta, data, extend, fieldItemsMeta]);
   return (
     <div className={classNames('tbox-page', className)}>
-      <MetaPageHeader title={title} subTitle={subTitle} onBack={onBack} />
+      { showTitle ? <MetaPageHeader title={title} subTitle={subTitle} onBack={onBack} /> : null }
       <ContentWrapper>
         { extendContent }
       </ContentWrapper>

@@ -9,8 +9,8 @@ export const ObjectColumn: FC<ObjectColumnProps> = ({ text, record, columnMeta }
   const linkHandle = useColumnLink(record, columnMeta.link);
 
   const value = useMemo(
-    () => text != null ? text[columnMeta.titleKey || 'id'] : undefined,
-    [columnMeta.titleKey, text]
+    () => text != null ? text[columnMeta.titleKey || columnMeta.idKey || 'id'] : undefined,
+    [columnMeta.idKey, columnMeta.titleKey, text]
   );
   if (columnMeta.link) {
     return <div className="tbox-column-link" onClick={linkHandle}>{value}</div>;

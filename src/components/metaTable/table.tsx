@@ -51,7 +51,7 @@ const defaultColumnsComponents: Record<string, React.FunctionComponent> = {
 }
 
 export const MetaTable: FC<MetaTableProps> = ({
-  rowKey,
+  rowKey = 'id',
   size,
   columnMetas,
   dataSource,

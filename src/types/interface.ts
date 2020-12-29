@@ -4,6 +4,7 @@ import { ReactText } from "react";
 
 export interface BusinessObjectMeta {
   key: string;
+  idKey?: string;
   name: string;
   description: string;
   properties: { [key: string]: FieldMeta };
@@ -28,6 +29,7 @@ export interface FieldMeta {
   minLength?: number;
   pattern?: string;
   format?: string;
+  idKey?: string;
   titleKey?: string;
   properties?: { [key: string]: FieldMeta };
   index?: number;

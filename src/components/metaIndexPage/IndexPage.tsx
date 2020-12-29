@@ -245,7 +245,7 @@ const IndexPage: ForwardRefRenderFunction<any, IndexPageProps>  = ({
     switch (currentMode) {
       case 'table':
         return <MetaTable
-          rowKey={objectMeta.key}
+          rowKey={objectMeta.idKey}
           operateItems={operateItems}
           columnMetas={columnMetas}
           rowSelection={rowSelection}
@@ -254,7 +254,7 @@ const IndexPage: ForwardRefRenderFunction<any, IndexPageProps>  = ({
         />
       case 'list':
         return <MetaTable
-          rowKey={objectMeta.key}
+          rowKey={objectMeta.idKey}
           operateItems={operateItems}
           columnMetas={columnMetas}
           rowSelection={rowSelection}

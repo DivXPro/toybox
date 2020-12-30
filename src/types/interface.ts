@@ -1,6 +1,6 @@
+import { ReactText } from "react";
 import { OptionItem } from "../components/field/select";
 import { FieldType } from "../components/field/interface";
-import { ReactText } from "react";
 
 export interface BusinessObjectMeta {
   key: string;
@@ -48,12 +48,22 @@ export interface FieldOption {
   value: string;
 }
 
-export type ColumnMeta = {
-  component?: string;
+export interface ColumnBaseType {
+  key: string;
+  name: string;
   fixed?: boolean;
   align?: 'left' | 'right' | 'center';
-  link?: (...args: any) => string | string;
-} & FieldMeta
+  show?: boolean;
+}
+
+export interface ColumnComponentType extends ColumnBaseType {
+  link?: (...args: any) => string;
+  component?: string;
+}
+
+export type ColumnMeta = ColumnComponentType & FieldMeta
+
+
 
 export type MetaPageMode = 'list' | 'view';
 

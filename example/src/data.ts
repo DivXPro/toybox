@@ -245,13 +245,21 @@ export const msgs = [
 
 export const visibleColumns = [
   {
-    key: 'name'
+    key: 'name',
+    name: '名字',
+    show: true,
   }, {
-    key: 'billCycle'
+    key: 'billCycle',
+    name: '账期',
+    show: true,
   }, {
-    key: 'amount'
+    key: 'amount',
+    name: '金额',
+    show: true,
   }, {
     key: 'user',
+    name: '用户',
+    show: true,
   }
 ];
 

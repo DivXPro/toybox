@@ -1,0 +1,72 @@
+@import '../../../../styles/theme.scss';
+
+.column-setting {
+    width: auto;
+    &.column-setting-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 32px;
+    }
+    &.column-setting-overlay {
+      .ant-popover-inner-content {
+        padding: 0px;
+        padding-bottom: 8px;
+      }
+    }
+  }
+
+  .column-setting-list {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding-top: 8px;
+    max-height: 280px;
+    overflow-x: hidden;
+
+    &.column-setting-list-group {
+      padding-top: 0;
+    }
+
+    &.column-setting-list-title {
+      color: $gray-9;
+      font-size: 12px;
+      padding-left: 24px;
+      margin-bottom: 6px;
+      margin-top: 6px;
+    }
+
+    &.column-setting-list-item {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      padding: 4px 16px;
+      padding-left: 0px;
+      &-option {
+        display: none;
+        float: right;
+        cursor: pointer;
+        > span {
+          > span.anticon {
+            color: $primary-color;
+          }
+        }
+        > span + span {
+          margin-left: 8px;
+        }
+      }
+      &:hover {
+        background-color: $gray-4;
+        .column-setting-item-option {
+          display: block;
+        }
+      }
+    }
+    .checkbox-wrapper {
+      flex: 1;
+      margin: 0;
+      :last-child {
+        margin-bottom: 0;
+      }
+    }
+  }

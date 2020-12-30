@@ -57,9 +57,12 @@ const App: FC = () => {
   }, [tableRef]);
 
   return (
-    <Router>
+    <Router basename="">
       <Switch>
-        <Route>
+        <Route path="/root" exact>
+          root
+        </Route>
+        <Route path="">
           <Layout>
             <ProHeader
               brand="DEMO"

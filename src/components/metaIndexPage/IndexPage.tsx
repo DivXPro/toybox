@@ -6,7 +6,7 @@ import useAntdTable from './hooks/useTable';
 import { ContentWrapper } from './ContentWrapper';
 import { MetaTable } from '../metaTable';
 import { Panel, PanelItem, PanelItemProps } from '../panel';
-import { BusinessObjectMeta } from '../../types/interface';
+import { BusinessObjectMeta, ColumnComponentType } from '../../types/interface';
 import { OperateItem } from '../metaTable/OperateColumn';
 import { IndexSearch, SearchFindParam } from './IndexSearch';
 import { MetaPageHeader } from '../metaPageHeader';
@@ -14,6 +14,7 @@ import { FieldType } from '../field/interface';
 import { AdvanceSearch } from './advanceSearch';
 import { RowData } from '../metaTable/table';
 import { useQuery } from '../../hooks';
+import ColumnSetting from './components/columnSetting';
 
 const LIST_RENDER = 'listRender';
 
@@ -34,7 +35,7 @@ export interface IndexPageProps {
   subTitle?: string;
   objectMeta: BusinessObjectMeta;
   operateItems?: OperateItem[];
-  visibleColumns?: ColumnVisible[];
+  visibleColumns?: ColumnComponentType[];
   searchOption?: {
     findParams: SearchFindParam[];
   }
@@ -66,7 +67,7 @@ const IndexPage: ForwardRefRenderFunction<any, IndexPageProps>  = ({
   subTitle,
   objectMeta,
   operateItems,
-  visibleColumns,
+  visibleColumns = [],
   panelItems,
   mode = 'table',
   viewMode,
@@ -82,6 +83,7 @@ const IndexPage: ForwardRefRenderFunction<any, IndexPageProps>  = ({
   const [queryForm] = Form.useForm();
   const [query, setQuery] = useQuery();
   const [selectedRowKeys, setSelectedRowKeys] = useState<(string | number)[]>([]);
+  const [columnComponentTypes, setColumnComponentTypes] = useState(visibleColumns);
   const [selectedRows, setSelectedRows] = useState<RowData[]>([]);
   const [selectionType, setSelectionType] = useState<'checkbox' | 'radio'>();
   const [currentMode, setCurrentMode] = useState<IndexMode>(mode);
@@ -136,27 +138,29 @@ const IndexPage: ForwardRefRenderFunction<any, IndexPageProps>  = ({
         type: FieldType.BUSINESS_OBJECT,
       }];
     }
-    if (visibleColumns != null) {
-      return visibleColumns.map(col => {
-        const fieldMeta = objectMeta.properties[col.key];
-        return Object.assign(
-          {
-            key: col.key,
-            fixed: col.fixed,
-            align: col.align,
-            component: col.component,
-            link: fieldMeta.key === objectMeta.titleKey ? viewLink : undefined
-          },
-          fieldMeta,
-        );
-      });
+    if (columnComponentTypes != null) {
+      return columnComponentTypes
+        .filter(col => col.show)
+        .map(col => {
+          const fieldMeta = objectMeta.properties[col.key];
+          return Object.assign(
+            {
+              key: col.key,
+              fixed: col.fixed,
+              align: col.align,
+              component: col.component,
+              link: fieldMeta.key === objectMeta.titleKey ? viewLink : undefined
+            },
+            fieldMeta,
+          );
+        });
     }
     return Object.keys(objectMeta.properties)
       .map(key => Object.assign(
         objectMeta.properties[key],
         { link: key === objectMeta.titleKey ? viewLink : undefined }
       ));
-  }, [currentMode, objectMeta.key, objectMeta.name, objectMeta.properties, objectMeta.titleKey, viewLink, visibleColumns]);
+  }, [columnComponentTypes, currentMode, objectMeta.key, objectMeta.name, objectMeta.properties, objectMeta.titleKey, viewLink]);
 
   const components: Record<string, (...args: any) => ReactNode> = useMemo(() => {
     if (currentMode === 'list' && renderContent) {
@@ -229,12 +233,16 @@ const IndexPage: ForwardRefRenderFunction<any, IndexPageProps>  = ({
   }, [searchOption, showAdvanceSearch, search.submit, queryForm]);
 
   const rightPanel = useMemo(() => {
-    return (panelItems || [])
+    const items = (panelItems || [])
       .filter(item => !item.selection || selectionType != null)
       .map((item, index) => (
         <PanelItem key={index} {...item} />
       ));
-  }, [panelItems, selectionType]);
+    return <React.Fragment>
+      {items}
+      <ColumnSetting columns={visibleColumns} setColumnTypes={setColumnComponentTypes}/>
+    </React.Fragment>
+  }, [panelItems, selectionType, visibleColumns]);
 
   const tablePanel = useMemo(() => (rightPanel != null || leftPanel != null)
     ? <React.Fragment>

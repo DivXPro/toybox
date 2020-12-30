@@ -4,10 +4,9 @@ import type { DropTargetMonitor } from 'react-dnd';
 import { useDrag, useDrop } from 'react-dnd';
 
 export type CardProps = {
-  id: any;
   index: number;
   move?: (dragIndex: number, hoverIndex: number) => void;
-  end: (id: string, dragIndex: number) => void;
+  end: (index: number, dragIndex: number) => void;
 };
 
 type DragItem = {
@@ -19,7 +18,7 @@ const ItemTypes = {
   CARD: 'card',
 };
 
-const Card: React.FC<CardProps> = ({ id, end, move, children, index }) => {
+const Card: React.FC<CardProps> = ({ end, move, children, index }) => {
   const ref = useRef<HTMLDivElement>(null);
   const [{ isOver }, drop] = useDrop({
     accept: ItemTypes.CARD,
@@ -86,15 +85,15 @@ const Card: React.FC<CardProps> = ({ id, end, move, children, index }) => {
   });
 
   const [{ isDragging }, drag] = useDrag<any, any, any>({
-    item: { type: ItemTypes.CARD, id, index },
+    item: { type: ItemTypes.CARD, index },
     collect: (monitor: any) => ({
       isDragging: monitor.isDragging(),
     }),
-    end: (item?: { id: string; index: number }) => {
+    end: (item?: { index: number }) => {
       if (!item) {
         return;
       }
-      end(item.id, item.index);
+      end(index, item.index);
     },
   });
 

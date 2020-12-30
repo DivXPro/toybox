@@ -38,6 +38,7 @@ export interface IndexPageProps {
   searchOption?: {
     findParams: SearchFindParam[];
   }
+  style?: any;
   panelItems?: IndexPagePanelItemProps[];
   mode?: IndexMode;
   viewMode?: IndexMode[];
@@ -71,6 +72,7 @@ const IndexPage: ForwardRefRenderFunction<any, IndexPageProps>  = ({
   viewMode,
   searchOption,
   className,
+  style,
   columnComponents = {},
   renderContent,
   viewLink,
@@ -264,11 +266,11 @@ const IndexPage: ForwardRefRenderFunction<any, IndexPageProps>  = ({
       default:
         return null;
     }
-  }, [currentMode, objectMeta.key, operateItems, columnMetas, rowSelection, components, tableProps]);
+  }, [currentMode, objectMeta.idKey, operateItems, columnMetas, rowSelection, components, tableProps]);
 
   return (
-    <div className={classNames('tbox-page', className)}>
-      <MetaPageHeader title={title} subTitle={subTitle} />
+    <div className={classNames('tbox-page', className)} style={style}>
+      { title && <MetaPageHeader title={title} subTitle={subTitle} />}
       { tablePanel }
       <ContentWrapper>
         <IndexContent />

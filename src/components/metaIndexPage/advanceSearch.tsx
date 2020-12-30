@@ -1,6 +1,7 @@
 import React, { FC, useCallback, useMemo } from 'react';
 import { Form, Select, Input, Col, Row, Button } from 'antd';
 import { FormInstance } from 'antd/lib/form';
+import styled from 'styled-components';
 import { SearchFindParam, OptionItem } from './IndexSearch';
 import { RemoteSelect } from './RemoteSelect';
 
@@ -11,6 +12,12 @@ export interface AdvanceSearchProps {
   className?: string;
   style?: any;
 }
+
+const AdvanceSearchWrapper = styled.div`
+  margin-bottom: 16px;
+  padding: 24px 24px 0px;
+  background: white;
+`;
 
 export const AdvanceSearch: FC<AdvanceSearchProps> = ({ className, style, form, findParams, submit }) => {
   const findItem = useCallback((findParam: SearchFindParam) => {
@@ -38,25 +45,27 @@ export const AdvanceSearch: FC<AdvanceSearchProps> = ({ className, style, form, 
     [findItem, findParams]
   );
 
-  return <Form className={className} style={style} form={form}>
-    <Row gutter={24}>
-      {findItems}
-    </Row>
-    <Row>
-      <Col span={24} style={{ textAlign: 'right' }}>
-        <Button type="primary" htmlType="submit" size="small" onClick={submit}>
-          搜索
-        </Button>
-        <Button
-          style={{ marginLeft: '8px' }}
-          size="small"
-          onClick={() => {
-            form.resetFields();
-          }}
-        >
-          重置
-        </Button>
-      </Col>
-    </Row>
-  </Form>
+  return <AdvanceSearchWrapper>
+      <Form className={className} style={style} form={form}>
+      <Row gutter={24}>
+        {findItems}
+      </Row>
+      <Row>
+        <Col span={24} style={{ textAlign: 'right' }}>
+          <Button type="primary" htmlType="submit" size="small" onClick={submit}>
+            搜索
+          </Button>
+          <Button
+            style={{ marginLeft: '8px' }}
+            size="small"
+            onClick={() => {
+              form.resetFields();
+            }}
+          >
+            重置
+          </Button>
+        </Col>
+      </Row>
+    </Form>
+  </AdvanceSearchWrapper>
 }

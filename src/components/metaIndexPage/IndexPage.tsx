@@ -1,5 +1,5 @@
 import React, { useMemo, useImperativeHandle, Ref, useState, useCallback, ReactNode, ForwardRefRenderFunction } from 'react';
-import { Form, Button, Dropdown, Menu } from 'antd';
+import { Form, Button, Dropdown, Menu, Tooltip } from 'antd';
 import classNames from 'classnames';
 import { CheckboxMultipleLine, CheckboxMultipleFill, ListUnordered, TableLine, ArrowDownSLine } from '@airclass/icons';
 import useAntdTable from './hooks/useTable';
@@ -193,11 +193,13 @@ const IndexPage: ForwardRefRenderFunction<any, IndexPageProps>  = ({
 
   const leftPanel = useMemo(() => {
     return <React.Fragment>
-      <Button
-        type="text"
-        onClick={toggleSelection}
-        icon={selectionType == null ? <CheckboxMultipleLine /> : <CheckboxMultipleFill />}
-      />
+      <Tooltip title="多选">
+        <Button
+          type="text"
+          onClick={toggleSelection}
+          icon={selectionType == null ? <CheckboxMultipleLine /> : <CheckboxMultipleFill />}
+        />
+      </Tooltip>
       {
         (viewMode || []).length > 1 ? modeMenu : null
       }
@@ -268,7 +270,7 @@ const IndexPage: ForwardRefRenderFunction<any, IndexPageProps>  = ({
   }, [currentMode, objectMeta.idKey, operateItems, columnMetas, rowSelection, components, tableProps]);
 
   return (
-    <div className={classNames('tbox-page', className)} style={style}>
+    <div className={classNames('tbox-page', 'tbox-index-page', className)} style={style}>
       { title && <MetaPageHeader title={title} subTitle={subTitle} /> }
       { advanceSearch }
       <ContentWrapper>

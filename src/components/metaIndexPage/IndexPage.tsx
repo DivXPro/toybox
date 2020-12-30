@@ -202,7 +202,7 @@ const IndexPage: ForwardRefRenderFunction<any, IndexPageProps>  = ({
         (viewMode || []).length > 1 ? modeMenu : null
       }
       {
-        searchOption && showAdvanceSearch
+        searchOption
           ? <IndexSearch
               form={queryForm}
               submit={search.submit}
@@ -216,7 +216,7 @@ const IndexPage: ForwardRefRenderFunction<any, IndexPageProps>  = ({
   }, [queryForm, modeMenu, showAdvanceSearch, setShowAdvanceSearch, searchOption, selectionType, search.submit, toggleSelection, viewMode]);
 
   const advanceSearch = useMemo(() => {
-    return searchOption
+    return searchOption && showAdvanceSearch
       ? <AdvanceSearch
           className={classNames('advance-search', { active: showAdvanceSearch})}
           form={queryForm}

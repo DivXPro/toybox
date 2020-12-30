@@ -52,12 +52,11 @@ export const AdvanceSearch: FC<AdvanceSearchProps> = ({ className, style, form, 
       </Row>
       <Row>
         <Col span={24} style={{ textAlign: 'right' }}>
-          <Button type="primary" htmlType="submit" size="small" onClick={submit}>
+          <Button type="primary" htmlType="submit" onClick={submit}>
             搜索
           </Button>
           <Button
             style={{ marginLeft: '8px' }}
-            size="small"
             onClick={() => {
               form.resetFields();
             }}

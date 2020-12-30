@@ -202,7 +202,7 @@ const IndexPage: ForwardRefRenderFunction<any, IndexPageProps>  = ({
         (viewMode || []).length > 1 ? modeMenu : null
       }
       {
-        searchOption
+        searchOption && showAdvanceSearch
           ? <IndexSearch
               form={queryForm}
               submit={search.submit}

@@ -1,6 +1,6 @@
 {
   "name": "@airclass/toybox",
-  "version": "next",
+  "version": "0.2.42",
   "description": "React components library extend antd",
   "author": "DivXPro",
   "license": "MIT",

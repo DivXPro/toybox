@@ -236,11 +236,10 @@ const IndexPage: ForwardRefRenderFunction<any, IndexPageProps>  = ({
 
   const tablePanel = useMemo(() => (rightPanel != null || leftPanel != null)
     ? <React.Fragment>
-        {advanceSearch}
         <Panel left={leftPanel} right={rightPanel} />
       </React.Fragment>
     : null,
-    [rightPanel, leftPanel, advanceSearch]
+    [rightPanel, leftPanel]
   );
 
   const IndexContent = useCallback(() => {
@@ -270,9 +269,10 @@ const IndexPage: ForwardRefRenderFunction<any, IndexPageProps>  = ({
 
   return (
     <div className={classNames('tbox-page', className)} style={style}>
-      { title && <MetaPageHeader title={title} subTitle={subTitle} />}
-      { tablePanel }
+      { title && <MetaPageHeader title={title} subTitle={subTitle} /> }
+      { advanceSearch }
       <ContentWrapper>
+        { tablePanel }
         <IndexContent />
       </ContentWrapper>
     </div>

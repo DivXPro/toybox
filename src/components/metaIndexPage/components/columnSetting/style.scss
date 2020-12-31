@@ -1,14 +1,14 @@
 @import '../../../../styles/theme.scss';
 
-.column-setting {
+.toybox-column-setting {
     width: auto;
-    &.column-setting-title {
+    &.toybox-column-setting-title {
       display: flex;
       align-items: center;
       justify-content: space-between;
       height: 32px;
     }
-    &.column-setting-overlay {
+    &.toybox-column-setting-overlay {
       .ant-popover-inner-content {
         padding: 0px;
         padding-bottom: 8px;
@@ -16,7 +16,7 @@
     }
   }
 
-  .column-setting-list {
+  .toybox-column-setting-list {
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -24,11 +24,11 @@
     max-height: 280px;
     overflow-x: hidden;
 
-    &.column-setting-list-group {
+    &.toybox-column-setting-list-group {
       padding-top: 0;
     }
 
-    &.column-setting-list-title {
+    &.toybox-column-setting-list-title {
       color: $gray-9;
       font-size: 12px;
       padding-left: 24px;
@@ -36,13 +36,13 @@
       margin-top: 6px;
     }
 
-    &.column-setting-list-item {
+    &.toybox-column-setting-list-item {
       display: flex;
       align-items: center;
       width: 100%;
       padding: 4px 16px;
       padding-left: 0px;
-      &-option {
+      &.toybox-column-setting-list-item-option {
         display: none;
         float: right;
         cursor: pointer;

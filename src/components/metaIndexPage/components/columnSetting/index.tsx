@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { Checkbox, Popover, Tooltip } from 'antd';
+import { Button, Checkbox, Popover, Tooltip } from 'antd';
 import { DndProvider } from 'react-dnd';
 import { ListSettingsLine } from '@airclass/icons';
 import classNames from 'classnames';
@@ -19,7 +19,7 @@ const CheckboxListItem: React.FC<{
   // const intl = useIntl();
   const column = columns[index] || { show: true };
   return (
-    <span className={`column-setting-list-item`} key={index}>
+    <span className={`toybox-column-setting-list-item`} key={index}>
       <DragIcon />
       <Checkbox
         onChange={(e) => {
@@ -42,9 +42,7 @@ const CheckboxListItem: React.FC<{
 const CheckboxList: React.FC<{
   columns: ColumnBaseType[];
   setColumns: (columns: ColumnBaseType[]) => void;
-  title: string;
-  showTitle?: boolean;
-}> = ({ columns, setColumns, showTitle = true, title: listTitle }) => {
+}> = ({ columns, setColumns }) => {
   const show = columns && columns.length > 0;
   if (!show) {
     return null;
@@ -53,7 +51,9 @@ const CheckboxList: React.FC<{
     if (index < 0 || targetIndex < 0 || index === targetIndex) {
       return;
     }
-    // TODO:
+    const tempColumn = columns[targetIndex];
+    columns[targetIndex] = columns[index];
+    columns[index] = tempColumn;
     setColumns(columns);
   };
 
@@ -71,7 +71,6 @@ const CheckboxList: React.FC<{
   });
   return (
     <React.Fragment>
-      {showTitle && <span className={`column-setting-list-title`}>{listTitle}</span>}
       {listDom}
     </React.Fragment>
   );
@@ -89,14 +88,18 @@ const GroupCheckboxList: React.FC<{
         <CheckboxList
           columns={columns}
           setColumns={setColumns}
-          title={'固定在左侧'}
         />
       </DndProvider>
     </div>
   );
 };
 
-const ColumnSetting: React.FC<{ columns: ColumnComponentType[], setColumnTypes: (columns: ColumnComponentType[]) => void }> = ({ columns, setColumnTypes }) => {
+export interface ColumnSettingProps {
+  columns: ColumnComponentType[];
+  setColumns: (columns: ColumnComponentType[]) => void;
+}
+
+const ColumnSetting: React.FC<ColumnSettingProps> = ({ columns, setColumns }) => {
   const columnsRef = useRef<ColumnComponentType[]>([]);
   useEffect(() => {
     if (columns) {
@@ -112,7 +115,7 @@ const ColumnSetting: React.FC<{ columns: ColumnComponentType[], setColumnTypes: 
     columns.forEach((column, index) => {
       newColumnTypes[index] = { ...column, show };
     });
-    setColumnTypes(newColumnTypes);
+    setColumns(newColumnTypes);
   };
 
   // 选中的 key 列表
@@ -125,7 +128,7 @@ const ColumnSetting: React.FC<{ columns: ColumnComponentType[], setColumnTypes: 
     <Popover
       arrowPointAtCenter
       title={
-        <div className={`column-title`}>
+        <div className={`toybox-column-setting-title`}>
           <Checkbox
             indeterminate={indeterminate}
             checked={selectedKeys.length === 0 && selectedKeys.length !== columns.length}
@@ -140,19 +143,19 @@ const ColumnSetting: React.FC<{ columns: ColumnComponentType[], setColumnTypes: 
             {'列展示'}
           </Checkbox>
           <a
-            onClick={() => setColumnTypes(columnsRef.current)}
+            onClick={() => setColumns(columnsRef.current)}
           >
             {'重置'}
           </a>
         </div>
       }
-      overlayClassName={`column-setting-overlay`}
+      overlayClassName={`toybox-column-setting-overlay`}
       trigger="click"
       placement="bottomRight"
-      content={<GroupCheckboxList columns={columns} setColumns={setColumnTypes} />}
+      content={<GroupCheckboxList columns={columns} setColumns={setColumns} />}
     >
-      <Tooltip title={'列设置'}>
-        <ListSettingsLine />
+      <Tooltip title={'列选择'}>
+        <Button icon={<ListSettingsLine />} type="text" />
       </Tooltip>
     </Popover>
   );

@@ -2,7 +2,6 @@ import React, { useEffect, useRef } from 'react';
 import { Button, Checkbox, Popover, Tooltip } from 'antd';
 import { DndProvider } from 'react-dnd';
 import { ListSettingsLine } from '@airclass/icons';
-import classNames from 'classnames';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import DnDItem from './DndItem';
 import DragIcon from './DragIcon';
@@ -17,7 +16,6 @@ const CheckboxListItem: React.FC<{
   columns: ColumnBaseType[];
   setColumns: (columns: ColumnBaseType[]) => void;
 }> = ({ columnKey, columns, title, setColumns }) => {
-  // const intl = useIntl();
   const index = columns.findIndex(col => col.key === columnKey);
   const column = columns[index] || { show: true };
   return (
@@ -31,7 +29,7 @@ const CheckboxListItem: React.FC<{
                 columns,
                 {
                   [index]: {
-                    show: { $set: !e.target.checked }
+                    show: { $set: e.target.checked }
                   }
                 }
               )
@@ -58,8 +56,13 @@ const CheckboxList: React.FC<{
     if (index < 0 || targetIndex < 0 || index === targetIndex) {
       return;
     }
-    const newColumns = update(columns, { [index]: { $set: columns[targetIndex] }, [targetIndex]: { $set: columns[index]} });
-    console.log('sort columns', newColumns)
+    const newColumns = update(
+      columns,
+      {
+        [index]: { $set: columns[targetIndex] },
+        [targetIndex]: { $set: columns[index] }
+      }
+    );
     setColumns(newColumns);
   };
 
@@ -89,7 +92,7 @@ const GroupCheckboxList: React.FC<{
 }> = ({ columns, setColumns }) => {
   return (
     <div
-      className={classNames(`checkbox-list`)}
+      className={'toybox-column-setting-list'}
     >
       <DndProvider backend={HTML5Backend}>
         <CheckboxList
@@ -110,7 +113,7 @@ const ColumnSetting: React.FC<ColumnSettingProps> = ({ columns, setColumns }) =>
   const columnsRef = useRef<ColumnComponentType[]>([]);
   useEffect(() => {
     if (columns) {
-      columnsRef.current = columns;
+      columnsRef.current = columns.map(col => ({ ...col }));
     }
   }, [columns]);
   /**

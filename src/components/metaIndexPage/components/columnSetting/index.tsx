@@ -11,24 +11,28 @@ import { ColumnBaseType, ColumnComponentType } from '../../../../types/interface
 import './style.scss';
 
 const CheckboxListItem: React.FC<{
-  index: number;
+  key: string | number;
   title?: React.ReactNode;
   columns: ColumnBaseType[];
   setColumns: (columns: ColumnBaseType[]) => void;
-}> = ({ index, columns, title, setColumns }) => {
+}> = ({ key, columns, title, setColumns }) => {
   // const intl = useIntl();
+  const index = columns.findIndex(col => col.key === key);
   const column = columns[index] || { show: true };
   return (
-    <span className={`toybox-column-setting-list-item`} key={index}>
+    <span className={`toybox-column-setting-list-item`} key={key}>
       <DragIcon />
       <Checkbox
         onChange={(e) => {
           if (index >= 0) {
+            let newColumns: ColumnBaseType[];
             if (e.target.checked) {
-              setColumns(columns.map((column, idx) => idx === index ? ({ ...column, show: false }) : column));
+              newColumns = columns.map((column, idx) => idx === index ? ({ ...column, show: false }) : column);
             } else {
-              setColumns(columns.map((column, idx) => idx === index ? ({ ...column, show: true }) : column));
+              newColumns = columns.map((column, idx) => idx === index ? ({ ...column, show: true }) : column);
             }
+            console.log('Columns', columns, newColumns);
+            setColumns(newColumns);
           }
         }}
         checked={column.show !== false}
@@ -62,7 +66,7 @@ const CheckboxList: React.FC<{
       <DnDItem index={index} key={column.key} end={move}>
         <CheckboxListItem
           setColumns={setColumns}
-          index={index}
+          key={column.key}
           columns={columns}
           title={column.name}
         />

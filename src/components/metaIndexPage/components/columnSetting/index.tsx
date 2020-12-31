@@ -6,33 +6,31 @@ import classNames from 'classnames';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import DnDItem from './DndItem';
 import DragIcon from './DragIcon';
+import update from 'immutability-helper';
 import { ColumnBaseType, ColumnComponentType } from '../../../../types/interface';
 
 import './style.scss';
 
 const CheckboxListItem: React.FC<{
-  key: string | number;
+  columnKey: string | number;
   title?: React.ReactNode;
   columns: ColumnBaseType[];
   setColumns: (columns: ColumnBaseType[]) => void;
-}> = ({ key, columns, title, setColumns }) => {
+}> = ({ columnKey, columns, title, setColumns }) => {
   // const intl = useIntl();
-  const index = columns.findIndex(col => col.key === key);
+  const index = columns.findIndex(col => col.key === columnKey);
   const column = columns[index] || { show: true };
   return (
-    <span className={`toybox-column-setting-list-item`} key={key}>
+    <span className={`toybox-column-setting-list-item`} key={columnKey}>
       <DragIcon />
       <Checkbox
         onChange={(e) => {
           if (index >= 0) {
-            let newColumns: ColumnBaseType[];
             if (e.target.checked) {
-              newColumns = columns.map((column, idx) => idx === index ? ({ ...column, show: false }) : column);
+              setColumns(update(columns, { [index]: {show: { $set: false }} }));
             } else {
-              newColumns = columns.map((column, idx) => idx === index ? ({ ...column, show: true }) : column);
+              setColumns(update(columns, { [index]: { show: { $set: true } } }));
             }
-            console.log('Columns', columns, newColumns);
-            setColumns(newColumns);
           }
         }}
         checked={column.show !== false}
@@ -66,6 +64,7 @@ const CheckboxList: React.FC<{
       <DnDItem index={index} key={column.key} end={move}>
         <CheckboxListItem
           setColumns={setColumns}
+          columnKey={column.key}
           key={column.key}
           columns={columns}
           title={column.name}

@@ -240,9 +240,9 @@ const IndexPage: ForwardRefRenderFunction<any, IndexPageProps>  = ({
       ));
     return <React.Fragment>
       {items}
-      <ColumnSetting columns={visibleColumns} setColumnTypes={setColumnComponentTypes}/>
+      <ColumnSetting columns={columnComponentTypes} setColumns={setColumnComponentTypes}/>
     </React.Fragment>
-  }, [panelItems, selectionType, visibleColumns]);
+  }, [panelItems, selectionType, columnComponentTypes]);
 
   const tablePanel = useMemo(() => (rightPanel != null || leftPanel != null)
     ? <React.Fragment>

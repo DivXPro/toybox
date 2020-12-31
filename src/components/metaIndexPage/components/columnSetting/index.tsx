@@ -25,9 +25,9 @@ const CheckboxListItem: React.FC<{
         onChange={(e) => {
           if (index >= 0) {
             if (e.target.checked) {
-              setColumns(columns.map((meta, idx) => idx === index ? ({ ...meta, show: false }) : meta));
+              setColumns(columns.map((column, idx) => idx === index ? ({ ...column, show: false }) : column));
             } else {
-              setColumns(columns.map((meta, idx) => idx === index ? ({ ...meta, show: true }) : meta));
+              setColumns(columns.map((column, idx) => idx === index ? ({ ...column, show: true }) : column));
             }
           }
         }}

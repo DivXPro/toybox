@@ -232,6 +232,11 @@ const IndexPage: ForwardRefRenderFunction<any, IndexPageProps>  = ({
       : null
   }, [searchOption, showAdvanceSearch, search.submit, queryForm]);
 
+  const setColumns = useCallback((columns: ColumnComponentType[]) => {
+    console.log('columns', columns);
+    setColumnComponentTypes(columns);
+  }, []);
+
   const rightPanel = useMemo(() => {
     const items = (panelItems || [])
       .filter(item => !item.selection || selectionType != null)
@@ -240,9 +245,9 @@ const IndexPage: ForwardRefRenderFunction<any, IndexPageProps>  = ({
       ));
     return <React.Fragment>
       {items}
-      <ColumnSetting columns={columnComponentTypes} setColumns={setColumnComponentTypes}/>
+      <ColumnSetting columns={columnComponentTypes} setColumns={setColumns}/>
     </React.Fragment>
-  }, [panelItems, selectionType, columnComponentTypes]);
+  }, [columnComponentTypes, panelItems, selectionType, setColumns]);
 
   const tablePanel = useMemo(() => (rightPanel != null || leftPanel != null)
     ? <React.Fragment>

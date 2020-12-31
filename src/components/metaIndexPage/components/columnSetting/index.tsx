@@ -26,11 +26,16 @@ const CheckboxListItem: React.FC<{
       <Checkbox
         onChange={(e) => {
           if (index >= 0) {
-            if (e.target.checked) {
-              setColumns(update(columns, { [index]: {show: { $set: false }} }));
-            } else {
-              setColumns(update(columns, { [index]: { show: { $set: true } } }));
-            }
+            setColumns(
+              update(
+                columns,
+                {
+                  [index]: {
+                    show: { $set: !e.target.checked }
+                  }
+                }
+              )
+            );
           }
         }}
         checked={column.show !== false}
@@ -53,10 +58,9 @@ const CheckboxList: React.FC<{
     if (index < 0 || targetIndex < 0 || index === targetIndex) {
       return;
     }
-    const tempColumn = columns[targetIndex];
-    columns[targetIndex] = columns[index];
-    columns[index] = tempColumn;
-    setColumns(columns);
+    const newColumns = update(columns, { [index]: { $set: columns[targetIndex] }, [targetIndex]: { $set: columns[index]} });
+    console.log('sort columns', newColumns)
+    setColumns(newColumns);
   };
 
   const listDom = columns.map((column, index) => {

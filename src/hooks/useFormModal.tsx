@@ -20,15 +20,12 @@ export default ({ title, modalProps, formProps, onFinish, onCancel}: FormModalPr
   const [form] = useForm();
   const [submitting, setSubmitting] = useState(false);
 
-  const handleSubmit = () => {
+  const handleSubmit = useCallback(async () => {
     setSubmitting(true);
-    form.validateFields().then((values) => {
-      return onFinish(values);
-    }).then(() => {
-      setVisible(false);
-      setSubmitting(false);
-    });
-  };
+    const values = await form.validateFields();
+    await onFinish(values);
+    setSubmitting(false);
+  }, [form, onFinish]);
 
   const handleCancel = useCallback(() => {
     form.setFieldsValue(formProps.initialValues);
@@ -41,7 +38,14 @@ export default ({ title, modalProps, formProps, onFinish, onCancel}: FormModalPr
     const modalCloseIcon = closeIcon || <CloseIcon />
     return (
       <React.Fragment>
-        <Modal title={title} visible={visible} onOk={handleSubmit} onCancel={handleCancel} closeIcon={modalCloseIcon} confirmLoading={submitting} {...modalOtherProps}>
+        <Modal
+          title={title}
+          visible={visible}
+          onOk={handleSubmit}
+          onCancel={handleCancel}
+          closeIcon={modalCloseIcon}
+          confirmLoading={submitting}
+          {...modalOtherProps}>
           <MetaForm userForm={form} {...other} />
         </Modal>
         {

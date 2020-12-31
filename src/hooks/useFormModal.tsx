@@ -20,29 +20,20 @@ export default ({ title, modalProps, formProps, onFinish, onCancel}: FormModalPr
   const [form] = useForm();
   const [submitting, setSubmitting] = useState(false);
 
-  const handleSubmit = useCallback(() => {
-    try {
-      setSubmitting(true);
-      form.validateFields().then((values) => {
-        return onFinish(values)
-      }).then(() => {
-        setVisible(false);
-        setSubmitting(false);
-      });
-    } catch(e) {
+  const handleSubmit = () => {
+    setSubmitting(true);
+    form.validateFields().then((values) => {
+      return onFinish(values);
+    }).then(() => {
+      setVisible(false);
       setSubmitting(false);
-      console.warn(e);
-    }
-  }, [form, onFinish, setVisible]);
+    });
+  };
 
   const handleCancel = useCallback(() => {
-    try {
-      form.setFieldsValue(formProps.initialValues);
-      onCancel && onCancel();
-      setVisible(false);
-    } catch (e) {
-      console.warn(e);
-    }
+    form.setFieldsValue(formProps.initialValues);
+    onCancel && onCancel();
+    setVisible(false);
   }, [form, formProps.initialValues, onCancel, setVisible]);
 
   const FormModal: FC = ({ children }) => {

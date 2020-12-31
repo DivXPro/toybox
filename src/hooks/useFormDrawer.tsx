@@ -15,23 +15,25 @@ export interface FormDrawerProps {
 }
 
 export default ({ title, drawerProps, formProps, onFinish, onCancel }: FormDrawerProps) => {
-  const [visible, toggle] = useModal();
+  const [visible, setVisible, toggle] = useModal();
   const { ...other } = formProps;
   const [form] = useForm();
   const [submitting, setSubmitting] = useState(false);
 
-  const handleSubmit = useCallback(async () => {
+  const handleSubmit = useCallback(() => {
     try {
-      const values = await form.validateFields();
       setSubmitting(true);
-      onFinish && await onFinish(values);
-      setSubmitting(false);
-      toggle();
+      form.validateFields().then((values) => {
+        return onFinish(values)
+      }).then(() => {
+        setVisible(false);
+        setSubmitting(false);
+      });
     } catch (e) {
       setSubmitting(false);
       console.warn(e);
     }
-  }, [form, onFinish, toggle]);
+  }, [form, onFinish, setVisible]);
 
   const handleCancel = useCallback(() => {
     try {
@@ -66,7 +68,7 @@ export default ({ title, drawerProps, formProps, onFinish, onCancel }: FormDrawe
     return (
       <React.Fragment>
         <Drawer title={title} visible={visible} onClose={handleCancel} footer={footer} closeIcon={drawerCloseIcon} {...drawerOtherProps}>
-          <MetaForm userForm={form} onFinish={handleSubmit} {...other} />
+          <MetaForm userForm={form} {...other} />
         </Drawer>
         {
           children && React.cloneElement(<span>{children}</span>, { onClick: toggle })
@@ -75,5 +77,5 @@ export default ({ title, drawerProps, formProps, onFinish, onCancel }: FormDrawe
     )
   }
 
-  return [FormDrawer, visible, toggle] as [FC, boolean, () => void];
+  return [FormDrawer, visible, setVisible, toggle] as [FC, boolean, (visible: boolean) => void, () => void];
 }

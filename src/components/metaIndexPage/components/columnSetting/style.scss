@@ -20,12 +20,11 @@
   padding-top: 8px;
   max-height: 280px;
   overflow-x: hidden;
-
-  &.toybox-column-setting-list-group {
+  .toybox-column-setting-list-group {
     padding-top: 0;
   }
 
-  &.toybox-column-setting-list-title {
+  .toybox-column-setting-list-title {
     color: $gray-9;
     font-size: 12px;
     padding-left: 24px;
@@ -33,13 +32,13 @@
     margin-top: 6px;
   }
 
-  &.toybox-column-setting-list-item {
+  .toybox-column-setting-list-item {
     display: flex;
     align-items: center;
     width: 100%;
     padding: 4px 16px;
     padding-left: 0px;
-    &.toybox-column-setting-list-item-option {
+    .toybox-column-setting-list-item-option {
       display: none;
       float: right;
       cursor: pointer;
@@ -54,9 +53,6 @@
     }
     &:hover {
       background-color: $gray-4;
-      .column-setting-item-option {
-        display: block;
-      }
     }
   }
   .checkbox-wrapper {

@@ -20,13 +20,15 @@ export default ({ title, modalProps, formProps, onFinish, onCancel}: FormModalPr
   const [form] = useForm();
   const [submitting, setSubmitting] = useState(false);
 
-  const handleSubmit = useCallback(async () => {
+  const handleSubmit = useCallback(() => {
     try {
-      const values = await form.validateFields();
       setSubmitting(true);
-      onFinish && await onFinish(values);
-      setSubmitting(false);
-      setVisible(false);
+      form.validateFields().then((values) => {
+        return onFinish(values)
+      }).then(() => {
+        setVisible(false);
+        setSubmitting(false);
+      });
     } catch(e) {
       setSubmitting(false);
       console.warn(e);
@@ -49,7 +51,7 @@ export default ({ title, modalProps, formProps, onFinish, onCancel}: FormModalPr
     return (
       <React.Fragment>
         <Modal title={title} visible={visible} onOk={handleSubmit} onCancel={handleCancel} closeIcon={modalCloseIcon} confirmLoading={submitting} {...modalOtherProps}>
-          <MetaForm userForm={form} onFinish={handleSubmit} {...other} />
+          <MetaForm userForm={form} {...other} />
         </Modal>
         {
           children && React.cloneElement(<span>{children}</span>, { onClick: () => setVisible(true) })

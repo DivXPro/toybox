@@ -7,5 +7,5 @@ export default () => {
     setVisible(!visible);
   }
 
-  return [visible, toggle] as [boolean, () => void];
+  return [visible, setVisible, toggle] as [boolean, (visible: boolean) => void, () => void];
 };

@@ -15,7 +15,7 @@ export interface FormModalProps {
 }
 
 export default ({ title, modalProps, formProps, onFinish, onCancel}: FormModalProps) => {
-  const [visible, toggle] = useModal();
+  const [visible, setVisible, toggle] = useModal();
   const { ...other } = formProps;
   const [form] = useForm();
   const [submitting, setSubmitting] = useState(false);
@@ -26,22 +26,22 @@ export default ({ title, modalProps, formProps, onFinish, onCancel}: FormModalPr
       setSubmitting(true);
       onFinish && await onFinish(values);
       setSubmitting(false);
-      toggle();
+      setVisible(false);
     } catch(e) {
       setSubmitting(false);
       console.warn(e);
     }
-  }, [form, onFinish, toggle]);
+  }, [form, onFinish, setVisible]);
 
   const handleCancel = useCallback(() => {
     try {
       form.setFieldsValue(formProps.initialValues);
       onCancel && onCancel();
-      toggle();
+      setVisible(false);
     } catch (e) {
       console.warn(e);
     }
-  }, [form, formProps.initialValues, onCancel, toggle]);
+  }, [form, formProps.initialValues, onCancel, setVisible]);
 
   const FormModal: FC = ({ children }) => {
     const { closeIcon, ...modalOtherProps } = modalProps;
@@ -52,11 +52,11 @@ export default ({ title, modalProps, formProps, onFinish, onCancel}: FormModalPr
           <MetaForm userForm={form} onFinish={handleSubmit} {...other} />
         </Modal>
         {
-          children && React.cloneElement(<span>{children}</span>, { onClick: toggle })
+          children && React.cloneElement(<span>{children}</span>, { onClick: () => setVisible(true) })
         }
       </React.Fragment>
     )
   }
 
-  return [FormModal, visible, toggle] as [FC, boolean, () => void];
+  return [FormModal, visible, setVisible, toggle] as [FC, boolean, (visible: boolean) => void, () => void];
 }

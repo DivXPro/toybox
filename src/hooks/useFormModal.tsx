@@ -25,13 +25,11 @@ export default ({ title, modalProps, formProps, onFinish, onCancel}: FormModalPr
       const values = await form.validateFields();
       setSubmitting(true);
       onFinish && await onFinish(values);
-      setSubmitting(false);
-      toggle();
     } catch(e) {
       setSubmitting(false);
       console.warn(e);
     }
-  }, [form, onFinish, toggle]);
+  }, [form, onFinish]);
 
   const handleCancel = useCallback(() => {
     try {

@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useEffect, ReactNode, useState } from 'react';
+import React, { FC, useCallback, ReactNode, useState } from 'react';
 import { Modal, Button } from 'antd';
 import { convertLegacyProps } from 'antd/lib/button/button';
 import { ModalProps } from 'antd/lib/modal';
@@ -23,30 +23,29 @@ export default ({ title, modalProps, formProps, onFinish, onCancel}: FormModalPr
   const [form] = useForm();
   const [submitting, setSubmitting] = useState(false);
 
-  useEffect(() => {
-    console.debug('visible', visible);
-  }, [visible])
 
   const handleSubmit = useCallback(async () => {
     try {
       const values = await form.validateFields();
       setSubmitting(true);
-      onFinish && await onFinish(values);
+      if (typeof onFinish === 'function') {
+        await onFinish(values);
+      }
+      form.setFieldsValue(formProps.initialValues);
       setVisible(false);
+      setSubmitting(false);
     } catch(e) {
       setSubmitting(false);
       console.warn(e);
     }
-  }, [form, onFinish, setVisible]);
+  }, [form, formProps.initialValues, onFinish, setVisible]);
 
   const handleCancel = useCallback(() => {
-    try {
-      form.setFieldsValue(formProps.initialValues);
-      onCancel && onCancel();
-      setVisible(false);
-    } catch (e) {
-      console.warn(e);
+    form.setFieldsValue(formProps.initialValues);
+    if (typeof onCancel === 'function') {
+      onCancel();
     }
+    setVisible(false);
   }, [form, formProps.initialValues, onCancel, setVisible]);
 
   const renderFooter = (locale: ModalLocale) => {
@@ -57,7 +56,7 @@ export default ({ title, modalProps, formProps, onFinish, onCancel}: FormModalPr
           {cancelText || locale.cancelText}
         </Button>
         <Button
-          {...convertLegacyProps(okType)}
+          {...convertLegacyProps(okType || 'primary')}
           loading={submitting}
           onClick={handleSubmit}
           {...modalProps.okButtonProps}

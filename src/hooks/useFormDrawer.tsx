@@ -25,13 +25,14 @@ export default ({ title, drawerProps, formProps, onFinish, onCancel }: FormDrawe
       const values = await form.validateFields();
       setSubmitting(true);
       onFinish && await onFinish(values);
-      setSubmitting(false);
+      form.setFieldsValue(formProps.initialValues);
       setVisible(false);
+      setSubmitting(false);
     } catch (e) {
       setSubmitting(false);
       console.warn(e);
     }
-  }, [form, onFinish, setVisible]);
+  }, [form, formProps.initialValues, onFinish, setVisible]);
 
   const handleCancel = useCallback(() => {
     try {

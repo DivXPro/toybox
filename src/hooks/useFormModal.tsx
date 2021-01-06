@@ -1,4 +1,4 @@
-import React, { FC, useCallback, ReactNode, useState } from 'react';
+import React, { FC, useCallback, useEffect, ReactNode, useState } from 'react';
 import { Modal, Button } from 'antd';
 import { convertLegacyProps } from 'antd/lib/button/button';
 import { ModalProps } from 'antd/lib/modal';
@@ -23,6 +23,21 @@ export default ({ title, modalProps, formProps, onFinish, onCancel}: FormModalPr
   const [form] = useForm();
   const [submitting, setSubmitting] = useState(false);
 
+  useEffect(() => {
+    if (visible) {
+      if (form.getFieldsValue() != null) {
+        const initValues: Record<string, any> = {};
+        formProps.fieldMetaProfiles.forEach(field => {
+          const key = field.key;
+          const initValue = formProps.initialValues ? formProps.initialValues[key] : undefined;
+          initValues[key] = initValue != null ? initValue : undefined;
+        });
+        form.setFieldsValue(initValues);
+      } else {
+        form.setFieldsValue(formProps.initialValues);
+      }
+    }
+  }, [form, formProps.fieldMetaProfiles, formProps.initialValues, visible])
 
   const handleSubmit = useCallback(async () => {
     try {
@@ -31,22 +46,20 @@ export default ({ title, modalProps, formProps, onFinish, onCancel}: FormModalPr
       if (typeof onFinish === 'function') {
         await onFinish(values);
       }
-      form.setFieldsValue(formProps.initialValues);
       setVisible(false);
       setSubmitting(false);
     } catch(e) {
       setSubmitting(false);
-      console.warn(e);
+      console.log('submit warn:', e);
     }
-  }, [form, formProps.initialValues, onFinish, setVisible]);
+  }, [form, onFinish, setVisible]);
 
   const handleCancel = useCallback(() => {
-    form.setFieldsValue(formProps.initialValues);
     if (typeof onCancel === 'function') {
       onCancel();
     }
     setVisible(false);
-  }, [form, formProps.initialValues, onCancel, setVisible]);
+  }, [onCancel, setVisible]);
 
   const renderFooter = (locale: ModalLocale) => {
     const { okText, okType, cancelText } = modalProps;

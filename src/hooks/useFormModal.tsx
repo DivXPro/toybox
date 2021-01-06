@@ -24,20 +24,22 @@ export default ({ title, modalProps, formProps, onFinish, onCancel}: FormModalPr
   const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
-    if (visible) {
-      if (form.getFieldsValue() != null) {
-        const initValues: Record<string, any> = {};
-        formProps.fieldMetaProfiles.forEach(field => {
-          const key = field.key;
-          const initValue = formProps.initialValues ? formProps.initialValues[key] : undefined;
-          initValues[key] = initValue != null ? initValue : undefined;
-        });
-        form.setFieldsValue(initValues);
-      } else {
-        form.setFieldsValue(formProps.initialValues);
-      }
+    console.log('visible', visible, submitting);
+  }, [submitting, visible]);
+
+  const cleanForm = useCallback(() => {
+    if (form.getFieldsValue() != null) {
+      const initValues: Record<string, any> = {};
+      formProps.fieldMetaProfiles.forEach(field => {
+        const key = field.key;
+        const initValue = formProps.initialValues ? formProps.initialValues[key] : undefined;
+        initValues[key] = initValue != null ? initValue : undefined;
+      });
+      form.setFieldsValue(initValues);
+    } else {
+      form.setFieldsValue(formProps.initialValues);
     }
-  }, [form, formProps.fieldMetaProfiles, formProps.initialValues, visible])
+  }, [form, formProps.fieldMetaProfiles, formProps.initialValues]);
 
   const handleSubmit = useCallback(async () => {
     try {
@@ -46,20 +48,22 @@ export default ({ title, modalProps, formProps, onFinish, onCancel}: FormModalPr
       if (typeof onFinish === 'function') {
         await onFinish(values);
       }
+      cleanForm();
       setVisible(false);
       setSubmitting(false);
     } catch(e) {
       setSubmitting(false);
       console.log('submit warn:', e);
     }
-  }, [form, onFinish, setVisible]);
+  }, [cleanForm, form, onFinish, setVisible]);
 
   const handleCancel = useCallback(() => {
     if (typeof onCancel === 'function') {
       onCancel();
     }
+    cleanForm();
     setVisible(false);
-  }, [onCancel, setVisible]);
+  }, [cleanForm, onCancel, setVisible]);
 
   const renderFooter = (locale: ModalLocale) => {
     const { okText, okType, cancelText } = modalProps;

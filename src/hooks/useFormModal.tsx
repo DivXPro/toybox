@@ -84,6 +84,7 @@ export default ({ title, modalProps, formProps, onFinish, onCancel}: FormModalPr
           title={title}
           visible={visible}
           closeIcon={modalCloseIcon}
+          onCancel={handleCancel}
           confirmLoading={submitting}
           footer={footer}
           {...modalOtherProps}
@@ -91,7 +92,7 @@ export default ({ title, modalProps, formProps, onFinish, onCancel}: FormModalPr
           <MetaForm userForm={form} onFinish={handleSubmit} {...other} />
         </Modal>
         {
-          children && React.cloneElement(<span>{children}</span>, { onClick: () => setVisible(false) })
+          children && React.cloneElement(<span>{children}</span>, { onClick: () => setVisible(true) })
         }
       </React.Fragment>
     )

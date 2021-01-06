@@ -69,7 +69,7 @@ export default ({ title, drawerProps, formProps, onFinish, onCancel }: FormDrawe
           <MetaForm userForm={form} onFinish={handleSubmit} {...other} />
         </Drawer>
         {
-          children && React.cloneElement(<span>{children}</span>, { onClick: () => setVisible(false) })
+          children && React.cloneElement(<span>{children}</span>, { onClick: () => setVisible(true) })
         }
       </React.Fragment>
     )

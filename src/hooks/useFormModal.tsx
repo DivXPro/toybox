@@ -51,9 +51,11 @@ export default ({ title, modalProps, formProps, onFinish, onCancel}: FormModalPr
       cleanForm();
       setVisible(false);
       setSubmitting(false);
+      return Promise.resolve();
     } catch(e) {
       setSubmitting(false);
       console.log('submit warn:', e);
+      return Promise.reject(e);
     }
   }, [cleanForm, form, onFinish, setVisible]);
 

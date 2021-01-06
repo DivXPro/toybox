@@ -10,12 +10,12 @@ export interface FormDrawerProps {
   title?: ReactNode;
   onFinish: (data: any) => Promise<any>;
   onCancel: () => void;
-  drawerProps: Omit<Omit<DrawerProps, 'title'>, 'visible'>;
+  drawerProps: Omit<DrawerProps, 'title' | 'visible' | 'footer' | 'onOk' | 'onCancel'>;
   formProps: Omit<MetaFormProps, 'onFinish'>;
 }
 
 export default ({ title, drawerProps, formProps, onFinish, onCancel }: FormDrawerProps) => {
-  const [visible, toggle] = useModal();
+  const [visible, setVisible] = useModal();
   const { ...other } = formProps;
   const [form] = useForm();
   const [submitting, setSubmitting] = useState(false);
@@ -26,22 +26,22 @@ export default ({ title, drawerProps, formProps, onFinish, onCancel }: FormDrawe
       setSubmitting(true);
       onFinish && await onFinish(values);
       setSubmitting(false);
-      toggle();
+      setVisible(false);
     } catch (e) {
       setSubmitting(false);
       console.warn(e);
     }
-  }, [form, onFinish, toggle]);
+  }, [form, onFinish, setVisible]);
 
   const handleCancel = useCallback(() => {
     try {
       form.setFieldsValue(formProps.initialValues);
       onCancel && onCancel();
-      toggle();
+      setVisible(false);
     } catch (e) {
       console.warn(e);
     }
-  }, [form, formProps.initialValues, onCancel, toggle]);
+  }, [form, formProps.initialValues, onCancel, setVisible]);
 
   const footer = useMemo(() => {
     return (
@@ -69,11 +69,11 @@ export default ({ title, drawerProps, formProps, onFinish, onCancel }: FormDrawe
           <MetaForm userForm={form} onFinish={handleSubmit} {...other} />
         </Drawer>
         {
-          children && React.cloneElement(<span>{children}</span>, { onClick: toggle })
+          children && React.cloneElement(<span>{children}</span>, { onClick: () => setVisible(false) })
         }
       </React.Fragment>
     )
   }
 
-  return [FormDrawer, visible, toggle] as [FC, boolean, () => void];
+  return [FormDrawer, visible, setVisible] as [FC, boolean, (visible: boolean) => void];
 }

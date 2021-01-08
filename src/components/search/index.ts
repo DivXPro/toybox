@@ -1,3 +1,3 @@
-export { default as Search } from './Search';
-export type { SearchProps } from './Search';
-export type { IconSearchProps } from './IconSearch';
+export { default as Search } from './components/Search';
+export type { SearchProps } from './components/Search';
+export type { IconSearchProps } from './components/IconSearch';

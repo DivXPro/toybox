@@ -4,7 +4,7 @@ import { Button, Input } from 'antd';
 import classNames from 'classnames';
 import { SearchProps } from './Search';
 
-import './style.less';
+import '../style.less';
 
 export interface IconSearchProps extends SearchProps {
   searchClassName?: string;

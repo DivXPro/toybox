@@ -1,6 +1,6 @@
 import { BusinessObjectMeta, FieldMeta } from '../types/interface';
 
-const useObjectMeta = (objectMeta: BusinessObjectMeta) => {
+const useBusinessObjectMeta = (objectMeta: BusinessObjectMeta) => {
   const fields: FieldMeta[] = [];
   Object.keys(objectMeta.properties).forEach(key => {
     fields.push(objectMeta.properties[key]);
@@ -16,4 +16,4 @@ const useObjectMeta = (objectMeta: BusinessObjectMeta) => {
   });
 };
 
-export default useObjectMeta;
+export default useBusinessObjectMeta;

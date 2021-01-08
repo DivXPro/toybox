@@ -1,6 +1,8 @@
-import { OptionItem } from "../components/field/select";
-import { FieldType } from "../components/field/interface";
-import { ReactText } from "react";
+import { ReactText } from 'react';
+import { OptionItem } from '../components/Fields/select';
+import { FieldType } from '../components/Fields/interface';
+
+export type RowData = Record<string, any>;
 
 export interface BusinessObjectMeta {
   key: string;

@@ -4,6 +4,8 @@ import { Button, Input } from 'antd';
 import classNames from 'classnames';
 import { SearchProps } from './Search';
 
+import './style.less';
+
 export interface IconSearchProps extends SearchProps {
   searchClassName?: string;
   direction?: 'ltr' | 'rtl';
@@ -56,7 +58,8 @@ export const IconSearch: FC<IconSearchProps> = ({
     return focus || (inputRef?.current?.input.value != null && inputRef?.current?.input.value !== '');
   }, [focus]);
 
-  const showInput = useMemo(() => (value != null || value != '') || holdInput, [holdInput, value]);
+  const notEmpty = useMemo(() => value != null && value !== '', [value]);
+  const showInput = useMemo(() => notEmpty || holdInput, [holdInput, value]);
 
   return (
     <div className="tbox-icon-search">

@@ -1,10 +1,10 @@
 import React, { FC, useCallback, ReactNode, useMemo, useState } from 'react';
 import { Drawer, Button } from 'antd';
 import { DrawerProps } from 'antd/lib/drawer';
-import useModal from './useModal';
-import { MetaForm, MetaFormProps } from '../components/metaForm';
 import { useForm } from 'antd/lib/form/Form';
-import { CloseIcon } from '../components/utils';
+import { CloseLine as CloseIcon } from '@airclass/icons';
+import useModal from './useModal';
+import { default as MetaForm, MetaFormProps } from '../components/MetaForm';
 
 export interface FormDrawerProps {
   title?: ReactNode;

@@ -1,23 +1,39 @@
-import React, { FC, useCallback, useEffect, ReactNode, useState } from 'react';
+import React, {
+  FC,
+  useCallback,
+  useMemo,
+  useEffect,
+  ReactNode,
+  useState,
+} from 'react';
 import { Modal, Button } from 'antd';
 import { convertLegacyProps } from 'antd/lib/button/button';
 import { ModalProps } from 'antd/lib/modal';
 import { ModalLocale } from 'antd/lib/modal/Modal';
 import { getConfirmLocale } from 'antd/lib/modal/locale';
 import LocaleReceiver from 'antd/lib/locale-provider/LocaleReceiver';
-import useModal from './useModal';
-import { MetaForm, MetaFormProps } from '../components/metaForm';
 import { useForm } from 'antd/lib/form/Form';
-import { CloseIcon } from '../components/utils';
+import { CloseLine as CloseIcon } from '@airclass/icons';
+import useModal from './useModal';
+import { default as MetaForm, MetaFormProps } from '../components/MetaForm';
 export interface FormModalProps {
   title?: ReactNode;
   onFinish: (data: any) => Promise<any>;
   onCancel: () => void;
-  modalProps: Omit<ModalProps, 'title' | 'visible' | 'footer' | 'onOk' | 'onCancel'>;
+  modalProps: Omit<
+    ModalProps,
+    'title' | 'visible' | 'footer' | 'onOk' | 'onCancel'
+  >;
   formProps: Omit<MetaFormProps, 'onFinish'>;
 }
 
-export default ({ title, modalProps, formProps, onFinish, onCancel}: FormModalProps) => {
+export default ({
+  title,
+  modalProps,
+  formProps,
+  onFinish,
+  onCancel,
+}: FormModalProps) => {
   const [visible, setVisible] = useModal();
   const { ...other } = formProps;
   const [form] = useForm();
@@ -32,7 +48,9 @@ export default ({ title, modalProps, formProps, onFinish, onCancel}: FormModalPr
       const initValues: Record<string, any> = {};
       formProps.fieldMetaProfiles.forEach(field => {
         const key = field.key;
-        const initValue = formProps.initialValues ? formProps.initialValues[key] : undefined;
+        const initValue = formProps.initialValues
+          ? formProps.initialValues[key]
+          : undefined;
         initValues[key] = initValue != null ? initValue : undefined;
       });
       form.setFieldsValue(initValues);
@@ -52,7 +70,7 @@ export default ({ title, modalProps, formProps, onFinish, onCancel}: FormModalPr
       setVisible(false);
       setSubmitting(false);
       return Promise.resolve();
-    } catch(e) {
+    } catch (e) {
       setSubmitting(false);
       console.log('submit warn:', e);
       return Promise.reject(e);
@@ -67,32 +85,6 @@ export default ({ title, modalProps, formProps, onFinish, onCancel}: FormModalPr
     setVisible(false);
   }, [cleanForm, onCancel, setVisible]);
 
-  const renderFooter = (locale: ModalLocale) => {
-    const { okText, okType, cancelText } = modalProps;
-    return (
-      <React.Fragment>
-        <Button onClick={handleCancel}>
-          {cancelText || locale.cancelText}
-        </Button>
-        <Button
-          {...convertLegacyProps(okType || 'primary')}
-          loading={submitting}
-          onClick={handleSubmit}
-          {...modalProps.okButtonProps}
-        >
-          {okText || locale.okText}
-        </Button>
-      </React.Fragment>
-    );
-  };
-
-  const footer = (
-    <LocaleReceiver componentName="Modal" defaultLocale={getConfirmLocale()}>
-      {renderFooter}
-    </LocaleReceiver>
-  );
-
-
   const FormModal: FC = ({ children }) => {
     const { closeIcon, ...modalOtherProps } = modalProps;
     const modalCloseIcon = closeIcon || <CloseIcon />;
@@ -103,18 +95,23 @@ export default ({ title, modalProps, formProps, onFinish, onCancel}: FormModalPr
           visible={visible}
           closeIcon={modalCloseIcon}
           onCancel={handleCancel}
+          onOk={handleSubmit}
           confirmLoading={submitting}
-          footer={footer}
           {...modalOtherProps}
         >
           <MetaForm userForm={form} onFinish={handleSubmit} {...other} />
         </Modal>
-        {
-          children && React.cloneElement(<span>{children}</span>, { onClick: () => setVisible(true) })
-        }
+        {children &&
+          React.cloneElement(<span>{children}</span>, {
+            onClick: () => setVisible(true),
+          })}
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  return [FormModal, visible, setVisible] as [FC, boolean, (visible: boolean) => void];
-}
+  return [FormModal, visible, setVisible] as [
+    FC,
+    boolean,
+    (visible: boolean) => void,
+  ];
+};

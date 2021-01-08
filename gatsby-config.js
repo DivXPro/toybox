@@ -4,7 +4,7 @@
 module.exports = {
   plugins: [
     {
-      resolve: 'gatsby-plugin-sass',
+      resolve: 'gatsby-plugin-less',
       options: {
         // includePaths: [
         //   path.resolve(__dirname, 'dist'),

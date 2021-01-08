@@ -3,6 +3,8 @@ import { Input } from 'antd';
 import classNames from 'classnames';
 import { IconSearch } from './IconSearch';
 
+import './style.less';
+
 export interface SearchProps {
   type?: 'normal' | 'nav-search';
   addonAfter?: ReactNode;

@@ -1,6 +1,6 @@
 {
   "name": "@airclass/toybox",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "React components library extend antd",
   "author": "DivXPro",
   "license": "MIT",
@@ -14,6 +14,8 @@
   "scripts": {
     "build": "microbundle-crl --no-compress --css-modules false --format modern,cjs",
     "start": "microbundle-crl watch --no-compress --css-modules false --format modern,cjs",
+    "release": "npm publish --access public",
+    "release:next": "npm publish --access public --tag next",
     "prepare": "run-s build",
     "test": "run-s test:unit test:lint test:build",
     "test:build": "run-s build",

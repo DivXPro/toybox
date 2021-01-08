@@ -1,5 +1,5 @@
-import { Panel } from './Panel';
-export type { PanelProps } from './Panel';
+import { Panel } from './components/Panel';
+export type { PanelProps } from './components/Panel';
 export { PanelItem } from './components/PanelItem';
 export { PanelItemProps } from './interface';
 

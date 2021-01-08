@@ -1,6 +1,5 @@
 import React, { FC, useMemo } from 'react';
-import { Dropdown, Menu } from 'antd';
-import Button from '../../Button';
+import { Button, Dropdown, Menu } from 'antd';
 import { ButtonProps } from 'antd/lib/button';
 import { MoreFill } from '@airclass/icons';
 

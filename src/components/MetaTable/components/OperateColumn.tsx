@@ -68,6 +68,6 @@ export const OperateDropdown: FC<OperateColumnProps> = ({ text, record, index, o
   }, [index, operateItems, record, text]);
 
   return <Dropdown overlay={menu} placement="bottomCenter" trigger={['click']}>
-    <Button type="text" icon={MoreFill} />
+    <Button type="text" icon={<MoreFill />} />
   </Dropdown>
 }

@@ -1,5 +1,5 @@
 import React, { FC, ReactNode } from 'react'
-
+import './style.less';
 export interface PanelProps {
   left?: ReactNode;
   center?: ReactNode;

@@ -5,6 +5,8 @@ import { Filter3Line, MoreFill, CheckDoubleFill, DeleteBinLine, CheckLine } from
 import { InboxContent } from './InboxContent';
 import { NotificationMessage } from './Notification';
 import DropdownMenu, { MenuItem } from '../../DropdownMenu';
+import { InboxButton } from './InboxButton';
+import { InboxBadge } from './InboxBadge';
 
 export interface MessageType {
   type: string;
@@ -26,7 +28,7 @@ export interface InboxProps {
   removeAll?: () => Promise<void>;
 }
 
-const Inbox: FC<InboxProps> = ({ badge, messages, loading, hasMore, messageTypes = [], onPick, reload, loadMore, remove, read, readAll, removeAll, icons }) => {
+const Inbox = ({ badge, messages, loading, hasMore, messageTypes = [], onPick, reload, loadMore, remove, read, readAll, removeAll, icons }: InboxProps) => {
   const [currentTimestamp, setCurrentTimestamp] = useState<number>(new Date().getTime());
   const [unRead, setUnread] = useState(false);
   const [selectedId, setSelectedId] = useState<string | number>();
@@ -151,5 +153,8 @@ const Inbox: FC<InboxProps> = ({ badge, messages, loading, hasMore, messageTypes
     </div>
   );
 }
+
+Inbox.InboxButton = InboxButton;
+Inbox.InboxBadge = InboxBadge;
 
 export default Inbox;

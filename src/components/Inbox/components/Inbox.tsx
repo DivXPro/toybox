@@ -71,9 +71,9 @@ const Inbox = ({ badge, messages, loading, hasMore, messageTypes = [], onPick, r
   const messageTypeItems = useMemo(() =>
     messageTypes.length > 1
       ?
-        <React.Fragment>
-          <Menu.Item>
-          <CheckLine style={{ opacity: type != null ? 0 : 1 } } />全部应用
+        <Menu>
+          <Menu.Item key="all" onClick={() => setType(undefined)}>
+            <CheckLine style={{ opacity: type != null ? 0 : 1 } } />全部应用
           </Menu.Item>
           <Menu.Divider />
           {
@@ -83,7 +83,7 @@ const Inbox = ({ badge, messages, loading, hasMore, messageTypes = [], onPick, r
               </Menu.Item>
             )
           }
-        </React.Fragment>
+        </Menu>
       : undefined
   , [messageTypes, type]);
 
@@ -127,7 +127,7 @@ const Inbox = ({ badge, messages, loading, hasMore, messageTypes = [], onPick, r
       <div>
         {
           messageTypeItems && 
-            <Dropdown overlay={messageTypeItems} placement="bottomRight">
+            <Dropdown overlay={messageTypeItems} placement="bottomRight" trigger={['click']}>
               <Button type="text" icon={<Filter3Line />} />
             </Dropdown>
         }

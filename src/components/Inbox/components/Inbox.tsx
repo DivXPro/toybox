@@ -72,7 +72,7 @@ const Inbox = ({ badge, messages, loading, hasMore, messageTypes = [], onPick, r
     messageTypes.length > 1
       ?
         <Menu>
-          <Menu.Item key="all" onClick={() => setType(undefined)}>
+          <Menu.Item key="all" onClick={() => setType(undefined)} style={{ minWidth: '180px' }}>
             <CheckLine style={{ opacity: type != null ? 0 : 1 } } />全部应用
           </Menu.Item>
           <Menu.Divider />
@@ -131,7 +131,7 @@ const Inbox = ({ badge, messages, loading, hasMore, messageTypes = [], onPick, r
               <Button type="text" icon={<Filter3Line />} />
             </Dropdown>
         }
-        <DropdownMenu items={menuItems} placement="bottomRight">
+        <DropdownMenu items={menuItems} placement="bottomRight" trigger={['click']}>
           <Button type="text" icon={<MoreFill />} />
         </DropdownMenu>
       </div>

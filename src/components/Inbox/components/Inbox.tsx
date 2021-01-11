@@ -73,13 +73,13 @@ const Inbox = ({ badge, messages, loading, hasMore, messageTypes = [], onPick, r
       ?
         <Menu>
           <Menu.Item key="all" onClick={() => setType(undefined)} style={{ minWidth: '180px' }}>
-            <CheckLine style={{ opacity: type != null ? 0 : 1 } } />全部应用
+            <CheckLine className="primary-color" style={{ opacity: type != null ? 0 : 1 } } />全部应用
           </Menu.Item>
           <Menu.Divider />
           {
             messageTypes.map((mt, idx) => 
               <Menu.Item key={idx} onClick={() => setType(mt.type)}>
-                <CheckLine style={{ opacity: type === mt.type ? 1 : 0 }}/>{mt.name}
+                <CheckLine className="primary-color" style={{ opacity: type === mt.type ? 1 : 0 }}/>{mt.name}
               </Menu.Item>
             )
           }

@@ -2,7 +2,7 @@ import React, { FC, ReactNode, useCallback } from 'react';
 import classNames from 'classnames';
 import { Popover } from 'antd';
 import { TooltipPlacement } from 'antd/lib/tooltip';
-import { Inbox, InboxProps } from './Inbox';
+import { default as Inbox, InboxProps } from './Inbox';
 import { InboxBadge } from './InboxBadge';
 
 export type InboxButtonProps = InboxProps & {

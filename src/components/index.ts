@@ -8,7 +8,7 @@ export { default as DropdownMenu } from './DropdownMenu';
 export { default as Fields } from './Fields';
 export { default as Header } from './Header';
 export { default as ImpInput } from './ImpInput';
-export { default as Inbox } from './Inbox';
+export { default as Inbox, NotificationMessage } from './Inbox';
 export { default as IndexPage, SearchFindParam } from './IndexPage';
 export { default as ListPage } from './ListPage';
 export { default as LoadingWrapper } from './LoadingWrapper';

@@ -1,17 +1,22 @@
-import React, { FC, useState, useCallback, useMemo, ReactNode } from 'react';
-import { Badge, Button } from 'antd';
+import React, { FC, useCallback, useEffect, useState, useMemo, ReactNode } from 'react';
+import { Badge, Button, Dropdown, Menu } from 'antd';
 import classNames from 'classnames';
-import { MoreFill, CheckDoubleFill, DeleteBinLine } from '@airclass/icons';
+import { Filter3Line, MoreFill, CheckDoubleFill, DeleteBinLine, CheckLine } from '@airclass/icons';
 import { InboxContent } from './InboxContent';
 import { NotificationMessage } from './Notification';
-import DropdownMenu from '../../DropdownMenu';
+import DropdownMenu, { MenuItem } from '../../DropdownMenu';
 
+export interface MessageType {
+  type: string;
+  name: string;
+}
 export interface InboxProps {
   badge: number;
   messages?: NotificationMessage[];
   loading?: boolean;
   hasMore: boolean;
   icons?: Record<string, ReactNode>;
+  messageTypes?: MessageType[];
   onPick: (message: NotificationMessage) => void;
   read: (id: string) => Promise<void>;
   remove: (id: string) => Promise<void>;
@@ -21,24 +26,20 @@ export interface InboxProps {
   removeAll?: () => Promise<void>;
 }
 
-const Inbox: FC<InboxProps> = ({ badge, messages, loading, hasMore, onPick, reload, loadMore, remove, read, readAll, removeAll, icons }) => {
+const Inbox: FC<InboxProps> = ({ badge, messages, loading, hasMore, messageTypes = [], onPick, reload, loadMore, remove, read, readAll, removeAll, icons }) => {
   const [currentTimestamp, setCurrentTimestamp] = useState<number>(new Date().getTime());
   const [unRead, setUnread] = useState(false);
   const [selectedId, setSelectedId] = useState<string | number>();
-
-  const reloadMsgs = useCallback((isUnread: boolean) => {
-    setUnread(isUnread);
-    reload(isUnread);
-  }, [reload]); 
+  const [type, setType] = useState<string>();
 
   const handleLoadMore = useCallback(async (offset: number) => {
     if (messages == null  || messages.length === 0) {
       reload(unRead);
     } else {
       setCurrentTimestamp(new Date().getTime());
-      loadMore(unRead, offset, currentTimestamp);
+      loadMore(unRead, offset, currentTimestamp, type);
     }
-  }, [messages, reload, unRead, loadMore, currentTimestamp]);
+  }, [messages, reload, unRead, loadMore, currentTimestamp, type]);
 
   const handleRemove = useCallback((id: string) => {
     remove(id);
@@ -57,8 +58,32 @@ const Inbox: FC<InboxProps> = ({ badge, messages, loading, hasMore, onPick, relo
     handleRead(message.id);
   }, [handleRead, onPick]);
 
-  const showMessages = useMemo(() => unRead ? (messages || []).filter(msg => !msg.haveRead) : messages, [messages, unRead])
-  const menuItems = useMemo(() => (
+  useEffect(() => {
+    reload(unRead, type);
+  }, [reload, type, unRead]);
+
+  const showMessages = useMemo(() => unRead ? (messages || []).filter(msg => !msg.haveRead) : messages, [messages, unRead]);
+
+  const messageTypeItems = useMemo(() =>
+    messageTypes.length > 1
+      ?
+        <React.Fragment>
+          <Menu.Item>
+          <CheckLine style={{ opacity: type != null ? 0 : 1 } } />全部应用
+          </Menu.Item>
+          <Menu.Divider />
+          {
+            messageTypes.map((mt, idx) => 
+              <Menu.Item key={idx} onClick={() => setType(mt.type)}>
+                <CheckLine style={{ opacity: type === mt.type ? 1 : 0 }}/>{mt.name}
+              </Menu.Item>
+            )
+          }
+        </React.Fragment>
+      : undefined
+  , [messageTypes, type]);
+
+  const menuItems: MenuItem[] = useMemo(() => (
     [
       {
         text: '标记所有消息为已读',
@@ -66,7 +91,7 @@ const Inbox: FC<InboxProps> = ({ badge, messages, loading, hasMore, onPick, relo
         callback: async () => {
           if (readAll != null) {
             await readAll();
-            reloadMsgs(unRead);
+            reload(unRead, type);
           }
         },
       },
@@ -77,27 +102,35 @@ const Inbox: FC<InboxProps> = ({ badge, messages, loading, hasMore, onPick, relo
         callback: async () => {
           if (removeAll != null) {
             await removeAll();
-            reloadMsgs(unRead);
+            reload(unRead, type);
           }
         },
       }
     ]
-  ), [readAll, reloadMsgs, removeAll, unRead]);
+  ), [readAll, reload, removeAll, type, unRead]);
 
   const InBoxPanel = () => {
     return <div className="tbox-inbox-panel">
       <div className="inbox-panel--tabs">
-        <div className={classNames('inbox-panel--tab', { active: !unRead })} onClick={() => reloadMsgs(false)}>
+        <div className={classNames('inbox-panel--tab', { active: !unRead })} onClick={() => setUnread(false)}>
           <span>全部</span>
           <Badge count={badge} />
         </div>
-        <div className={classNames('inbox-panel--tab', { active: unRead })} onClick={() => reloadMsgs(true)}>
+        <div className={classNames('inbox-panel--tab', { active: unRead })} onClick={() => setUnread(true)}>
           <span>未读</span>
         </div>
       </div>
-      <DropdownMenu items={menuItems} placement="bottomRight">
-        <Button type="text" icon={<MoreFill />} />
-      </DropdownMenu>
+      <div>
+        {
+          messageTypeItems && 
+            <Dropdown overlay={messageTypeItems} placement="bottomRight">
+              <Button type="text" icon={<Filter3Line />} />
+            </Dropdown>
+        }
+        <DropdownMenu items={menuItems} placement="bottomRight">
+          <Button type="text" icon={<MoreFill />} />
+        </DropdownMenu>
+      </div>
     </div>;
   };
 

@@ -2,7 +2,7 @@ import React, { FC, useMemo, useCallback } from 'react';
 import { Form, Select } from 'antd';
 import { FormInstance } from 'antd/lib/form';
 import { RemoteSelect } from './RemoteSelect';
-import { Search } from '../../Search';
+import Search from '../../Search';
 import Button from '../../Button';
 
 export interface IndexSearchProps {

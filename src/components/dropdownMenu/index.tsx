@@ -1,4 +1,4 @@
-import React, { FC, ReactNode, useMemo } from 'react';
+import React, { FC, ReactNode, useMemo, Fragment } from 'react';
 import { Button, Dropdown, Menu } from 'antd';
 import { MoreFill } from '@airclass/icons';
 import { DropDownProps } from 'antd/lib/dropdown';
@@ -14,22 +14,27 @@ export interface MenuItem {
   danger?: boolean;
   disabled?: boolean;
   callback: (...args: any) => void;
+  divider?: boolean;
 }
 
 const DropdownMenu: FC<DropdownMenuProps> = ({ items, children, ...props }) => {
   const menu = useMemo(() => {
     return <Menu>
       {
-        items.map((item, idx) =>
-          <Menu.Item
-            key={idx}
-            onClick={item.callback}
-            icon={item.icon}
-            disabled={item.disabled}
-            danger={item.danger}
-          >
-            {item.text}
-          </Menu.Item>)
+        items.map(
+          (item, idx) =>
+            <Fragment key={idx}>
+              <Menu.Item
+                onClick={item.callback}
+                icon={item.icon}
+                disabled={item.disabled}
+                danger={item.danger}
+              >
+                {item.text}
+              </Menu.Item>
+              {item.divider && <Menu.Divider />}
+            </Fragment>
+        )
       }
     </Menu>
   }, [items]);

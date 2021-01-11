@@ -3,6 +3,8 @@ import { Badge } from 'antd';
 import classNames from 'classnames';
 import { Notification4Line } from '@airclass/icons';
 
+import '../style.less';
+
 
 export type InboxBadgeProps = {
   className?: string;

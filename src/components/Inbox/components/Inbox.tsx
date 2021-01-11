@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useEffect, useState, useMemo, ReactNode } from 'react';
+import React, { useCallback, useEffect, useState, useMemo, ReactNode } from 'react';
 import { Badge, Button, Dropdown, Menu } from 'antd';
 import classNames from 'classnames';
 import { Filter3Line, MoreFill, CheckDoubleFill, DeleteBinLine, CheckLine } from '@airclass/icons';
@@ -7,6 +7,8 @@ import { NotificationMessage } from './Notification';
 import DropdownMenu, { MenuItem } from '../../DropdownMenu';
 import { InboxButton } from './InboxButton';
 import { InboxBadge } from './InboxBadge';
+
+import '../style.less';
 
 export interface MessageType {
   type: string;

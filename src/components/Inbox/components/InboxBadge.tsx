@@ -11,12 +11,13 @@ export type InboxBadgeProps = {
   style?: Record<string, any>;
   icon?: ReactNode;
   count: number;
+  color?: string;
 };
 
-export const InboxBadge: FC<InboxBadgeProps> = ({ count, style, className, icon }) => {
+export const InboxBadge: FC<InboxBadgeProps> = ({ count, style, className, icon, color }) => {
   return (
     <div className={classNames('tbox-inbox-badge', className)} style={style}>
-      <Badge count={count}>
+      <Badge count={count} style={color ? { background: color } : undefined}>
         {icon || <Notification4Line />}
       </Badge>
     </div>

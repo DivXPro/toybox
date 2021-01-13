@@ -3,7 +3,7 @@ import { Form, Select, Input, Col, Row, Button, DatePicker } from 'antd';
 import { FormInstance } from 'antd/lib/form';
 import styled from 'styled-components';
 import { SearchFindParam, OptionItem } from './IndexSearch';
-import { RemoteSelect } from './RemoteSelect';
+import { default as RemoteSelect } from './RemoteSelect';
 
 export interface AdvanceSearchProps {
   form: FormInstance<any>;

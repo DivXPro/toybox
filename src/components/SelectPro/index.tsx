@@ -91,26 +91,28 @@ const SelectPro: ForwardRefRenderFunction<any, SelectProProps> = (
     return value;
   }, [initialed, remote, value]);
 
+  const current = useMemo(
+    () => {
+      if (mode === 'multiple') {
+        return mergeOptions ? mergeOptions.filter(opt => ((innerValue as React.ReactText[]) || []).some(v => v === opt.value)) : null;
+      }
+      return mergeOptions ? mergeOptions.find(opt => opt.value === innerValue) : null;
+    },
+    [mode, mergeOptions, innerValue],
+  );
+
   const values = useMemo(() => {
     if (mode === 'multiple') {
-      return mergeOptions ? mergeOptions.filter(opt => ((innerValue as React.ReactText[])|| []).some(v => v === opt.value)) : null;
-    }
-    return mergeOptions ? mergeOptions.find(opt => opt.value === innerValue) : null;
-  }, [innerValue, mergeOptions, mode])
+      return (current as OptionItem[] || []).map(opt => opt.label);
+    } 
+    return current ? (current as OptionItem).label : null;
+  }, [current, mode])
 
   useImperativeHandle(ref, () => ({
     ...(inputRef.current || {}),
     values,
     fetchData,
   }));
-
-  const current = useMemo(
-    () =>
-      mergeOptions
-        ? mergeOptions.find(opt => opt.value === innerValue)
-        : undefined,
-    [mergeOptions, innerValue],
-  );
 
   useEffect(() => {
     const init = async () => {

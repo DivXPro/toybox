@@ -38,7 +38,7 @@ const FieldSelect: ForwardRefRenderFunction<any, FieldSelectProps> = (
 
 
   if (mode === 'read') {
-    return <span onClick={onClick}>{inputRef.current.values}</span>;
+    return <span onClick={onClick}>{multiple ? inputRef.current.values : (inputRef.current.values || []).join(', ')}</span>;
   }
   if (mode === 'edit') {
     return (

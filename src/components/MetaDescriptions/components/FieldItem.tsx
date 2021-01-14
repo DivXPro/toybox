@@ -3,7 +3,7 @@ import { FieldProps } from '../../Fields/interface';
 
 export type FieldMap = Record<string, React.FC<FieldProps> | React.ForwardRefExoticComponent<FieldProps & any>>;
 
-export interface FieldItemProps extends FieldProps {
+export type FieldItemProps = FieldProps & {
   fieldMap: FieldMap;
   component?: string;
 }

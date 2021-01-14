@@ -1,7 +1,7 @@
 import React, { FC, useMemo, useCallback } from 'react';
 import { Form, Select } from 'antd';
 import { FormInstance } from 'antd/lib/form';
-import { default as RemoteSelect } from './RemoteSelect';
+import SelectPro from '../../SelectPro';
 import Search from '../../Search';
 import Button from '../../Button';
 
@@ -41,7 +41,7 @@ export const IndexSearch: FC<IndexSearchProps> = ({ form, findParams, showAdvanc
       case 'singleOption':
         return <Select style={{ minWidth: 160 }} placeholder={findParam.name} options={findParam.options} onChange={handleSearch} allowClear />
       case 'remoteSingleOption':
-        return <RemoteSelect style={{ minWidth: 160 }} placeholder={findParam.name} remote={findParam.remote as (query: string) => Promise<OptionItem[]>} onChange={handleSearch} allowClear />;
+        return <SelectPro style={{ minWidth: 160 }} placeholder={findParam.name} remote={findParam.remote as (query: string) => Promise<OptionItem[]>} onChange={handleSearch} allowClear />;
       default:
         return <Select style={{ minWidth: 160 }} placeholder={findParam.name} options={findParam.options} onChange={handleSearch} allowClear />
     }

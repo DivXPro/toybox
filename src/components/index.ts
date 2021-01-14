@@ -19,4 +19,5 @@ export { default as MetaTable } from './MetaTable';
 export { default as PageHeader } from './PageHeader';
 export { default as Panel } from './Panel';
 export { default as Search } from './Search';
+export { default as SelectPro } from './SelectPro';
 export { default as Time } from './Time';

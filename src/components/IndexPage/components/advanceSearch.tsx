@@ -3,7 +3,7 @@ import { Form, Select, Input, Col, Row, Button, DatePicker } from 'antd';
 import { FormInstance } from 'antd/lib/form';
 import styled from 'styled-components';
 import { SearchFindParam, OptionItem } from './IndexSearch';
-import { default as RemoteSelect } from './RemoteSelect';
+import { default as SelectPro } from '../../SelectPro';
 
 export interface AdvanceSearchProps {
   form: FormInstance<any>;
@@ -29,7 +29,7 @@ export const AdvanceSearch: FC<AdvanceSearchProps> = ({ className, style, form, 
       case 'singleOption':
         return <Select placeholder={findParam.name} options={findParam.options} />
       case 'remoteSingleOption':
-        return <RemoteSelect placeholder={findParam.name} remote={findParam.remote as (query: string) => Promise<OptionItem[]>}  />;
+        return <SelectPro placeholder={findParam.name} remote={findParam.remote as (query: string) => Promise<OptionItem[]>}  />;
       default:
         return <Select placeholder={findParam.name} options={findParam.options} />
     }

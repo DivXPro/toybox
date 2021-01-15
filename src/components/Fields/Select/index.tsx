@@ -36,22 +36,18 @@ const FieldSelect: ForwardRefRenderFunction<any, FieldSelectProps> = (
     ...(inputRef.current || {}),
   }));
 
-
-  if (mode === 'read') {
-    return <span onClick={onClick}>{multiple ? inputRef.current.values : (inputRef.current.values || []).join(', ')}</span>;
-  }
-  if (mode === 'edit') {
-    return (
+  return (
+    <div onClick={onClick}>
       <SelectPro
         ref={inputRef}
         mode={multiple ? 'multiple' : undefined}
         options={field.options}
         {...fieldProps}
         {...otherProps}
+        readMode={mode === 'read'}
       />
-    );
-  }
-  return null;
+    </div>
+  );
 };
 
 export default React.forwardRef(FieldSelect);

@@ -8,6 +8,7 @@ import React, {
   useEffect,
   useCallback,
   ReactText,
+  ReactNode,
 } from 'react';
 import { default as Select, SelectProps } from 'antd/lib/select';
 import SizeContext from 'antd/lib/config-provider/SizeContext';
@@ -34,6 +35,7 @@ export interface SelectProProps extends Omit<SelectProps<SelectValue>, 'mode'> {
   style?: any;
   remote?: (key: string, params?: any) => Promise<OptionItem[]>;
   remoteByValue?: (value: ReactText | ReactText[], params?: any) => Promise<OptionItem>;
+  readMode?: boolean;
 }
 
 const defaultRemote = () =>
@@ -51,6 +53,7 @@ const SelectPro: ForwardRefRenderFunction<any, SelectProProps> = (
     disabled,
     options,
     selectProps,
+    readMode,
     onChange,
     remote,
     remoteByValue,
@@ -102,11 +105,11 @@ const SelectPro: ForwardRefRenderFunction<any, SelectProProps> = (
   );
 
   const values = useMemo(() => {
-    if (mode === 'multiple') {
-      return (current as OptionItem[] || []).map(opt => opt.label);
-    } 
-    return current ? (current as OptionItem).label : null;
-  }, [current, mode])
+    if (Array.isArray(current)) {
+      return current.map(opt => opt.label);
+    }
+    return current ? current.label : null;
+  }, [current])
 
   useImperativeHandle(ref, () => ({
     ...(inputRef.current || {}),
@@ -138,6 +141,10 @@ const SelectPro: ForwardRefRenderFunction<any, SelectProProps> = (
     },
     [onChange],
   );
+
+  if (readMode) {
+    return <span>{Array.isArray(values) ? (values).join(', ') : values}</span>;
+  }
   return <Select
     value={innerValue}
     onChange={debounce(handleChange, 500)}

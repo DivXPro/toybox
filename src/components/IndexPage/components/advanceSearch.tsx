@@ -4,6 +4,7 @@ import { FormInstance } from 'antd/lib/form';
 import styled from 'styled-components';
 import { SearchFindParam, OptionItem } from './IndexSearch';
 import { default as SelectPro } from '../../SelectPro';
+import DatePickerPro from '../../DatePickerPro';
 
 export interface AdvanceSearchProps {
   form: FormInstance<any>;
@@ -23,15 +24,15 @@ export const AdvanceSearch: FC<AdvanceSearchProps> = ({ className, style, form, 
   const findItem = useCallback((findParam: SearchFindParam) => {
     switch (findParam.type) {
       case 'string':
-        return <Input placeholder={findParam.name} />
+        return <Input placeholder={findParam.name} />;
       case 'date':
-        return <DatePicker placeholder={findParam.name} />
+        return <DatePickerPro placeholder={findParam.name} stringValue />;
       case 'singleOption':
-        return <Select placeholder={findParam.name} options={findParam.options} />
+        return <Select placeholder={findParam.name} options={findParam.options} />;
       case 'remoteSingleOption':
         return <SelectPro placeholder={findParam.name} remote={findParam.remote as (query: string) => Promise<OptionItem[]>}  />;
       default:
-        return <Select placeholder={findParam.name} options={findParam.options} />
+        return <Select placeholder={findParam.name} options={findParam.options} />;
     }
   }, []);
 

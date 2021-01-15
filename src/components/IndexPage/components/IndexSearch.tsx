@@ -4,6 +4,7 @@ import { FormInstance } from 'antd/lib/form';
 import SelectPro from '../../SelectPro';
 import Search from '../../Search';
 import Button from '../../Button';
+import DatePickerPro from '../../DatePickerPro';
 
 export interface IndexSearchProps {
   form: FormInstance<any>;
@@ -37,13 +38,15 @@ export const IndexSearch: FC<IndexSearchProps> = ({ form, findParams, showAdvanc
   const findItem = useCallback((findParam: SearchFindParam) => {
     switch (findParam.type) {
       case 'string':
-        return <Search.IconSearch placeholder={findParam.name} onSearch={handleSearch} onClear={handleSearch} />
+        return <Search.IconSearch placeholder={findParam.name} onSearch={handleSearch} onClear={handleSearch} />;
+      case 'date':
+        return <DatePickerPro placeholder={findParam.name} stringValue />;
       case 'singleOption':
-        return <Select style={{ minWidth: 160 }} placeholder={findParam.name} options={findParam.options} onChange={handleSearch} allowClear />
+        return <Select style={{ minWidth: 160 }} placeholder={findParam.name} options={findParam.options} onChange={handleSearch} allowClear />;
       case 'remoteSingleOption':
         return <SelectPro style={{ minWidth: 160 }} placeholder={findParam.name} remote={findParam.remote as (query: string) => Promise<OptionItem[]>} onChange={handleSearch} allowClear />;
       default:
-        return <Select style={{ minWidth: 160 }} placeholder={findParam.name} options={findParam.options} onChange={handleSearch} allowClear />
+        return <Select style={{ minWidth: 160 }} placeholder={findParam.name} options={findParam.options} onChange={handleSearch} allowClear />;
     }
   }, [handleSearch]);
   
